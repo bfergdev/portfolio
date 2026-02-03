@@ -1,4 +1,6 @@
-# Game Developer Portfolio
+# Brian Ferguson - Game Designer Portfolio
+
+[![Deploy to GitHub Pages](https://github.com/bfergdev/portfolio/actions/workflows/deploy.yml/badge.svg)](https://github.com/bfergdev/portfolio/actions/workflows/deploy.yml)
 
 A stunning, modern portfolio website for game developers built with React, Vite, TailwindCSS, and Framer Motion.
 
