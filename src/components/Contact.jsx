@@ -109,7 +109,7 @@ const Contact = () => {
             <div className="bg-slate-900/50 backdrop-blur-sm border border-primary-500/20 rounded-2xl p-8">
               <h3 className="text-2xl font-bold text-white mb-6">Connect With Me</h3>
               
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-row gap-4">
                 {socialLinks.map((social, index) => (
                   <motion.a
                     key={index}
