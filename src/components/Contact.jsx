@@ -1,12 +1,11 @@
 import { motion } from 'framer-motion'
-import { Mail, Github, Linkedin, Twitter, Send } from 'lucide-react'
+import { Mail, Github, Linkedin, Send } from 'lucide-react'
 
 const Contact = () => {
 
   const socialLinks = [
     { icon: Github, href: 'https://github.com/bfergdev', label: 'GitHub' },
     { icon: Linkedin, href: 'https://www.linkedin.com/in/brianferg/', label: 'LinkedIn' },
-    { icon: Twitter, href: '#', label: 'Twitter' },
     { icon: Mail, href: 'mailto:bferg.dev@gmail.com', label: 'Email' },
   ]
 
