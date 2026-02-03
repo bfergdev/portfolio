@@ -1,25 +1,7 @@
 import { motion } from 'framer-motion'
 import { Mail, Github, Linkedin, Twitter, Send } from 'lucide-react'
-import { useState } from 'react'
 
 const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: '',
-  })
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    console.log('Form submitted:', formData)
-  }
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    })
-  }
 
   const socialLinks = [
     { icon: Github, href: '#', label: 'GitHub' },
@@ -57,7 +39,11 @@ const Contact = () => {
             <div className="bg-slate-900/50 backdrop-blur-sm border border-primary-500/20 rounded-2xl p-8">
               <h3 className="text-2xl font-bold text-white mb-6">Send a Message</h3>
               
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form action="https://formsubmit.co/bferg.dev@gmail.com" method="POST" className="space-y-6">
+                <input type="hidden" name="_subject" value="New Portfolio Contact Form Submission" />
+                <input type="hidden" name="_captcha" value="false" />
+                <input type="hidden" name="_next" value="https://bfergdev.github.io/portfolio/#contact" />
+                
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
                     Name
@@ -66,8 +52,6 @@ const Contact = () => {
                     type="text"
                     id="name"
                     name="name"
-                    value={formData.name}
-                    onChange={handleChange}
                     className="w-full px-4 py-3 bg-slate-800/50 border border-primary-500/30 rounded-lg focus:outline-none focus:border-primary-500 text-white placeholder-gray-500 transition-colors"
                     placeholder="Your name"
                     required
@@ -82,12 +66,11 @@ const Contact = () => {
                     type="email"
                     id="email"
                     name="email"
-                    value={formData.email}
-                    onChange={handleChange}
                     className="w-full px-4 py-3 bg-slate-800/50 border border-primary-500/30 rounded-lg focus:outline-none focus:border-primary-500 text-white placeholder-gray-500 transition-colors"
                     placeholder="your.email@example.com"
                     required
                   />
+                  <input type="hidden" name="_replyto" value="email" />
                 </div>
 
                 <div>
@@ -97,8 +80,6 @@ const Contact = () => {
                   <textarea
                     id="message"
                     name="message"
-                    value={formData.message}
-                    onChange={handleChange}
                     rows={6}
                     className="w-full px-4 py-3 bg-slate-800/50 border border-primary-500/30 rounded-lg focus:outline-none focus:border-primary-500 text-white placeholder-gray-500 transition-colors resize-none"
                     placeholder="Tell me about your project..."
