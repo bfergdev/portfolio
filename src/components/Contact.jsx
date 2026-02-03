@@ -4,10 +4,10 @@ import { Mail, Github, Linkedin, Twitter, Send } from 'lucide-react'
 const Contact = () => {
 
   const socialLinks = [
-    { icon: Github, href: '#', label: 'GitHub' },
-    { icon: Linkedin, href: '#', label: 'LinkedIn' },
+    { icon: Github, href: 'https://github.com/bfergdev', label: 'GitHub' },
+    { icon: Linkedin, href: 'https://www.linkedin.com/in/brianferg/', label: 'LinkedIn' },
     { icon: Twitter, href: '#', label: 'Twitter' },
-    { icon: Mail, href: 'mailto:contact@example.com', label: 'Email' },
+    { icon: Mail, href: 'mailto:bferg.dev@gmail.com', label: 'Email' },
   ]
 
   return (
