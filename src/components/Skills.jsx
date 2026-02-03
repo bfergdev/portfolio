@@ -83,7 +83,7 @@ const Skills = () => {
                       <motion.div
                         initial={{ width: 0 }}
                         whileInView={{ width: `${skill.level}%` }}
-                        viewport={{ once: true }}
+                        viewport={{ once: true, amount: 0.3 }}
                         transition={{ delay: categoryIndex * 0.1 + skillIndex * 0.1, duration: 1, ease: 'easeOut' }}
                         className="h-full bg-gradient-to-r from-primary-500 to-accent-500 rounded-full relative"
                       >

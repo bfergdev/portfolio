@@ -69,7 +69,7 @@ const About = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.3 }}
           transition={{ delay: 0.4, duration: 0.6 }}
           className="mt-16 bg-slate-900/50 backdrop-blur-sm border border-primary-500/20 rounded-2xl p-8 md:p-12"
         >
