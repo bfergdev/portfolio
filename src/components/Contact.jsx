@@ -151,27 +151,36 @@ const Contact = () => {
               </div>
             </div>
 
-            <div className="bg-gradient-to-r from-primary-500/10 to-accent-500/10 border border-primary-500/30 rounded-2xl p-8">
-              <h4 className="text-xl font-bold text-white mb-3">🎯 Actively Seeking Opportunities</h4>
-              <p className="text-gray-300 mb-4">
-                <strong>Available Immediately</strong> - 10 years of AAA MMORPG experience in combat design, 
-                systems design, and class balance. Proven track record shipping 6 successful titles and 
-                leading feature development on Ashes of Creation and EverQuest II.
-              </p>
-              <div className="space-y-2">
-                <div className="flex items-center gap-2 text-primary-400">
-                  <span className="font-medium">• Senior Game Designer</span>
-                </div>
-                <div className="flex items-center gap-2 text-primary-400">
-                  <span className="font-medium">• Lead Game Designer</span>
-                </div>
-                <div className="flex items-center gap-2 text-primary-400">
-                  <span className="font-medium">• Design Principal</span>
-                </div>
-              </div>
-            </div>
           </motion.div>
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.4, duration: 0.6 }}
+          className="mt-8"
+        >
+          <div className="bg-gradient-to-r from-primary-500/10 to-accent-500/10 border border-primary-500/30 rounded-2xl p-8">
+            <h4 className="text-xl font-bold text-white mb-3">🎯 Actively Seeking Opportunities</h4>
+            <p className="text-gray-300 mb-4">
+              <strong>Available Immediately</strong> - 10 years of AAA MMORPG experience in combat design, 
+              systems design, and class balance. Proven track record shipping 6 successful titles and 
+              leading feature development on Ashes of Creation and EverQuest II.
+            </p>
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 text-primary-400">
+                <span className="font-medium">• Senior Game Designer</span>
+              </div>
+              <div className="flex items-center gap-2 text-primary-400">
+                <span className="font-medium">• Lead Game Designer</span>
+              </div>
+              <div className="flex items-center gap-2 text-primary-400">
+                <span className="font-medium">• Design Principal</span>
+              </div>
+            </div>
+          </div>
+        </motion.div>
 
         <motion.div
           initial={{ opacity: 0 }}
