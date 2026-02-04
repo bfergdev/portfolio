@@ -41,24 +41,24 @@ const Navigation = ({ activeSection }) => {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              className="cursor-pointer"
-              onClick={() => scrollToSection('home')}
-            >
-              <Gamepad2 className="w-8 h-8 text-primary-400" />
-            </motion.div>
+            <div className="flex items-center gap-3">
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                className="cursor-pointer"
+                onClick={() => scrollToSection('home')}
+              >
+                <Gamepad2 className="w-8 h-8 text-primary-400" />
+              </motion.div>
 
-            {/* Centered name that appears on scroll */}
-            <div className="absolute left-1/2 transform -translate-x-1/2">
+              {/* Name that appears next to icon on scroll */}
               <AnimatePresence>
                 {showName && (
                   <motion.div
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
                     transition={{ duration: 0.3, ease: "easeOut" }}
-                    className="text-xl font-bold text-gradient cursor-pointer"
+                    className="text-xl font-bold text-gradient cursor-pointer whitespace-nowrap"
                     onClick={() => scrollToSection('home')}
                   >
                     Brian Ferguson
