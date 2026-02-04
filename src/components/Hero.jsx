@@ -3,7 +3,10 @@ import { ChevronDown, Gamepad2, Sparkles } from 'lucide-react'
 import { useState } from 'react'
 
 const Hero = () => {
-  const [isSpinning, setIsSpinning] = useState(false)
+  const [gamepads, setGamepads] = useState([
+    { id: 0, x: 0, y: 0, color: 'text-primary-400', spinning: false }
+  ])
+  const [nextId, setNextId] = useState(1)
 
   const scrollToProjects = () => {
     const element = document.getElementById('projects')
@@ -12,9 +15,46 @@ const Hero = () => {
     }
   }
 
-  const handleGamepadClick = () => {
-    setIsSpinning(true)
-    setTimeout(() => setIsSpinning(false), 600)
+  const colors = [
+    'text-primary-400',
+    'text-accent-400', 
+    'text-green-400',
+    'text-yellow-400',
+    'text-pink-400',
+    'text-purple-400',
+    'text-orange-400',
+    'text-red-400',
+    'text-cyan-400',
+    'text-blue-400'
+  ]
+
+  const getRandomColor = (excludeColor) => {
+    const availableColors = colors.filter(c => c !== excludeColor)
+    return availableColors[Math.floor(Math.random() * availableColors.length)]
+  }
+
+  const handleGamepadClick = (id) => {
+    setGamepads(prev => prev.map(gp => 
+      gp.id === id ? { ...gp, spinning: true } : gp
+    ))
+    setTimeout(() => {
+      setGamepads(prev => prev.map(gp => 
+        gp.id === id ? { ...gp, spinning: false } : gp
+      ))
+    }, 600)
+  }
+
+  const handleGamepadDoubleClick = (gamepad) => {
+    const newColor1 = getRandomColor(gamepad.color)
+    const newColor2 = getRandomColor(gamepad.color)
+    
+    const newGamepads = [
+      { id: nextId, x: gamepad.x - 30, y: gamepad.y - 30, color: newColor1, spinning: false },
+      { id: nextId + 1, x: gamepad.x + 30, y: gamepad.y + 30, color: newColor2, spinning: false }
+    ]
+    
+    setGamepads(prev => [...prev.filter(gp => gp.id !== gamepad.id), ...newGamepads])
+    setNextId(prev => prev + 2)
   }
 
   return (
@@ -26,30 +66,42 @@ const Hero = () => {
           transition={{ duration: 0.8 }}
           className="space-y-8"
         >
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ 
-              scale: 1,
-              rotate: isSpinning ? 360 : 0
-            }}
-            transition={{ 
-              scale: { delay: 0.2, type: 'spring', stiffness: 200 },
-              rotate: { duration: 0.6, ease: "easeInOut" }
-            }}
-            drag
-            dragConstraints={{ left: -200, right: 200, top: -200, bottom: 200 }}
-            dragElastic={0.2}
-            dragTransition={{ bounceStiffness: 300, bounceDamping: 20 }}
-            whileHover={{ scale: 1.1, rotate: 5 }}
-            whileDrag={{ scale: 1.2, rotate: 10, cursor: 'grabbing' }}
-            onTap={handleGamepadClick}
-            className="inline-block cursor-grab"
-          >
-            <div className="relative">
-              <Gamepad2 className="w-20 h-20 text-primary-400 animate-float" />
-              <Sparkles className="w-8 h-8 text-accent-400 absolute -top-2 -right-2 animate-pulse" />
-            </div>
-          </motion.div>
+          {gamepads.map((gamepad) => (
+            <motion.div
+              key={gamepad.id}
+              initial={{ scale: 0 }}
+              animate={{ 
+                scale: 1,
+                rotate: gamepad.spinning ? 360 : 0,
+                x: gamepad.x,
+                y: gamepad.y
+              }}
+              transition={{ 
+                scale: { delay: 0.2, type: 'spring', stiffness: 200 },
+                rotate: { duration: 0.6, ease: "easeInOut" }
+              }}
+              drag
+              dragConstraints={{ left: -400, right: 400, top: -400, bottom: 400 }}
+              dragElastic={0.2}
+              dragTransition={{ bounceStiffness: 300, bounceDamping: 20 }}
+              onDragEnd={(e, info) => {
+                setGamepads(prev => prev.map(gp => 
+                  gp.id === gamepad.id ? { ...gp, x: gp.x + info.offset.x, y: gp.y + info.offset.y } : gp
+                ))
+              }}
+              whileHover={{ scale: 1.1, rotate: 5 }}
+              whileDrag={{ scale: 1.2, rotate: 10, cursor: 'grabbing' }}
+              onTap={() => handleGamepadClick(gamepad.id)}
+              onDoubleClick={() => handleGamepadDoubleClick(gamepad)}
+              className="inline-block cursor-grab absolute"
+              style={{ zIndex: 10 + gamepad.id }}
+            >
+              <div className="relative">
+                <Gamepad2 className={`w-20 h-20 ${gamepad.color} animate-float`} />
+                <Sparkles className="w-8 h-8 text-accent-400 absolute -top-2 -right-2 animate-pulse" />
+              </div>
+            </motion.div>
+          ))}
 
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
