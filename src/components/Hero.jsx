@@ -35,6 +35,9 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
     } else if (gamepads.length === 0 && invaderMode) {
       // Only exit invader mode when ALL gamepads are destroyed
       setInvaderMode(false)
+      // Clear all projectiles and particles
+      setProjectiles([])
+      setParticles([])
       // Respawn default gamepad above the text
       setGamepads([{ id: 0, x: 0, y: -300, color: 'text-primary-400' }])
     }
@@ -222,7 +225,6 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
 
   return (
     <div 
-      ref={heroRef}
       className={`relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 ${invaderMode ? 'select-none' : ''}`}
       onClick={handleHeroClick}
       onMouseMove={handleMouseMove}
@@ -230,6 +232,7 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
     >
       <div className="max-w-7xl mx-auto text-center">
         <motion.div
+          ref={heroRef}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
