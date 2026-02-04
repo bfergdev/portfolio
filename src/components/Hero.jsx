@@ -263,8 +263,7 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
 
   return (
     <div 
-      className={`relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 ${invaderMode ? 'select-none' : ''}`}
-      style={{ cursor: invaderMode ? 'crosshair' : 'default' }}
+      className={`relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 ${invaderMode ? 'select-none cursor-rocket' : ''}`}
     >
       <div className="max-w-7xl mx-auto text-center">
         <motion.div
