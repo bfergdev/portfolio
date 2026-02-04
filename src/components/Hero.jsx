@@ -32,10 +32,13 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
         y: Math.floor(index / cols) * 60 - 200
       }))
       setGamepads(arrangedGamepads)
-    } else if (gamepads.length < 10 && invaderMode) {
+    } else if (gamepads.length === 0 && invaderMode) {
+      // Only exit invader mode when ALL gamepads are destroyed
       setInvaderMode(false)
+      // Respawn default gamepad above the text
+      setGamepads([{ id: 0, x: 0, y: -300, color: 'text-primary-400' }])
     }
-  }, [gamepads.length])
+  }, [gamepads.length, invaderMode])
 
   // Formation movement animation
   useEffect(() => {
