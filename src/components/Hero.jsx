@@ -361,8 +361,6 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
                 exit={{ opacity: 0 }}
                 className="absolute rounded-full"
                 style={{ 
-                  left: '50%',
-                  top: '50%',
                   zIndex: 99,
                   width: `${particle.size}px`,
                   height: `${particle.size}px`,
