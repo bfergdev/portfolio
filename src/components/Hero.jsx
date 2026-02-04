@@ -1,12 +1,20 @@
 import { motion } from 'framer-motion'
 import { ChevronDown, Gamepad2, Sparkles } from 'lucide-react'
+import { useState } from 'react'
 
 const Hero = () => {
+  const [isSpinning, setIsSpinning] = useState(false)
+
   const scrollToProjects = () => {
     const element = document.getElementById('projects')
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' })
     }
+  }
+
+  const handleGamepadClick = () => {
+    setIsSpinning(true)
+    setTimeout(() => setIsSpinning(false), 600)
   }
 
   return (
@@ -20,14 +28,21 @@ const Hero = () => {
         >
           <motion.div
             initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
+            animate={{ 
+              scale: 1,
+              rotate: isSpinning ? 360 : 0
+            }}
+            transition={{ 
+              scale: { delay: 0.2, type: 'spring', stiffness: 200 },
+              rotate: { duration: 0.6, ease: "easeInOut" }
+            }}
             drag
             dragConstraints={{ left: -200, right: 200, top: -200, bottom: 200 }}
             dragElastic={0.2}
             dragTransition={{ bounceStiffness: 300, bounceDamping: 20 }}
             whileHover={{ scale: 1.1, rotate: 5 }}
             whileDrag={{ scale: 1.2, rotate: 10, cursor: 'grabbing' }}
+            onTap={handleGamepadClick}
             className="inline-block cursor-grab"
           >
             <div className="relative">
