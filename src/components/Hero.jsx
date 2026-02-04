@@ -288,10 +288,10 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
                 initial={{ opacity: 1 }}
                 animate={{ x: projectile.x, y: projectile.y }}
                 exit={{ opacity: 0 }}
-                className="absolute w-2 h-8 bg-gradient-to-t from-green-400 to-green-300 rounded-full"
+                className="absolute w-1 h-4 bg-gradient-to-t from-green-400 to-green-300 rounded-full"
                 style={{ 
                   zIndex: 100,
-                  boxShadow: '0 0 10px #4ade80, 0 0 20px #4ade80, 0 0 30px #22c55e'
+                  boxShadow: '0 0 8px #4ade80, 0 0 15px #4ade80, 0 0 20px #22c55e'
                 }}
               />
             ))}
