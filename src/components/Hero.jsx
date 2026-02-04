@@ -293,14 +293,19 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
             {projectiles.map(projectile => (
               <motion.div
                 key={projectile.id}
-                initial={{ opacity: 1 }}
-                animate={{ y: projectile.y - 400 }}
+                initial={{ 
+                  opacity: 1,
+                  x: projectile.x,
+                  y: projectile.y
+                }}
+                animate={{ 
+                  y: projectile.y - 400
+                }}
                 exit={{ opacity: 0 }}
                 className="absolute w-1 h-4 bg-gradient-to-t from-green-400 to-green-300 rounded-full"
                 style={{ 
                   left: '50%',
                   top: '50%',
-                  transform: `translate(${projectile.x}px, ${projectile.y}px)`,
                   zIndex: 100,
                   boxShadow: '0 0 8px #4ade80, 0 0 15px #4ade80, 0 0 20px #22c55e'
                 }}
