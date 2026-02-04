@@ -153,8 +153,12 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
     const rect = heroRef.current?.getBoundingClientRect()
     if (!rect) return
 
-    const mouseX = e.clientX - rect.left - rect.width / 2
-    const mouseY = e.clientY - rect.top - rect.height / 2
+    // Calculate position relative to the center of the container
+    const centerX = rect.left + rect.width / 2
+    const centerY = rect.top + rect.height / 2
+    
+    const mouseX = e.clientX - centerX
+    const mouseY = e.clientY - centerY
     
     setCursorPos({ x: mouseX, y: mouseY })
   }
@@ -167,8 +171,12 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
     const rect = heroRef.current?.getBoundingClientRect()
     if (!rect) return
 
-    const clickX = e.clientX - rect.left - rect.width / 2
-    const clickY = e.clientY - rect.top - rect.height / 2
+    // Calculate position relative to the center of the container
+    const centerX = rect.left + rect.width / 2
+    const centerY = rect.top + rect.height / 2
+    
+    const clickX = e.clientX - centerX
+    const clickY = e.clientY - centerY
 
     setProjectiles(prev => [...prev, {
       id: Date.now(),
