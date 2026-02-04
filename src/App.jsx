@@ -10,6 +10,15 @@ import ParticleBackground from './components/ParticleBackground'
 
 function App() {
   const [activeSection, setActiveSection] = useState('home')
+  const [gamepads, setGamepads] = useState([
+    { id: 0, x: 0, y: 0, color: 'text-primary-400' }
+  ])
+  const [nextId, setNextId] = useState(1)
+
+  const resetGamepads = () => {
+    setGamepads([{ id: 0, x: 0, y: 0, color: 'text-primary-400' }])
+    setNextId(1)
+  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -35,11 +44,11 @@ function App() {
   return (
     <div className="relative min-h-screen overflow-x-hidden">
       <ParticleBackground />
-      <Navigation activeSection={activeSection} />
+      <Navigation activeSection={activeSection} onResetGamepads={resetGamepads} />
       
       <main className="relative z-10">
         <section id="home">
-          <Hero />
+          <Hero gamepads={gamepads} setGamepads={setGamepads} nextId={nextId} setNextId={setNextId} />
         </section>
         
         <section id="about">

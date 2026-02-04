@@ -2,7 +2,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, Gamepad2 } from 'lucide-react'
 import { useState, useEffect } from 'react'
 
-const Navigation = ({ activeSection }) => {
+const Navigation = ({ activeSection, onResetGamepads }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [showName, setShowName] = useState(false)
 
@@ -45,7 +45,10 @@ const Navigation = ({ activeSection }) => {
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 className="cursor-pointer"
-                onClick={() => scrollToSection('home')}
+                onClick={() => {
+                  onResetGamepads()
+                  scrollToSection('home')
+                }}
               >
                 <Gamepad2 className="w-8 h-8 text-primary-400" />
               </motion.div>

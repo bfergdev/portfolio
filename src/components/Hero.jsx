@@ -1,12 +1,7 @@
 import { motion } from 'framer-motion'
 import { ChevronDown, Gamepad2, Sparkles } from 'lucide-react'
-import { useState } from 'react'
 
-const Hero = () => {
-  const [gamepads, setGamepads] = useState([
-    { id: 0, x: 0, y: 0, color: 'text-primary-400' }
-  ])
-  const [nextId, setNextId] = useState(1)
+const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
 
   const scrollToProjects = () => {
     const element = document.getElementById('projects')
@@ -48,12 +43,17 @@ const Hero = () => {
     const newColor2 = getRandomColor(gamepad.color)
     
     const newGamepads = [
-      { id: nextId, x: gamepad.x - 30, y: gamepad.y - 30, color: newColor1 },
-      { id: nextId + 1, x: gamepad.x + 30, y: gamepad.y + 30, color: newColor2 }
+      { id: nextId, x: gamepad.x - 50, y: gamepad.y - 50, color: newColor1, isNew: true },
+      { id: nextId + 1, x: gamepad.x + 50, y: gamepad.y + 50, color: newColor2, isNew: true }
     ]
     
     setGamepads(prev => [...prev.filter(gp => gp.id !== gamepad.id), ...newGamepads])
     setNextId(prev => prev + 2)
+    
+    // Remove isNew flag after animation
+    setTimeout(() => {
+      setGamepads(prev => prev.map(gp => ({ ...gp, isNew: false })))
+    }, 500)
   }
 
   return (
@@ -68,13 +68,20 @@ const Hero = () => {
           {gamepads.map((gamepad) => (
             <motion.div
               key={gamepad.id}
-              initial={{ scale: 0 }}
+              initial={gamepad.isNew ? { scale: 0, opacity: 0, rotate: -180 } : { scale: 0 }}
               animate={{ 
                 scale: 1,
+                opacity: 1,
+                rotate: 0,
                 x: gamepad.x,
                 y: gamepad.y
               }}
-              transition={{ 
+              transition={gamepad.isNew ? { 
+                type: 'spring',
+                stiffness: 300,
+                damping: 15,
+                duration: 0.5
+              } : { 
                 scale: { delay: 0.2, type: 'spring', stiffness: 200 }
               }}
               drag
