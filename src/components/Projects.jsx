@@ -115,7 +115,7 @@ const Projects = () => {
             >
               <div className={`absolute inset-0 bg-gradient-to-r ${project.color} rounded-2xl blur-xl opacity-0 group-hover:opacity-30 transition-opacity`} />
               
-              <div className="relative bg-slate-900/80 backdrop-blur-sm border border-primary-500/20 rounded-2xl overflow-hidden">
+              <div className="relative bg-slate-900/80 backdrop-blur-sm border border-primary-500/20 rounded-2xl overflow-hidden flex flex-col h-full">
                 <div className="relative h-48 overflow-hidden">
                   {/* Animated gradient background */}
                   <div className={`absolute inset-0 bg-gradient-to-br ${project.color} opacity-20 animate-pulse`} />
@@ -145,10 +145,10 @@ const Projects = () => {
                   </div>
                 </div>
 
-                <div className="p-6">
+                <div className="p-6 flex-grow flex flex-col">
                   <div className="text-sm text-primary-400 mb-2">{project.category}</div>
                   <h3 className="text-2xl font-bold text-white mb-3">{project.title}</h3>
-                  <p className="text-gray-400 mb-4">{project.description}</p>
+                  <p className="text-gray-400 mb-4 flex-grow">{project.description}</p>
                   
                   {project.role && (
                     <div className="mb-4 text-sm">
