@@ -4,7 +4,7 @@ import { useState } from 'react'
 
 const Hero = () => {
   const [gamepads, setGamepads] = useState([
-    { id: 0, x: 0, y: 0, color: 'text-primary-400', spinning: false }
+    { id: 0, x: 0, y: 0, color: 'text-primary-400' }
   ])
   const [nextId, setNextId] = useState(1)
 
@@ -34,14 +34,13 @@ const Hero = () => {
   }
 
   const handleGamepadClick = (id) => {
-    setGamepads(prev => prev.map(gp => 
-      gp.id === id ? { ...gp, spinning: true } : gp
-    ))
-    setTimeout(() => {
-      setGamepads(prev => prev.map(gp => 
-        gp.id === id ? { ...gp, spinning: false } : gp
-      ))
-    }, 600)
+    setGamepads(prev => prev.map(gp => {
+      if (gp.id === id) {
+        const newColor = getRandomColor(gp.color)
+        return { ...gp, color: newColor }
+      }
+      return gp
+    }))
   }
 
   const handleGamepadDoubleClick = (gamepad) => {
@@ -49,8 +48,8 @@ const Hero = () => {
     const newColor2 = getRandomColor(gamepad.color)
     
     const newGamepads = [
-      { id: nextId, x: gamepad.x - 30, y: gamepad.y - 30, color: newColor1, spinning: false },
-      { id: nextId + 1, x: gamepad.x + 30, y: gamepad.y + 30, color: newColor2, spinning: false }
+      { id: nextId, x: gamepad.x - 30, y: gamepad.y - 30, color: newColor1 },
+      { id: nextId + 1, x: gamepad.x + 30, y: gamepad.y + 30, color: newColor2 }
     ]
     
     setGamepads(prev => [...prev.filter(gp => gp.id !== gamepad.id), ...newGamepads])
@@ -72,13 +71,11 @@ const Hero = () => {
               initial={{ scale: 0 }}
               animate={{ 
                 scale: 1,
-                rotate: gamepad.spinning ? 360 : 0,
                 x: gamepad.x,
                 y: gamepad.y
               }}
               transition={{ 
-                scale: { delay: 0.2, type: 'spring', stiffness: 200 },
-                rotate: { duration: 0.6, ease: "easeInOut" }
+                scale: { delay: 0.2, type: 'spring', stiffness: 200 }
               }}
               drag
               dragConstraints={{ left: -400, right: 400, top: -400, bottom: 400 }}
