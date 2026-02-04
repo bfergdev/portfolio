@@ -143,7 +143,6 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
   }, [particles.length])
 
   const createExplosion = (x, y, color) => {
-    console.log('Explosion at:', { x, y, color })
     // Create more particles with varied sizes and speeds
     const newParticles = Array.from({ length: 40 }, (_, i) => {
       const angle = (Math.PI * 2 * i) / 40
@@ -353,24 +352,17 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
             {particles.map(particle => (
               <motion.div
                 key={particle.id}
-                initial={{
-                  x: particle.x,
-                  y: particle.y,
-                  opacity: particle.opacity
-                }}
-                animate={{ 
-                  x: particle.x, 
-                  y: particle.y,
-                  opacity: particle.opacity
-                }}
-                exit={{ opacity: 0 }}
-                className={`absolute rounded-full`}
                 style={{ 
+                  position: 'absolute',
                   left: '50%',
                   top: '50%',
+                  x: particle.x,
+                  y: particle.y,
+                  opacity: particle.opacity,
                   zIndex: 99,
                   width: `${particle.size}px`,
                   height: `${particle.size}px`,
+                  borderRadius: '50%',
                   transform: `rotate(${particle.rotation}deg)`,
                   backgroundColor: particle.color === 'text-primary-400' ? '#60a5fa' :
                                    particle.color === 'text-accent-400' ? '#22d3ee' :
