@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { ExternalLink, Github, Play } from 'lucide-react'
+import { ExternalLink } from 'lucide-react'
 import ashesImg from '../../images/ashes.png'
 import apocalypseImg from '../../images/apocalypse.png'
 import veeshanImg from '../../images/veeshan.png'
@@ -14,6 +14,7 @@ const Projects = () => {
       category: 'MMORPG',
       description: 'Core combat & systems designer. Feature owner for Mage, Tank, and Ranger archetypes. Designed weapon system, siege mechanics, and PVP/PVX balance. Led itemization and tradeskill implementation.',
       image: ashesImg,
+      link: 'https://ashesofcreation.com/',
       tags: ['Combat Design', 'Archetype Owner', 'PVP/PVX', 'Systems Design'],
       color: 'from-purple-500 to-pink-500',
       role: 'Senior Game Designer III',
@@ -25,6 +26,7 @@ const Projects = () => {
       category: 'Battle Royale / Arena',
       description: 'Designed, implemented, and balanced dozens of unique weapons, armor, and combat items with thousands of spawners. Combat and economy design.',
       image: apocalypseImg,
+      link: 'https://ashesofcreation.wiki/Ashes_of_Creation_Apocalypse',
       tags: ['Combat Design', 'Economy', 'Itemization', 'Balance'],
       color: 'from-blue-500 to-cyan-500',
       role: 'Game Designer',
@@ -36,6 +38,7 @@ const Projects = () => {
       category: 'MMORPG Expansion',
       description: 'System design responsibilities including PVP balance, itemization, tradeskills, PVE class balance, and encounter design.',
       image: veeshanImg,
+      link: 'https://www.everquest2.com/home',
       tags: ['Systems Design', 'PVP Balance', 'Itemization', 'Tradeskills'],
       color: 'from-green-500 to-emerald-500',
       role: 'Associate Game Designer',
@@ -47,6 +50,7 @@ const Projects = () => {
       category: 'MMORPG Expansion',
       description: 'Responsible for PVP balance, itemization, tradeskills, PVE class balance, and encounter design for major expansion.',
       image: chainsImg,
+      link: 'https://www.everquest2.com/home',
       tags: ['Class Balance', 'Encounter Design', 'Economy', 'PVP'],
       color: 'from-orange-500 to-red-500',
       role: 'Associate Game Designer',
@@ -58,6 +62,7 @@ const Projects = () => {
       category: 'MMORPG Expansion',
       description: 'System design for PVP balance, itemization, tradeskills, and PVE class balance across multiple content updates.',
       image: discoveryImg,
+      link: 'https://www.everquest2.com/home',
       tags: ['Systems Design', 'Tradeskills', 'Class Balance', 'Content'],
       color: 'from-indigo-500 to-purple-500',
       role: 'Associate Game Designer',
@@ -69,6 +74,7 @@ const Projects = () => {
       category: 'MMORPG Expansion',
       description: 'Provided systems design assistance including itemization, class balance, and tradeskills for major expansion release.',
       image: veliousImg,
+      link: 'https://www.everquest2.com/home',
       tags: ['Itemization', 'Class Balance', 'Tradeskills', 'Systems'],
       color: 'from-cyan-500 to-blue-500',
       role: 'Apprentice Game Designer',
@@ -126,27 +132,16 @@ const Projects = () => {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent" />
                   <div className="absolute top-4 right-4 flex gap-2">
-                    <motion.button
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                      className="p-2 bg-slate-900/80 backdrop-blur-sm rounded-lg hover:bg-primary-500/50 transition-colors"
-                    >
-                      <Play size={20} />
-                    </motion.button>
-                    <motion.button
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                      className="p-2 bg-slate-900/80 backdrop-blur-sm rounded-lg hover:bg-primary-500/50 transition-colors"
-                    >
-                      <Github size={20} />
-                    </motion.button>
-                    <motion.button
+                    <motion.a
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
                       className="p-2 bg-slate-900/80 backdrop-blur-sm rounded-lg hover:bg-primary-500/50 transition-colors"
                     >
                       <ExternalLink size={20} />
-                    </motion.button>
+                    </motion.a>
                   </div>
                 </div>
 
