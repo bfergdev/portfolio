@@ -79,7 +79,7 @@ const About = () => {
               <div className="text-gray-400">Years Experience</div>
             </div>
             <div>
-              <div className="text-4xl font-bold text-gradient mb-2">6</div>
+              <div className="text-4xl font-bold text-gradient mb-2">5*</div>
               <div className="text-gray-400">Shipped Titles</div>
             </div>
             <div>
