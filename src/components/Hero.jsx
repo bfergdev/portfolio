@@ -1,13 +1,157 @@
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronDown, Gamepad2, Sparkles } from 'lucide-react'
+import { useState, useEffect, useRef } from 'react'
 
 const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
+  const [invaderMode, setInvaderMode] = useState(false)
+  const [formationOffset, setFormationOffset] = useState(0)
+  const [direction, setDirection] = useState(1)
+  const [projectiles, setProjectiles] = useState([])
+  const [particles, setParticles] = useState([])
+  const heroRef = useRef(null)
 
   const scrollToProjects = () => {
     const element = document.getElementById('projects')
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' })
     }
+  }
+
+  // Activate invader mode when 10+ gamepads
+  useEffect(() => {
+    if (gamepads.length >= 10 && !invaderMode) {
+      setInvaderMode(true)
+      // Arrange gamepads in formation
+      const cols = 5
+      const arrangedGamepads = gamepads.map((gp, index) => ({
+        ...gp,
+        formationX: (index % cols) * 80 - 160,
+        formationY: Math.floor(index / cols) * 60 - 200,
+        x: (index % cols) * 80 - 160,
+        y: Math.floor(index / cols) * 60 - 200
+      }))
+      setGamepads(arrangedGamepads)
+    } else if (gamepads.length < 10 && invaderMode) {
+      setInvaderMode(false)
+    }
+  }, [gamepads.length])
+
+  // Formation movement animation
+  useEffect(() => {
+    if (!invaderMode) return
+
+    const interval = setInterval(() => {
+      setFormationOffset(prev => {
+        const newOffset = prev + (direction * 2)
+        if (Math.abs(newOffset) > 100) {
+          setDirection(d => -d)
+          // Move down slightly
+          setGamepads(prev => prev.map(gp => ({
+            ...gp,
+            formationY: gp.formationY + 10
+          })))
+        }
+        return newOffset
+      })
+
+      setGamepads(prev => prev.map(gp => ({
+        ...gp,
+        x: gp.formationX + formationOffset
+      })))
+    }, 50)
+
+    return () => clearInterval(interval)
+  }, [invaderMode, direction, formationOffset])
+
+  // Update projectiles
+  useEffect(() => {
+    if (!invaderMode || projectiles.length === 0) return
+
+    const interval = setInterval(() => {
+      setProjectiles(prev => {
+        const updated = prev.map(p => ({ ...p, y: p.y - 10 }))
+        return updated.filter(p => p.y > -400)
+      })
+
+      // Check collisions
+      setProjectiles(prevProjectiles => {
+        const remaining = [...prevProjectiles]
+        const toRemove = []
+
+        prevProjectiles.forEach((projectile, pIndex) => {
+          setGamepads(prevGamepads => {
+            let hit = false
+            const survivingGamepads = prevGamepads.filter(gp => {
+              const distance = Math.sqrt(
+                Math.pow(projectile.x - gp.x, 2) + 
+                Math.pow(projectile.y - gp.y, 2)
+              )
+              if (distance < 40) {
+                hit = true
+                toRemove.push(pIndex)
+                // Create explosion particles
+                createExplosion(gp.x, gp.y, gp.color)
+                return false
+              }
+              return true
+            })
+            return hit ? survivingGamepads : prevGamepads
+          })
+        })
+
+        return remaining.filter((_, i) => !toRemove.includes(i))
+      })
+    }, 30)
+
+    return () => clearInterval(interval)
+  }, [invaderMode, projectiles.length])
+
+  // Update particles
+  useEffect(() => {
+    if (particles.length === 0) return
+
+    const interval = setInterval(() => {
+      setParticles(prev => {
+        const updated = prev.map(p => ({
+          ...p,
+          x: p.x + p.vx,
+          y: p.y + p.vy,
+          opacity: p.opacity - 0.02
+        }))
+        return updated.filter(p => p.opacity > 0)
+      })
+    }, 30)
+
+    return () => clearInterval(interval)
+  }, [particles.length])
+
+  const createExplosion = (x, y, color) => {
+    const newParticles = Array.from({ length: 20 }, (_, i) => ({
+      id: Date.now() + i,
+      x,
+      y,
+      vx: (Math.random() - 0.5) * 10,
+      vy: (Math.random() - 0.5) * 10,
+      color,
+      opacity: 1
+    }))
+    setParticles(prev => [...prev, ...newParticles])
+  }
+
+  const handleHeroClick = (e) => {
+    if (!invaderMode) return
+    
+    const rect = heroRef.current?.getBoundingClientRect()
+    if (!rect) return
+
+    const clickX = e.clientX - rect.left - rect.width / 2
+    const clickY = e.clientY - rect.top - rect.height / 2
+
+    setProjectiles(prev => [...prev, {
+      id: Date.now(),
+      x: clickX,
+      y: clickY
+    }])
   }
 
   const colors = [
@@ -57,7 +201,12 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
   }
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
+    <div 
+      ref={heroRef}
+      className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8"
+      onClick={handleHeroClick}
+      style={{ cursor: invaderMode ? 'crosshair' : 'default' }}
+    >
       <div className="max-w-7xl mx-auto text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -84,20 +233,20 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
               } : { 
                 scale: { delay: 0.2, type: 'spring', stiffness: 200 }
               }}
-              drag
+              drag={!invaderMode}
               dragConstraints={{ left: -400, right: 400, top: -400, bottom: 400 }}
               dragElastic={0.2}
               dragTransition={{ bounceStiffness: 300, bounceDamping: 20 }}
-              onDragEnd={(e, info) => {
+              onDragEnd={!invaderMode ? (e, info) => {
                 setGamepads(prev => prev.map(gp => 
                   gp.id === gamepad.id ? { ...gp, x: gp.x + info.offset.x, y: gp.y + info.offset.y } : gp
                 ))
-              }}
-              whileHover={{ scale: 1.1, rotate: 5 }}
-              whileDrag={{ scale: 1.2, rotate: 10, cursor: 'grabbing' }}
-              onTap={() => handleGamepadClick(gamepad.id)}
-              onDoubleClick={() => handleGamepadDoubleClick(gamepad)}
-              className="inline-block cursor-grab absolute"
+              } : undefined}
+              whileHover={!invaderMode ? { scale: 1.1, rotate: 5 } : {}}
+              whileDrag={!invaderMode ? { scale: 1.2, rotate: 10, cursor: 'grabbing' } : {}}
+              onTap={!invaderMode ? () => handleGamepadClick(gamepad.id) : undefined}
+              onDoubleClick={!invaderMode ? () => handleGamepadDoubleClick(gamepad) : undefined}
+              className={`inline-block absolute ${!invaderMode ? 'cursor-grab' : 'pointer-events-none'}`}
               style={{ zIndex: 10 + gamepad.id }}
             >
               <div className="relative">
@@ -106,6 +255,37 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
               </div>
             </motion.div>
           ))}
+
+          {/* Projectiles */}
+          <AnimatePresence>
+            {projectiles.map(projectile => (
+              <motion.div
+                key={projectile.id}
+                initial={{ opacity: 1 }}
+                animate={{ x: projectile.x, y: projectile.y }}
+                exit={{ opacity: 0 }}
+                className="absolute w-2 h-8 bg-gradient-to-t from-accent-400 to-primary-400 rounded-full"
+                style={{ zIndex: 100 }}
+              />
+            ))}
+          </AnimatePresence>
+
+          {/* Particles */}
+          <AnimatePresence>
+            {particles.map(particle => (
+              <motion.div
+                key={particle.id}
+                animate={{ 
+                  x: particle.x, 
+                  y: particle.y,
+                  opacity: particle.opacity
+                }}
+                exit={{ opacity: 0 }}
+                className={`absolute w-2 h-2 ${particle.color} rounded-full`}
+                style={{ zIndex: 99 }}
+              />
+            ))}
+          </AnimatePresence>
 
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
