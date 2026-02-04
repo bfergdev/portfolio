@@ -126,48 +126,110 @@ const Projects = () => {
               }}
               className={`group relative ${isAshesCard && !burningAshes ? 'cursor-pointer' : ''}`}
             >
-              {/* Fire effect overlay for Ashes of Creation */}
+              {/* Advanced burn/ash effect for Ashes of Creation */}
               <AnimatePresence>
                 {isAshesCard && burningAshes && (
                   <>
-                    {/* Multiple flame particles */}
-                    {[...Array(12)].map((_, i) => (
+                    {/* Ash particles rising */}
+                    {[...Array(40)].map((_, i) => (
                       <motion.div
-                        key={i}
-                        initial={{ opacity: 0, y: 0, x: 0, scale: 0 }}
+                        key={`ash-${i}`}
+                        initial={{ 
+                          opacity: 0, 
+                          y: 0, 
+                          x: Math.random() * 100 - 50,
+                          scale: 0,
+                          rotate: 0
+                        }}
                         animate={{
-                          opacity: [0, 1, 1, 0],
-                          y: [-20, -60, -100, -140],
-                          x: [(i - 6) * 10, (i - 6) * 15, (i - 6) * 20],
-                          scale: [0.5, 1.2, 1, 0.5],
+                          opacity: [0, 0.8, 0.6, 0],
+                          y: [0, -100 - Math.random() * 150],
+                          x: [Math.random() * 100 - 50, Math.random() * 150 - 75],
+                          scale: [0, Math.random() * 0.5 + 0.3, Math.random() * 0.3 + 0.2, 0],
+                          rotate: [0, Math.random() * 360],
                         }}
                         transition={{
-                          duration: 1.5,
-                          delay: i * 0.1,
-                          repeat: 2,
+                          duration: 2 + Math.random(),
+                          delay: Math.random() * 0.5,
+                          ease: "easeOut"
                         }}
-                        className="absolute inset-0 pointer-events-none z-30"
+                        className="absolute pointer-events-none z-30"
                         style={{
-                          left: `${(i / 12) * 100}%`,
-                          bottom: 0,
+                          left: `${Math.random() * 100}%`,
+                          top: `${Math.random() * 100}%`,
+                          width: `${Math.random() * 6 + 2}px`,
+                          height: `${Math.random() * 6 + 2}px`,
+                          backgroundColor: Math.random() > 0.5 ? '#4a4a4a' : '#2a2a2a',
+                          borderRadius: Math.random() > 0.5 ? '50%' : '0%',
                         }}
-                      >
-                        <Flame className="w-8 h-8 text-orange-500" fill="currentColor" />
-                      </motion.div>
+                      />
                     ))}
-                    {/* Burn overlay */}
+                    
+                    {/* Embers/sparks */}
+                    {[...Array(20)].map((_, i) => (
+                      <motion.div
+                        key={`ember-${i}`}
+                        initial={{ 
+                          opacity: 0, 
+                          y: 0,
+                          scale: 0
+                        }}
+                        animate={{
+                          opacity: [0, 1, 0.8, 0],
+                          y: [0, -80 - Math.random() * 100],
+                          x: [0, Math.random() * 60 - 30],
+                          scale: [0, 1, 0.5, 0],
+                        }}
+                        transition={{
+                          duration: 1.5 + Math.random() * 0.5,
+                          delay: Math.random() * 0.8,
+                          ease: "easeOut"
+                        }}
+                        className="absolute pointer-events-none z-30"
+                        style={{
+                          left: `${Math.random() * 100}%`,
+                          bottom: `${Math.random() * 30}%`,
+                          width: '3px',
+                          height: '3px',
+                          backgroundColor: '#ff6b35',
+                          boxShadow: '0 0 6px #ff6b35, 0 0 12px #ff4500',
+                          borderRadius: '50%',
+                        }}
+                      />
+                    ))}
+                    
+                    {/* Burn from edges effect */}
+                    <motion.div
+                      initial={{ clipPath: 'inset(0% 0% 0% 0%)' }}
+                      animate={{ 
+                        clipPath: [
+                          'inset(0% 0% 0% 0%)',
+                          'inset(10% 10% 10% 10%)',
+                          'inset(30% 30% 30% 30%)',
+                          'inset(50% 50% 50% 50%)',
+                        ]
+                      }}
+                      transition={{ duration: 2, ease: "easeIn" }}
+                      className="absolute inset-0 z-20 rounded-2xl overflow-hidden"
+                    >
+                      <motion.div
+                        animate={{ 
+                          opacity: [0, 0.4, 0.7, 1],
+                        }}
+                        transition={{ duration: 2 }}
+                        className="absolute inset-0 bg-gradient-to-br from-orange-900/80 via-gray-900 to-black"
+                        style={{
+                          filter: 'blur(2px)',
+                        }}
+                      />
+                    </motion.div>
+                    
+                    {/* Card fade out */}
                     <motion.div
                       initial={{ opacity: 0 }}
-                      animate={{ opacity: [0, 0.3, 0.6, 1] }}
-                      transition={{ duration: 2 }}
-                      className="absolute inset-0 bg-gradient-to-t from-orange-600 via-red-500 to-yellow-400 mix-blend-multiply z-20 rounded-2xl"
-                    />
-                    {/* Disintegration effect */}
-                    <motion.div
-                      initial={{ opacity: 1 }}
-                      animate={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1 }}
                       transition={{ duration: 2, delay: 0.5 }}
-                      className="absolute inset-0 z-10"
+                      className="absolute inset-0 bg-black/90 z-10 rounded-2xl"
                     />
                   </>
                 )}
