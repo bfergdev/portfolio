@@ -1,5 +1,11 @@
 import { motion } from 'framer-motion'
 import { ExternalLink, Github, Play } from 'lucide-react'
+import ashesImg from '../../images/ashes.png'
+import apocalypseImg from '../../images/apocalypse.png'
+import veeshanImg from '../../images/veeshan.png'
+import chainsImg from '../../images/chains.png'
+import discoveryImg from '../../images/discovery.png'
+import veliousImg from '../../images/velious.png'
 
 const Projects = () => {
   const projects = [
@@ -7,7 +13,7 @@ const Projects = () => {
       title: 'Ashes of Creation',
       category: 'MMORPG',
       description: 'Core combat & systems designer. Feature owner for Mage, Tank, and Ranger archetypes. Designed weapon system, siege mechanics, and PVP/PVX balance. Led itemization and tradeskill implementation.',
-      image: 'https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=800&h=600&fit=crop',
+      image: ashesImg,
       tags: ['Combat Design', 'Archetype Owner', 'PVP/PVX', 'Systems Design'],
       color: 'from-purple-500 to-pink-500',
       role: 'Senior Game Designer III',
@@ -18,7 +24,7 @@ const Projects = () => {
       title: 'Ashes of Creation: Apocalypse',
       category: 'Battle Royale / Arena',
       description: 'Designed, implemented, and balanced dozens of unique weapons, armor, and combat items with thousands of spawners. Combat and economy design.',
-      image: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&h=600&fit=crop',
+      image: apocalypseImg,
       tags: ['Combat Design', 'Economy', 'Itemization', 'Balance'],
       color: 'from-blue-500 to-cyan-500',
       role: 'Game Designer',
@@ -29,7 +35,7 @@ const Projects = () => {
       title: 'EverQuest II: Tears of Veeshan',
       category: 'MMORPG Expansion',
       description: 'System design responsibilities including PVP balance, itemization, tradeskills, PVE class balance, and encounter design.',
-      image: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800&h=600&fit=crop',
+      image: veeshanImg,
       tags: ['Systems Design', 'PVP Balance', 'Itemization', 'Tradeskills'],
       color: 'from-green-500 to-emerald-500',
       role: 'Associate Game Designer',
@@ -40,7 +46,7 @@ const Projects = () => {
       title: 'EverQuest II: Chains of Eternity',
       category: 'MMORPG Expansion',
       description: 'Responsible for PVP balance, itemization, tradeskills, PVE class balance, and encounter design for major expansion.',
-      image: 'https://images.unsplash.com/photo-1614732414444-096e5f1122d5?w=800&h=600&fit=crop',
+      image: chainsImg,
       tags: ['Class Balance', 'Encounter Design', 'Economy', 'PVP'],
       color: 'from-orange-500 to-red-500',
       role: 'Associate Game Designer',
@@ -51,7 +57,7 @@ const Projects = () => {
       title: 'EverQuest II: Age of Discovery',
       category: 'MMORPG Expansion',
       description: 'System design for PVP balance, itemization, tradeskills, and PVE class balance across multiple content updates.',
-      image: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&h=600&fit=crop',
+      image: discoveryImg,
       tags: ['Systems Design', 'Tradeskills', 'Class Balance', 'Content'],
       color: 'from-indigo-500 to-purple-500',
       role: 'Associate Game Designer',
@@ -62,7 +68,7 @@ const Projects = () => {
       title: 'EverQuest II: Destiny of Velious',
       category: 'MMORPG Expansion',
       description: 'Provided systems design assistance including itemization, class balance, and tradeskills for major expansion release.',
-      image: 'https://images.unsplash.com/photo-1622979135225-d2ba269cf1ac?w=800&h=600&fit=crop',
+      image: veliousImg,
       tags: ['Itemization', 'Class Balance', 'Tradeskills', 'Systems'],
       color: 'from-cyan-500 to-blue-500',
       role: 'Apprentice Game Designer',
@@ -105,12 +111,20 @@ const Projects = () => {
               
               <div className="relative bg-slate-900/80 backdrop-blur-sm border border-primary-500/20 rounded-2xl overflow-hidden">
                 <div className="relative h-48 overflow-hidden">
+                  {/* Animated gradient background */}
+                  <div className={`absolute inset-0 bg-gradient-to-br ${project.color} opacity-20 animate-pulse`} />
+                  <div className={`absolute inset-0 bg-gradient-to-tl ${project.color} opacity-10 group-hover:opacity-30 transition-opacity duration-500`} />
+                  
+                  {/* Animated orbs */}
+                  <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${project.color} rounded-full blur-3xl opacity-40 group-hover:opacity-60 transition-opacity duration-500`} />
+                  <div className={`absolute bottom-0 left-0 w-40 h-40 bg-gradient-to-tr ${project.color} rounded-full blur-3xl opacity-30 group-hover:opacity-50 transition-opacity duration-500`} />
+                  
                   <img
                     src={project.image}
                     alt={project.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    className="relative z-10 w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-500 drop-shadow-2xl"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent" />
                   <div className="absolute top-4 right-4 flex gap-2">
                     <motion.button
                       whileHover={{ scale: 1.1 }}
