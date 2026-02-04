@@ -3,8 +3,18 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    color-scheme: dark;
+  }
+  
   body {
     @apply bg-slate-950 text-white;
+  }
+  
+  /* Prevent dark mode extensions from modifying the page */
+  html[data-darkreader-mode],
+  html[data-darkreader-scheme] {
+    color-scheme: dark !important;
   }
 }
 
