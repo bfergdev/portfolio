@@ -178,6 +178,19 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
     const clickX = e.clientX - centerX
     const clickY = e.clientY - centerY
 
+    console.log('Click Debug:', {
+      clientX: e.clientX,
+      clientY: e.clientY,
+      rectLeft: rect.left,
+      rectTop: rect.top,
+      rectWidth: rect.width,
+      rectHeight: rect.height,
+      centerX,
+      centerY,
+      clickX,
+      clickY
+    })
+
     setProjectiles(prev => [...prev, {
       id: Date.now(),
       x: clickX,
