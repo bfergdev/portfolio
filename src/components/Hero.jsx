@@ -128,7 +128,7 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
 
   // Update particles
   useEffect(() => {
-    if (particles.length === 0) return
+    if (particles.length === 0 || !invaderMode) return
 
     const interval = setInterval(() => {
       setParticles(prev => prev.map(p => ({
@@ -140,7 +140,7 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
     }, 30)
 
     return () => clearInterval(interval)
-  }, [particles.length])
+  }, [particles.length, invaderMode])
 
   const createExplosion = (x, y, color) => {
     // Create more particles with varied sizes and speeds
