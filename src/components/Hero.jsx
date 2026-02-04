@@ -9,6 +9,7 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
   const [projectiles, setProjectiles] = useState([])
   const [particles, setParticles] = useState([])
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 })
+  const [explodingGamepads, setExplodingGamepads] = useState(new Set())
   const heroRef = useRef(null)
 
   const scrollToProjects = () => {
@@ -100,7 +101,17 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
               if (distance < 40) {
                 projectilesToRemove.add(pIndex)
                 gamepadsToRemove.add(gIndex)
+                // Mark gamepad as exploding
+                setExplodingGamepads(prev => new Set([...prev, gamepad.id]))
                 createExplosion(gamepad.x, gamepad.y, gamepad.color)
+                // Remove gamepad after explosion animation
+                setTimeout(() => {
+                  setExplodingGamepads(prev => {
+                    const next = new Set(prev)
+                    next.delete(gamepad.id)
+                    return next
+                  })
+                }, 300)
               }
             })
           })
@@ -135,15 +146,37 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
   }, [particles.length])
 
   const createExplosion = (x, y, color) => {
-    const newParticles = Array.from({ length: 20 }, (_, i) => ({
-      id: Date.now() + i,
+    // Create more particles with varied sizes and speeds
+    const newParticles = Array.from({ length: 40 }, (_, i) => {
+      const angle = (Math.PI * 2 * i) / 40
+      const speed = 3 + Math.random() * 8
+      const size = 2 + Math.random() * 4
+      return {
+        id: Date.now() + i,
+        x,
+        y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        color,
+        opacity: 1,
+        size,
+        rotation: Math.random() * 360
+      }
+    })
+    
+    // Add a bright flash particle at the center
+    newParticles.push({
+      id: Date.now() + 1000,
       x,
       y,
-      vx: (Math.random() - 0.5) * 10,
-      vy: (Math.random() - 0.5) * 10,
-      color,
-      opacity: 1
-    }))
+      vx: 0,
+      vy: 0,
+      color: 'bg-white',
+      opacity: 1,
+      size: 20,
+      rotation: 0
+    })
+    
     setParticles(prev => [...prev, ...newParticles])
   }
 
@@ -251,22 +284,26 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
               key={gamepad.id}
               initial={gamepad.isNew ? { scale: 0, opacity: 0, rotate: -180 } : { scale: 0 }}
               animate={{ 
-                scale: 1,
-                opacity: 1,
-                rotate: 0,
+                scale: explodingGamepads.has(gamepad.id) ? [1, 1.5, 0] : 1,
+                opacity: explodingGamepads.has(gamepad.id) ? [1, 1, 0] : 1,
+                rotate: explodingGamepads.has(gamepad.id) ? [0, 180, 360] : 0,
                 x: gamepad.x,
                 y: gamepad.y
               }}
-              transition={gamepad.isNew ? { 
+              transition={explodingGamepads.has(gamepad.id) ? {
+                duration: 0.3,
+                ease: 'easeOut'
+              } : gamepad.isNew ? { 
                 type: 'spring',
-                stiffness: 300,
+                stiffness: 200,
                 damping: 15,
                 duration: 0.5
               } : { 
-                scale: { delay: 0.2, type: 'spring', stiffness: 200 }
+                type: 'spring',
+                stiffness: 200
               }}
               drag={!invaderMode}
-              dragConstraints={{ left: -400, right: 400, top: -400, bottom: 400 }}
+              dragConstraints={{ left: -300, right: 300, top: -300, bottom: 300 }}
               dragElastic={0.2}
               dragTransition={{ bounceStiffness: 300, bounceDamping: 20 }}
               onDragEnd={!invaderMode ? (e, info) => {
@@ -324,8 +361,13 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
                   opacity: particle.opacity
                 }}
                 exit={{ opacity: 0 }}
-                className={`absolute w-2 h-2 ${particle.color} rounded-full`}
-                style={{ zIndex: 99 }}
+                className={`absolute rounded-full ${particle.color}`}
+                style={{ 
+                  zIndex: 99,
+                  width: `${particle.size}px`,
+                  height: `${particle.size}px`,
+                  transform: `rotate(${particle.rotation}deg)`
+                }}
               />
             ))}
           </AnimatePresence>
