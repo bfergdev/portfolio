@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { Menu, X } from 'lucide-react'
+import { Menu, X, Gamepad2 } from 'lucide-react'
 import { useState } from 'react'
 
 const Navigation = ({ activeSection }) => {
@@ -32,10 +32,11 @@ const Navigation = ({ activeSection }) => {
           <div className="flex items-center justify-between h-16">
             <motion.div
               whileHover={{ scale: 1.05 }}
-              className="text-2xl font-bold text-gradient cursor-pointer"
+              className="flex items-center gap-2 cursor-pointer"
               onClick={() => scrollToSection('home')}
             >
-              BF
+              <Gamepad2 className="w-8 h-8 text-primary-400" />
+              <span className="text-xl font-bold text-gradient hidden sm:block">Game Designer</span>
             </motion.div>
 
             <div className="hidden md:flex space-x-8">
