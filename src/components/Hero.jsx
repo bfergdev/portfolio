@@ -8,6 +8,7 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
   const [direction, setDirection] = useState(1)
   const [projectiles, setProjectiles] = useState([])
   const [particles, setParticles] = useState([])
+  const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 })
   const heroRef = useRef(null)
 
   const scrollToProjects = () => {
@@ -138,19 +139,27 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
     setParticles(prev => [...prev, ...newParticles])
   }
 
-  const handleHeroClick = (e) => {
+  const handleMouseMove = (e) => {
     if (!invaderMode) return
     
     const rect = heroRef.current?.getBoundingClientRect()
     if (!rect) return
 
-    const clickX = e.clientX - rect.left - rect.width / 2
-    const clickY = e.clientY - rect.top - rect.height / 2
+    const mouseX = e.clientX - rect.left - rect.width / 2
+    const mouseY = e.clientY - rect.top - rect.height / 2
+    
+    setCursorPos({ x: mouseX, y: mouseY })
+  }
+
+  const handleHeroClick = (e) => {
+    if (!invaderMode) return
+    
+    e.stopPropagation()
 
     setProjectiles(prev => [...prev, {
       id: Date.now(),
-      x: clickX,
-      y: clickY
+      x: cursorPos.x,
+      y: cursorPos.y
     }])
   }
 
@@ -205,7 +214,8 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
       ref={heroRef}
       className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8"
       onClick={handleHeroClick}
-      style={{ cursor: invaderMode ? 'crosshair' : 'default' }}
+      onMouseMove={handleMouseMove}
+      style={{ cursor: invaderMode ? 'none' : 'default' }}
     >
       <div className="max-w-7xl mx-auto text-center">
         <motion.div
@@ -255,6 +265,21 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
               </div>
             </motion.div>
           ))}
+
+          {/* Custom Cursor Ship */}
+          {invaderMode && (
+            <motion.div
+              animate={{ x: cursorPos.x, y: cursorPos.y }}
+              transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+              className="absolute pointer-events-none"
+              style={{ zIndex: 200 }}
+            >
+              <div className="relative">
+                <div className="w-0 h-0 border-l-[15px] border-l-transparent border-r-[15px] border-r-transparent border-b-[30px] border-b-primary-400" />
+                <div className="absolute top-1 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-b-[24px] border-b-accent-400" />
+              </div>
+            </motion.div>
+          )}
 
           {/* Projectiles */}
           <AnimatePresence>
