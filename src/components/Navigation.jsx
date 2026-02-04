@@ -65,7 +65,7 @@ const Navigation = ({ activeSection, onResetGamepads }) => {
                     onClick={() => scrollToSection('home')}
                   >
                     <span className="text-xl font-bold text-gradient">Brian Ferguson</span>
-                    <span className="text-lg text-white hidden sm:inline">- Senior Game Designer III</span>
+                    <span className="text-lg text-white hidden sm:inline">- Principal Game Designer</span>
                   </motion.div>
                 )}
               </AnimatePresence>
