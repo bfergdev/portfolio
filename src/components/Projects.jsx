@@ -26,7 +26,7 @@ const Projects = () => {
       category: 'Battle Royale / Arena',
       description: 'Designed, implemented, and balanced dozens of unique weapons, armor, and combat items with thousands of spawners. Combat and economy design.',
       image: apocalypseImg,
-      link: 'https://ashesofcreation.wiki/Ashes_of_Creation_Apocalypse',
+      link: 'https://ashesofcreation.com/',
       tags: ['Combat Design', 'Economy', 'Itemization', 'Balance'],
       color: 'from-blue-500 to-cyan-500',
       role: 'Game Designer',
