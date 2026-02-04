@@ -217,7 +217,7 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
       className={`relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 ${invaderMode ? 'select-none' : ''}`}
       onClick={handleHeroClick}
       onMouseMove={handleMouseMove}
-      style={{ cursor: invaderMode ? 'none' : 'default' }}
+      style={{ cursor: invaderMode ? 'crosshair' : 'default' }}
     >
       <div className="max-w-7xl mx-auto text-center">
         <motion.div
@@ -267,21 +267,6 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
               </div>
             </motion.div>
           ))}
-
-          {/* Custom Cursor Ship */}
-          {invaderMode && (
-            <motion.div
-              animate={{ x: cursorPos.x, y: cursorPos.y }}
-              transition={{ type: 'spring', stiffness: 500, damping: 30 }}
-              className="absolute pointer-events-none transform -translate-x-1/2 -translate-y-1/2"
-              style={{ zIndex: 200 }}
-            >
-              <div className="relative flex items-center justify-center">
-                <div className="w-0 h-0 border-l-[15px] border-l-transparent border-r-[15px] border-r-transparent border-b-[30px] border-b-primary-400" />
-                <div className="absolute top-1 w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-b-[24px] border-b-accent-400" />
-              </div>
-            </motion.div>
-          )}
 
           {/* Projectiles */}
           <AnimatePresence>
