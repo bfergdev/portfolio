@@ -271,12 +271,12 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
             <motion.div
               animate={{ x: cursorPos.x, y: cursorPos.y }}
               transition={{ type: 'spring', stiffness: 500, damping: 30 }}
-              className="absolute pointer-events-none"
+              className="absolute pointer-events-none transform -translate-x-1/2 -translate-y-1/2"
               style={{ zIndex: 200 }}
             >
-              <div className="relative">
+              <div className="relative flex items-center justify-center">
                 <div className="w-0 h-0 border-l-[15px] border-l-transparent border-r-[15px] border-r-transparent border-b-[30px] border-b-primary-400" />
-                <div className="absolute top-1 left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-b-[24px] border-b-accent-400" />
+                <div className="absolute top-1 w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-b-[24px] border-b-accent-400" />
               </div>
             </motion.div>
           )}
