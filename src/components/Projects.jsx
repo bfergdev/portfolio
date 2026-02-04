@@ -1,5 +1,6 @@
-import { motion } from 'framer-motion'
-import { ExternalLink } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { ExternalLink, Flame } from 'lucide-react'
+import { useState } from 'react'
 import ashesImg from '../../images/ashes.png'
 import apocalypseImg from '../../images/apocalypse.png'
 import veeshanImg from '../../images/veeshan.png'
@@ -8,6 +9,8 @@ import discoveryImg from '../../images/discovery.png'
 import veliousImg from '../../images/velious.png'
 
 const Projects = () => {
+  const [burningAshes, setBurningAshes] = useState(false)
+  const [ashesDestroyed, setAshesDestroyed] = useState(false)
   const projects = [
     {
       title: 'Ashes of Creation',
@@ -103,7 +106,11 @@ const Projects = () => {
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project, index) => (
+          {projects.map((project, index) => {
+            const isAshesCard = project.title === 'Ashes of Creation'
+            if (isAshesCard && ashesDestroyed) return null
+            
+            return (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 20 }}
@@ -111,8 +118,60 @@ const Projects = () => {
               viewport={{ once: true }}
               transition={{ delay: index * 0.1, duration: 0.6 }}
               whileHover={{ y: -10 }}
-              className="group relative"
+              onClick={() => {
+                if (isAshesCard && !burningAshes) {
+                  setBurningAshes(true)
+                  setTimeout(() => setAshesDestroyed(true), 2000)
+                }
+              }}
+              className={`group relative ${isAshesCard && !burningAshes ? 'cursor-pointer' : ''}`}
             >
+              {/* Fire effect overlay for Ashes of Creation */}
+              <AnimatePresence>
+                {isAshesCard && burningAshes && (
+                  <>
+                    {/* Multiple flame particles */}
+                    {[...Array(12)].map((_, i) => (
+                      <motion.div
+                        key={i}
+                        initial={{ opacity: 0, y: 0, x: 0, scale: 0 }}
+                        animate={{
+                          opacity: [0, 1, 1, 0],
+                          y: [-20, -60, -100, -140],
+                          x: [(i - 6) * 10, (i - 6) * 15, (i - 6) * 20],
+                          scale: [0.5, 1.2, 1, 0.5],
+                        }}
+                        transition={{
+                          duration: 1.5,
+                          delay: i * 0.1,
+                          repeat: 2,
+                        }}
+                        className="absolute inset-0 pointer-events-none z-30"
+                        style={{
+                          left: `${(i / 12) * 100}%`,
+                          bottom: 0,
+                        }}
+                      >
+                        <Flame className="w-8 h-8 text-orange-500" fill="currentColor" />
+                      </motion.div>
+                    ))}
+                    {/* Burn overlay */}
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: [0, 0.3, 0.6, 1] }}
+                      transition={{ duration: 2 }}
+                      className="absolute inset-0 bg-gradient-to-t from-orange-600 via-red-500 to-yellow-400 mix-blend-multiply z-20 rounded-2xl"
+                    />
+                    {/* Disintegration effect */}
+                    <motion.div
+                      initial={{ opacity: 1 }}
+                      animate={{ opacity: 0, scale: 0.8 }}
+                      transition={{ duration: 2, delay: 0.5 }}
+                      className="absolute inset-0 z-10"
+                    />
+                  </>
+                )}
+              </AnimatePresence>
               <div className={`absolute inset-0 bg-gradient-to-r ${project.color} rounded-2xl blur-xl opacity-0 group-hover:opacity-30 transition-opacity`} />
               
               <div className="relative bg-slate-900/80 backdrop-blur-sm border border-primary-500/20 rounded-2xl overflow-hidden">
@@ -170,7 +229,8 @@ const Projects = () => {
                 </div>
               </div>
             </motion.div>
-          ))}
+            )
+          })}
         </div>
       </div>
     </div>
