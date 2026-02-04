@@ -1,9 +1,20 @@
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, Gamepad2 } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 const Navigation = ({ activeSection }) => {
   const [isOpen, setIsOpen] = useState(false)
+  const [showName, setShowName] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Show name when scrolled past 400px (approximately past the hero name)
+      setShowName(window.scrollY > 400)
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   const navItems = [
     { id: 'home', label: 'Home' },
@@ -37,6 +48,24 @@ const Navigation = ({ activeSection }) => {
             >
               <Gamepad2 className="w-8 h-8 text-primary-400" />
             </motion.div>
+
+            {/* Centered name that appears on scroll */}
+            <div className="absolute left-1/2 transform -translate-x-1/2">
+              <AnimatePresence>
+                {showName && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.3, ease: "easeOut" }}
+                    className="text-xl font-bold text-gradient cursor-pointer"
+                    onClick={() => scrollToSection('home')}
+                  >
+                    Brian Ferguson
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
 
             <div className="hidden md:flex space-x-8">
               {navItems.map((item) => (
