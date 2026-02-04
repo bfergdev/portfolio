@@ -131,16 +131,16 @@ const Projects = () => {
                     className="relative z-10 w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-500 drop-shadow-2xl"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent" />
-                  <div className="absolute top-4 right-4 flex gap-2">
+                  <div className="absolute top-4 right-4 flex gap-2 z-20">
                     <motion.a
                       href={project.link}
                       target="_blank"
                       rel="noopener noreferrer"
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
-                      className="p-2 bg-slate-900/80 backdrop-blur-sm rounded-lg hover:bg-primary-500/50 transition-colors"
+                      className="p-2 bg-slate-900/80 backdrop-blur-sm rounded-lg hover:bg-primary-500/50 transition-colors cursor-pointer"
                     >
-                      <ExternalLink size={20} />
+                      <ExternalLink size={20} className="pointer-events-none" />
                     </motion.a>
                   </div>
                 </div>
