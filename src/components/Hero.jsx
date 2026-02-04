@@ -64,11 +64,12 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
     return () => clearInterval(interval)
   }, [invaderMode, direction, formationOffset])
 
-  // Update projectiles
+  // Update projectiles and check collisions
   useEffect(() => {
-    if (!invaderMode || projectiles.length === 0) return
+    if (!invaderMode) return
 
     const interval = setInterval(() => {
+      // Update projectile positions
       setProjectiles(prev => {
         const updated = prev.map(p => ({ ...p, y: p.y - 10 }))
         return updated.filter(p => p.y > -400)
@@ -76,36 +77,37 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
 
       // Check collisions
       setProjectiles(prevProjectiles => {
-        const remaining = [...prevProjectiles]
-        const toRemove = []
-
-        prevProjectiles.forEach((projectile, pIndex) => {
-          setGamepads(prevGamepads => {
-            let hit = false
-            const survivingGamepads = prevGamepads.filter(gp => {
+        const projectilesToRemove = new Set()
+        
+        setGamepads(prevGamepads => {
+          const gamepadsToRemove = new Set()
+          
+          prevProjectiles.forEach((projectile, pIndex) => {
+            prevGamepads.forEach((gamepad, gIndex) => {
+              if (projectilesToRemove.has(pIndex) || gamepadsToRemove.has(gIndex)) return
+              
               const distance = Math.sqrt(
-                Math.pow(projectile.x - gp.x, 2) + 
-                Math.pow(projectile.y - gp.y, 2)
+                Math.pow(projectile.x - gamepad.x, 2) + 
+                Math.pow(projectile.y - gamepad.y, 2)
               )
+              
               if (distance < 40) {
-                hit = true
-                toRemove.push(pIndex)
-                // Create explosion particles
-                createExplosion(gp.x, gp.y, gp.color)
-                return false
+                projectilesToRemove.add(pIndex)
+                gamepadsToRemove.add(gIndex)
+                createExplosion(gamepad.x, gamepad.y, gamepad.color)
               }
-              return true
             })
-            return hit ? survivingGamepads : prevGamepads
           })
+          
+          return prevGamepads.filter((_, i) => !gamepadsToRemove.has(i))
         })
-
-        return remaining.filter((_, i) => !toRemove.includes(i))
+        
+        return prevProjectiles.filter((_, i) => !projectilesToRemove.has(i))
       })
     }, 30)
 
     return () => clearInterval(interval)
-  }, [invaderMode, projectiles.length])
+  }, [invaderMode])
 
   // Update particles
   useEffect(() => {
