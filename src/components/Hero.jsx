@@ -143,6 +143,7 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
   }, [particles.length])
 
   const createExplosion = (x, y, color) => {
+    console.log('Explosion at:', { x, y, color })
     // Create more particles with varied sizes and speeds
     const newParticles = Array.from({ length: 40 }, (_, i) => {
       const angle = (Math.PI * 2 * i) / 40
