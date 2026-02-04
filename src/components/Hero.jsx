@@ -355,6 +355,11 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
             {particles.map(particle => (
               <motion.div
                 key={particle.id}
+                initial={{
+                  x: particle.x,
+                  y: particle.y,
+                  opacity: particle.opacity
+                }}
                 animate={{ 
                   x: particle.x, 
                   y: particle.y,
@@ -363,6 +368,8 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
                 exit={{ opacity: 0 }}
                 className={`absolute rounded-full ${particle.color}`}
                 style={{ 
+                  left: '50%',
+                  top: '50%',
                   zIndex: 99,
                   width: `${particle.size}px`,
                   height: `${particle.size}px`,
