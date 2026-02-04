@@ -40,7 +40,7 @@ const About = () => {
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
             Combat & Systems Designer with a decade of experience shaping AAA MMORPGs.
-            Former Principal Game Designer at Intrepid Studios (Ashes of Creation) and 
+            Former Senior Game Designer at Intrepid Studios (Ashes of Creation) and 
             Associate Game Designer at Sony Online Entertainment (EverQuest II franchise).
           </p>
         </motion.div>
