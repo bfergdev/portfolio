@@ -161,10 +161,16 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
     
     e.stopPropagation()
 
+    const rect = heroRef.current?.getBoundingClientRect()
+    if (!rect) return
+
+    const clickX = e.clientX - rect.left - rect.width / 2
+    const clickY = e.clientY - rect.top - rect.height / 2
+
     setProjectiles(prev => [...prev, {
       id: Date.now(),
-      x: cursorPos.x,
-      y: cursorPos.y
+      x: clickX,
+      y: clickY
     }])
   }
 
@@ -279,8 +285,11 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
                 initial={{ opacity: 1 }}
                 animate={{ x: projectile.x, y: projectile.y }}
                 exit={{ opacity: 0 }}
-                className="absolute w-2 h-8 bg-gradient-to-t from-accent-400 to-primary-400 rounded-full"
-                style={{ zIndex: 100 }}
+                className="absolute w-2 h-8 bg-gradient-to-t from-green-400 to-green-300 rounded-full"
+                style={{ 
+                  zIndex: 100,
+                  boxShadow: '0 0 10px #4ade80, 0 0 20px #4ade80, 0 0 30px #22c55e'
+                }}
               />
             ))}
           </AnimatePresence>
