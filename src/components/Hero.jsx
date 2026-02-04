@@ -39,7 +39,7 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
       setProjectiles([])
       setParticles([])
       // Respawn default gamepad above the text
-      setGamepads([{ id: 0, x: 0, y: -300, color: 'text-primary-400' }])
+      setGamepads([{ id: 0, x: 0, y: -200, color: 'text-primary-400' }])
     }
   }, [gamepads.length, invaderMode])
 
