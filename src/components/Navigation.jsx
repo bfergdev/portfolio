@@ -32,11 +32,10 @@ const Navigation = ({ activeSection }) => {
           <div className="flex items-center justify-between h-16">
             <motion.div
               whileHover={{ scale: 1.05 }}
-              className="flex items-center gap-2 cursor-pointer"
+              className="cursor-pointer"
               onClick={() => scrollToSection('home')}
             >
               <Gamepad2 className="w-8 h-8 text-primary-400" />
-              <span className="text-xl font-bold text-gradient hidden sm:block">Game Designer</span>
             </motion.div>
 
             <div className="hidden md:flex space-x-8">
