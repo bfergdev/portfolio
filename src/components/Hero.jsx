@@ -395,7 +395,7 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
           >
             <span className="block text-white mb-2">Brian Ferguson</span>
             <span className="block text-gradient glow-text leading-tight pb-2">
-              Senior Game Designer III
+              Principal Game Designer
             </span>
           </motion.h1>
 

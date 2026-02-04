@@ -17,7 +17,7 @@ const Projects = () => {
       link: 'https://ashesofcreation.com/',
       tags: ['Combat Design', 'Archetype Owner', 'PVP/PVX', 'Systems Design'],
       color: 'from-purple-500 to-pink-500',
-      role: 'Senior Game Designer III',
+      role: 'Senior Game Designer',
       company: 'Intrepid Studios',
       years: '2020 - 2025',
     },
