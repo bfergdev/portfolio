@@ -22,7 +22,13 @@ const Hero = () => {
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
-            className="inline-block"
+            drag
+            dragConstraints={{ left: -200, right: 200, top: -200, bottom: 200 }}
+            dragElastic={0.2}
+            dragTransition={{ bounceStiffness: 300, bounceDamping: 20 }}
+            whileHover={{ scale: 1.1, rotate: 5 }}
+            whileDrag={{ scale: 1.2, rotate: 10, cursor: 'grabbing' }}
+            className="inline-block cursor-grab"
           >
             <div className="relative">
               <Gamepad2 className="w-20 h-20 text-primary-400 animate-float" />
