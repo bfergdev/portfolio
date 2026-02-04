@@ -234,8 +234,6 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
   return (
     <div 
       className={`relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 ${invaderMode ? 'select-none' : ''}`}
-      onClick={handleHeroClick}
-      onMouseMove={handleMouseMove}
       style={{ cursor: invaderMode ? 'crosshair' : 'default' }}
     >
       <div className="max-w-7xl mx-auto text-center">
@@ -245,6 +243,8 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="space-y-8"
+          onClick={handleHeroClick}
+          onMouseMove={handleMouseMove}
         >
           {gamepads.map((gamepad) => (
             <motion.div
