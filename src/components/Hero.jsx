@@ -131,15 +131,12 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
     if (particles.length === 0) return
 
     const interval = setInterval(() => {
-      setParticles(prev => {
-        const updated = prev.map(p => ({
-          ...p,
-          x: p.x + p.vx,
-          y: p.y + p.vy,
-          opacity: p.opacity - 0.02
-        }))
-        return updated.filter(p => p.opacity > 0)
-      })
+      setParticles(prev => prev.map(p => ({
+        ...p,
+        x: p.x + p.vx,
+        y: p.y + p.vy,
+        opacity: p.opacity - 0.02
+      })).filter(p => p.opacity > 0))
     }, 30)
 
     return () => clearInterval(interval)
@@ -171,9 +168,9 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
       y,
       vx: 0,
       vy: 0,
-      color: 'bg-white',
+      color: color,
       opacity: 1,
-      size: 20,
+      size: 15,
       rotation: 0
     })
     
@@ -366,14 +363,25 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
                   opacity: particle.opacity
                 }}
                 exit={{ opacity: 0 }}
-                className={`absolute rounded-full ${particle.color}`}
+                className={`absolute rounded-full`}
                 style={{ 
                   left: '50%',
                   top: '50%',
                   zIndex: 99,
                   width: `${particle.size}px`,
                   height: `${particle.size}px`,
-                  transform: `rotate(${particle.rotation}deg)`
+                  transform: `rotate(${particle.rotation}deg)`,
+                  backgroundColor: particle.color === 'text-primary-400' ? '#60a5fa' :
+                                   particle.color === 'text-accent-400' ? '#22d3ee' :
+                                   particle.color === 'text-green-400' ? '#4ade80' :
+                                   particle.color === 'text-yellow-400' ? '#facc15' :
+                                   particle.color === 'text-pink-400' ? '#f472b6' :
+                                   particle.color === 'text-purple-400' ? '#c084fc' :
+                                   particle.color === 'text-orange-400' ? '#fb923c' :
+                                   particle.color === 'text-red-400' ? '#f87171' :
+                                   particle.color === 'text-cyan-400' ? '#22d3ee' :
+                                   particle.color === 'text-blue-400' ? '#60a5fa' : '#ffffff',
+                  boxShadow: `0 0 ${particle.size}px currentColor, 0 0 ${particle.size * 2}px currentColor`
                 }}
               />
             ))}
