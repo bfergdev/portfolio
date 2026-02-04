@@ -128,9 +128,9 @@ const Projects = () => {
                   <img
                     src={project.image}
                     alt={project.title}
-                    className="relative z-10 w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-500 drop-shadow-2xl"
+                    className="relative z-10 w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-500 drop-shadow-2xl pointer-events-none"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent pointer-events-none" />
                   <div className="absolute top-4 right-4 flex gap-2 z-20">
                     <motion.a
                       href={project.link}
