@@ -416,15 +416,16 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
     <div 
       className={`relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 ${invaderMode ? 'select-none cursor-rocket' : ''}`}
     >
-      <div className="max-w-7xl mx-auto text-center">
+      {/* Fixed game overlay when invader mode is active */}
+      {invaderMode && (
         <motion.div
           ref={heroRef}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="space-y-8"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="fixed inset-0 z-50 flex items-center justify-center"
           onClick={handleHeroClick}
           onMouseMove={handleMouseMove}
+          style={{ pointerEvents: 'auto' }}
         >
           {gamepads.map((gamepad) => (
             <motion.div
@@ -449,20 +450,7 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
                 type: 'spring',
                 stiffness: 200
               }}
-              drag={!invaderMode}
-              dragConstraints={{ left: -300, right: 300, top: -300, bottom: 300 }}
-              dragElastic={0.2}
-              dragTransition={{ bounceStiffness: 300, bounceDamping: 20 }}
-              onDragEnd={!invaderMode ? (e, info) => {
-                setGamepads(prev => prev.map(gp => 
-                  gp.id === gamepad.id ? { ...gp, x: gp.x + info.offset.x, y: gp.y + info.offset.y } : gp
-                ))
-              } : undefined}
-              whileHover={!invaderMode ? { scale: 1.1, rotate: 5 } : {}}
-              whileDrag={!invaderMode ? { scale: 1.2, rotate: 10, cursor: 'grabbing' } : {}}
-              onTap={!invaderMode ? () => handleGamepadClick(gamepad.id) : undefined}
-              onDoubleClick={!invaderMode ? () => handleGamepadDoubleClick(gamepad) : undefined}
-              className={`inline-block absolute ${!invaderMode ? 'cursor-grab' : 'pointer-events-none'}`}
+              className="inline-block absolute pointer-events-none"
               style={{ zIndex: 10 + gamepad.id }}
             >
               <div className="relative">
@@ -530,6 +518,64 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
               />
             ))}
           </AnimatePresence>
+        </motion.div>
+      )}
+
+      <div className="max-w-7xl mx-auto text-center">
+        <motion.div
+          ref={!invaderMode ? heroRef : null}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="space-y-8"
+          onClick={!invaderMode ? handleHeroClick : undefined}
+          onMouseMove={!invaderMode ? handleMouseMove : undefined}
+        >
+          {!invaderMode && gamepads.map((gamepad) => (
+            <motion.div
+              key={gamepad.id}
+              initial={gamepad.isNew ? { scale: 0, opacity: 0, rotate: -180 } : { scale: 0 }}
+              animate={{ 
+                scale: explodingGamepads.has(gamepad.id) ? [1, 1.5, 0] : 1,
+                opacity: explodingGamepads.has(gamepad.id) ? [1, 1, 0] : 1,
+                rotate: explodingGamepads.has(gamepad.id) ? [0, 180, 360] : 0,
+                x: gamepad.x,
+                y: gamepad.y
+              }}
+              transition={explodingGamepads.has(gamepad.id) ? {
+                duration: 0.3,
+                ease: 'easeOut'
+              } : gamepad.isNew ? { 
+                type: 'spring',
+                stiffness: 200,
+                damping: 15,
+                duration: 0.5
+              } : { 
+                type: 'spring',
+                stiffness: 200
+              }}
+              drag={true}
+              dragConstraints={{ left: -300, right: 300, top: -300, bottom: 300 }}
+              dragElastic={0.2}
+              dragTransition={{ bounceStiffness: 300, bounceDamping: 20 }}
+              onDragEnd={(e, info) => {
+                setGamepads(prev => prev.map(gp => 
+                  gp.id === gamepad.id ? { ...gp, x: gp.x + info.offset.x, y: gp.y + info.offset.y } : gp
+                ))
+              }}
+              whileHover={{ scale: 1.1, rotate: 5 }}
+              whileDrag={{ scale: 1.2, rotate: 10, cursor: 'grabbing' }}
+              onTap={() => handleGamepadClick(gamepad.id)}
+              onDoubleClick={() => handleGamepadDoubleClick(gamepad)}
+              className="inline-block absolute cursor-grab"
+              style={{ zIndex: 10 + gamepad.id }}
+            >
+              <div className="relative">
+                <Gamepad2 className={`w-20 h-20 ${gamepad.color} animate-float`} />
+                <Sparkles className="w-8 h-8 text-accent-400 absolute -top-2 -right-2 animate-pulse" />
+              </div>
+            </motion.div>
+          ))}
 
           {/* Floating Number */}
           {floatingNumber && !showScoreboard && (
