@@ -177,6 +177,70 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
     return () => clearInterval(interval)
   }, [particles.length, invaderMode])
 
+  // Update floating number physics
+  useEffect(() => {
+    if (!floatingNumber || isCountingDown || showScoreboard) return
+
+    const interval = setInterval(() => {
+      setFloatingNumber(prev => {
+        if (!prev) return null
+
+        let newX = prev.x + prev.vx
+        let newY = prev.y + prev.vy
+        let newVx = prev.vx
+        let newVy = prev.vy
+
+        // Boundary collision (bounce off edges)
+        const boundary = 400
+        if (Math.abs(newX) > boundary) {
+          newVx = -newVx
+          newX = newX > 0 ? boundary : -boundary
+        }
+        if (Math.abs(newY) > boundary) {
+          newVy = -newVy
+          newY = newY > 0 ? boundary : -boundary
+        }
+
+        // Controller collision detection
+        gamepads.forEach(gamepad => {
+          const dx = newX - gamepad.x
+          const dy = newY - gamepad.y
+          const distance = Math.sqrt(dx * dx + dy * dy)
+          const minDistance = 60 // Number size + controller size
+
+          if (distance < minDistance) {
+            // Calculate bounce direction
+            const angle = Math.atan2(dy, dx)
+            const speed = Math.sqrt(newVx * newVx + newVy * newVy)
+            
+            // Reflect velocity
+            newVx = Math.cos(angle) * speed * 1.2
+            newVy = Math.sin(angle) * speed * 1.2
+            
+            // Push number away from controller
+            const overlap = minDistance - distance
+            newX += Math.cos(angle) * overlap
+            newY += Math.sin(angle) * overlap
+          }
+        })
+
+        // Add slight damping to prevent infinite bouncing
+        newVx *= 0.99
+        newVy *= 0.99
+
+        return {
+          ...prev,
+          x: newX,
+          y: newY,
+          vx: newVx,
+          vy: newVy
+        }
+      })
+    }, 30)
+
+    return () => clearInterval(interval)
+  }, [floatingNumber, isCountingDown, showScoreboard, gamepads])
+
   const createExplosion = (x, y, color) => {
     // Create more particles with varied sizes and speeds
     const newParticles = Array.from({ length: 40 }, (_, i) => {
