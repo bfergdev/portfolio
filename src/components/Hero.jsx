@@ -162,16 +162,23 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
       // Check collisions first before updating positions
       setProjectiles(prevProjectiles => {
         setGamepads(prevGamepads => {
+          // Early exit if no projectiles or gamepads
+          if (prevProjectiles.length === 0 || prevGamepads.length === 0) {
+            return prevGamepads
+          }
+          
           prevProjectiles.forEach((projectile, pIndex) => {
+            if (projectilesToRemove.has(pIndex)) return // Skip already marked projectiles
+            
             prevGamepads.forEach((gamepad, gIndex) => {
               if (projectilesToRemove.has(pIndex) || gamepadsToRemove.has(gIndex)) return
               
-              const distance = Math.sqrt(
-                Math.pow(projectile.x - gamepad.x, 2) + 
-                Math.pow(projectile.y - gamepad.y, 2)
-              )
+              // Optimized distance check - avoid sqrt when possible
+              const dx = projectile.x - gamepad.x
+              const dy = projectile.y - gamepad.y
+              const distanceSquared = dx * dx + dy * dy
               
-              if (distance < 40) {
+              if (distanceSquared < 1600) { // 40 * 40 = 1600
                 projectilesToRemove.add(pIndex)
                 gamepadsToRemove.add(gIndex)
                 // Mark gamepad as exploding
@@ -214,7 +221,7 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
         ...p,
         x: p.x + p.vx,
         y: p.y + p.vy,
-        opacity: p.opacity - 0.02
+        opacity: p.opacity - 0.03
       })).filter(p => p.opacity > 0))
     }, 30)
 
@@ -286,9 +293,9 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
   }, [floatingNumber, isCountingDown, showScoreboard, gamepads])
 
   const createExplosion = (x, y, color) => {
-    // Create more particles with varied sizes and speeds
-    const newParticles = Array.from({ length: 40 }, (_, i) => {
-      const angle = (Math.PI * 2 * i) / 40
+    // Create particles with varied sizes and speeds (reduced from 40 to 20 for performance)
+    const newParticles = Array.from({ length: 20 }, (_, i) => {
+      const angle = (Math.PI * 2 * i) / 20
       const speed = 3 + Math.random() * 8
       const size = 2 + Math.random() * 4
       return {
@@ -448,7 +455,10 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
                 stiffness: 200
               }}
               className="inline-block absolute pointer-events-none"
-              style={{ zIndex: 10 + gamepad.id }}
+              style={{ 
+                zIndex: 10 + gamepad.id,
+                willChange: 'transform, opacity'
+              }}
             >
               <div className="relative">
                 <Gamepad2 className={`w-20 h-20 ${gamepad.color} animate-float`} />
@@ -476,7 +486,8 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
                   left: '50%',
                   top: '50%',
                   zIndex: 100,
-                  boxShadow: '0 0 8px #4ade80, 0 0 15px #4ade80, 0 0 20px #22c55e'
+                  boxShadow: '0 0 8px #4ade80, 0 0 15px #4ade80, 0 0 20px #22c55e',
+                  willChange: 'transform'
                 }}
               />
             ))}
@@ -510,7 +521,8 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
                                    particle.color === 'text-red-400' ? '#f87171' :
                                    particle.color === 'text-cyan-400' ? '#22d3ee' :
                                    particle.color === 'text-blue-400' ? '#60a5fa' : '#ffffff',
-                  boxShadow: `0 0 ${particle.size}px currentColor, 0 0 ${particle.size * 2}px currentColor`
+                  boxShadow: `0 0 ${particle.size}px currentColor, 0 0 ${particle.size * 2}px currentColor`,
+                  willChange: 'transform, opacity'
                 }}
               />
             ))}
