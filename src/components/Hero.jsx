@@ -832,12 +832,29 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset, onAddToLeader
                   <input
                     ref={mobileInputRef}
                     type="text"
-                    maxLength="1"
+                    inputMode="text"
+                    autoCapitalize="characters"
+                    autoComplete="off"
+                    autoCorrect="off"
+                    spellCheck="false"
+                    value=""
                     className="md:hidden fixed opacity-0 pointer-events-none"
                     style={{ position: 'absolute', left: '-9999px' }}
+                    onChange={(e) => {
+                      const value = e.target.value.toUpperCase()
+                      if (value && /^[A-Z]$/.test(value) && currentInitialIndex < 3) {
+                        setPlayerInitials(prev => {
+                          const newInitials = [...prev]
+                          newInitials[currentInitialIndex] = value
+                          return newInitials
+                        })
+                        setCurrentInitialIndex(prev => prev + 1)
+                        e.target.value = ''
+                      }
+                    }}
                     onKeyDown={(e) => {
-                      const key = e.key.toUpperCase()
-                      if (key === 'ENTER' && currentInitialIndex === 3) {
+                      if (e.key === 'Enter' && currentInitialIndex === 3) {
+                        e.preventDefault()
                         // Save to leaderboard
                         if (onAddToLeaderboard) {
                           onAddToLeaderboard({
@@ -862,7 +879,7 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset, onAddToLeader
                         setCurrentInitialIndex(0)
                         setIsCountingDown(false)
                         setLevelComplete(false)
-                      } else if (key === 'BACKSPACE' && currentInitialIndex > 0) {
+                      } else if (e.key === 'Backspace' && currentInitialIndex > 0) {
                         e.preventDefault()
                         setCurrentInitialIndex(prev => prev - 1)
                         setPlayerInitials(prev => {
@@ -870,16 +887,6 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset, onAddToLeader
                           newInitials[currentInitialIndex - 1] = '_'
                           return newInitials
                         })
-                        if (mobileInputRef.current) mobileInputRef.current.value = ''
-                      } else if (/^[A-Z]$/.test(key) && currentInitialIndex < 3) {
-                        e.preventDefault()
-                        setPlayerInitials(prev => {
-                          const newInitials = [...prev]
-                          newInitials[currentInitialIndex] = key
-                          return newInitials
-                        })
-                        setCurrentInitialIndex(prev => prev + 1)
-                        if (mobileInputRef.current) mobileInputRef.current.value = ''
                       }
                     }}
                   />
