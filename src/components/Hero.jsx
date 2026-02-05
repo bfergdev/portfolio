@@ -640,7 +640,7 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
-                className="fixed top-[4.5rem] md:top-24 right-0 text-xl md:text-2xl font-bold text-accent-400 pointer-events-none"
+                className="fixed top-[4.05rem] md:top-24 right-0 text-xl md:text-2xl font-bold text-accent-400 pointer-events-none"
                 style={{ zIndex: 9999 }}
               >
                 Lv {currentLevel}
