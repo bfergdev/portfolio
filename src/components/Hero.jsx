@@ -10,6 +10,10 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
   const [particles, setParticles] = useState([])
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 })
   const [explodingGamepads, setExplodingGamepads] = useState(new Set())
+  const [floatingNumber, setFloatingNumber] = useState(null)
+  const [isCountingDown, setIsCountingDown] = useState(false)
+  const [score, setScore] = useState(0)
+  const [showScoreboard, setShowScoreboard] = useState(false)
   const heroRef = useRef(null)
 
   const scrollToProjects = () => {
@@ -21,28 +25,57 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
 
   // Activate invader mode when 10+ gamepads
   useEffect(() => {
-    if (gamepads.length >= 10 && !invaderMode) {
-      setInvaderMode(true)
-      // Arrange gamepads in formation
-      const cols = 5
-      const arrangedGamepads = gamepads.map((gp, index) => ({
-        ...gp,
-        formationX: (index % cols) * 80 - 160,
-        formationY: Math.floor(index / cols) * 60 - 200,
-        x: (index % cols) * 80 - 160,
-        y: Math.floor(index / cols) * 60 - 200
-      }))
-      setGamepads(arrangedGamepads)
+    if (gamepads.length >= 10 && !invaderMode && !isCountingDown) {
+      // Start countdown from 10 to 0
+      setIsCountingDown(true)
+      setFloatingNumber({
+        value: 10,
+        x: 0,
+        y: 0,
+        vx: 0,
+        vy: 0
+      })
+      
+      // Countdown animation
+      let count = 10
+      const countdownInterval = setInterval(() => {
+        count--
+        if (count > 0) {
+          setFloatingNumber(prev => ({ ...prev, value: count }))
+        } else {
+          clearInterval(countdownInterval)
+          setIsCountingDown(false)
+          setFloatingNumber(null)
+          setShowScoreboard(true)
+          setScore(0)
+          setInvaderMode(true)
+          
+          // Arrange gamepads in formation
+          const cols = 5
+          const arrangedGamepads = gamepads.map((gp, index) => ({
+            ...gp,
+            formationX: (index % cols) * 80 - 160,
+            formationY: Math.floor(index / cols) * 60 - 200,
+            x: (index % cols) * 80 - 160,
+            y: Math.floor(index / cols) * 60 - 200
+          }))
+          setGamepads(arrangedGamepads)
+        }
+      }, 500) // 0.5 seconds per number
+      
+      return () => clearInterval(countdownInterval)
     } else if (gamepads.length === 0 && invaderMode) {
       // Only exit invader mode when ALL gamepads are destroyed
       setInvaderMode(false)
+      setShowScoreboard(false)
+      setFloatingNumber(null)
       // Clear all projectiles and particles
       setProjectiles([])
       setParticles([])
       // Respawn default gamepad above the text
       setGamepads([{ id: 0, x: 0, y: -200, color: 'text-primary-400' }])
     }
-  }, [gamepads.length, invaderMode])
+  }, [gamepads.length, invaderMode, isCountingDown])
 
   // Formation movement animation
   useEffect(() => {
@@ -104,6 +137,8 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
                 // Mark gamepad as exploding
                 setExplodingGamepads(prev => new Set([...prev, gamepad.id]))
                 createExplosion(gamepad.x, gamepad.y, gamepad.color)
+                // Increment score
+                setScore(prev => prev + 1)
                 // Remove gamepad after explosion animation
                 setTimeout(() => {
                   setExplodingGamepads(prev => {
@@ -252,7 +287,22 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
       { id: nextId + 1, x: gamepad.x + 50, y: gamepad.y + 50, color: newColor2, isNew: true }
     ]
     
-    setGamepads(prev => [...prev.filter(gp => gp.id !== gamepad.id), ...newGamepads])
+    setGamepads(prev => {
+      const newCount = prev.length + 1 // +1 because we're removing 1 and adding 2
+      
+      // Spawn or update floating number (starts at 2 for first clone)
+      if (newCount >= 2 && newCount < 10) {
+        setFloatingNumber({
+          value: newCount,
+          x: (Math.random() - 0.5) * 400,
+          y: (Math.random() - 0.5) * 300,
+          vx: (Math.random() - 0.5) * 2,
+          vy: (Math.random() - 0.5) * 2
+        })
+      }
+      
+      return [...prev.filter(gp => gp.id !== gamepad.id), ...newGamepads]
+    })
     setNextId(prev => prev + 2)
     
     // Remove isNew flag after animation
@@ -379,6 +429,34 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
               />
             ))}
           </AnimatePresence>
+
+          {/* Floating Number */}
+          {floatingNumber && !showScoreboard && (
+            <motion.div
+              animate={{
+                x: floatingNumber.x,
+                y: floatingNumber.y,
+                scale: isCountingDown ? [1, 1.5, 1] : 1
+              }}
+              transition={isCountingDown ? { duration: 0.5, repeat: Infinity } : { duration: 0 }}
+              className="inline-block absolute text-8xl font-bold text-gradient pointer-events-none"
+              style={{ zIndex: 101 }}
+            >
+              {floatingNumber.value}
+            </motion.div>
+          )}
+
+          {/* Scoreboard */}
+          {showScoreboard && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="fixed top-8 right-8 text-6xl font-bold text-gradient pointer-events-none"
+              style={{ zIndex: 101 }}
+            >
+              {score}
+            </motion.div>
+          )}
 
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
