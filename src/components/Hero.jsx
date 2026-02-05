@@ -56,7 +56,7 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
       const countdownInterval = setInterval(() => {
         count--
         if (count > 0) {
-          setFloatingNumber(prev => ({ ...prev, value: count }))
+          setFloatingNumber(prev => prev ? { ...prev, value: count } : null)
         } else {
           clearInterval(countdownInterval)
           setIsCountingDown(false)
@@ -67,18 +67,15 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
           
           // Arrange gamepads in formation
           const cols = 5
-          const arrangedGamepads = gamepads.map((gp, index) => ({
+          setGamepads(prev => prev.map((gp, index) => ({
             ...gp,
             formationX: (index % cols) * 80 - 160,
             formationY: Math.floor(index / cols) * 60 - 200,
             x: (index % cols) * 80 - 160,
             y: Math.floor(index / cols) * 60 - 200
-          }))
-          setGamepads(arrangedGamepads)
+          })))
         }
       }, 500) // 0.5 seconds per number
-      
-      return () => clearInterval(countdownInterval)
     } else if (gamepads.length === 0 && invaderMode) {
       // Level complete! All invaders destroyed
       setLevelComplete(true)
@@ -380,6 +377,9 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
   }
 
   const handleGamepadDoubleClick = (gamepad) => {
+    // Disable cloning during countdown or invader mode
+    if (isCountingDown || invaderMode) return
+    
     const newColor1 = getRandomColor(gamepad.color)
     const newColor2 = getRandomColor(gamepad.color)
     
