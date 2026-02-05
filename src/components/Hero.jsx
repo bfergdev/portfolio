@@ -215,7 +215,7 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
         return prevProjectiles
           .filter((_, i) => !projectilesToRemove.has(i))
           .map(p => ({ ...p, y: p.y - 10 }))
-          .filter(p => p.y > -400)
+          .filter(p => p.y > -1200)
       })
     }, 30)
 
@@ -488,9 +488,8 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
                   y: projectile.y
                 }}
                 animate={{ 
-                  y: projectile.y - 400
+                  y: projectile.y - 1200
                 }}
-                exit={{ opacity: 0 }}
                 className="absolute w-1 h-4 bg-gradient-to-t from-green-400 to-green-300 rounded-full"
                 style={{ 
                   left: '50%',
