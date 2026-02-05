@@ -792,8 +792,8 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset }) => {
                   transition={{ delay: 0.3 }}
                   className="space-y-4"
                 >
-                  <div className="text-2xl md:text-4xl font-bold text-yellow-400" style={{ fontFamily: 'monospace' }}>
-                    SCORE: {finalScore.toLocaleString()}
+                  <div className="text-4xl md:text-8xl font-bold text-yellow-400" style={{ fontFamily: 'monospace' }}>
+                    {finalScore.toLocaleString()}
                   </div>
                   <div className="text-xl md:text-3xl font-bold text-green-400" style={{ fontFamily: 'monospace' }}>
                     KILLS: {score}
