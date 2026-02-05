@@ -161,7 +161,7 @@ const Contact = () => {
           transition={{ delay: 0.4, duration: 0.6 }}
           className="mt-16 text-center text-gray-500"
         >
-          <p>© 2026 Brian Ferguson. Principal Game Designer. Built with React, Vite & TailwindCSS.</p>
+          <p>© 2026 Brian Ferguson. Built with React, Vite & TailwindCSS.</p>
         </motion.div>
       </div>
     </div>
