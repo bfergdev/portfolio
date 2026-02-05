@@ -70,9 +70,9 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
           setGamepads(prev => prev.map((gp, index) => ({
             ...gp,
             formationX: (index % cols) * 80 - 160,
-            formationY: Math.floor(index / cols) * 60 - 200,
+            formationY: Math.floor(index / cols) * 60 - 150,
             x: (index % cols) * 80 - 160,
-            y: Math.floor(index / cols) * 60 - 200
+            y: Math.floor(index / cols) * 60 - 150
           })))
         }
       }, 500) // 0.5 seconds per number
@@ -101,10 +101,10 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
             const nextLevelGamepads = Array.from({ length: 10 + currentLevel * 2 }, (_, i) => ({
               id: i,
               x: (i % 5) * 80 - 160,
-              y: Math.floor(i / 5) * 60 - 200,
+              y: Math.floor(i / 5) * 60 - 150,
               color: colors[i % colors.length],
               formationX: (i % 5) * 80 - 160,
-              formationY: Math.floor(i / 5) * 60 - 200
+              formationY: Math.floor(i / 5) * 60 - 150
             }))
             
             setGamepads(nextLevelGamepads)
@@ -117,7 +117,7 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
           setFloatingNumber(null)
           setProjectiles([])
           setParticles([])
-          setGamepads([{ id: 0, x: 0, y: -200, color: 'text-primary-400' }])
+          setGamepads([{ id: 0, x: 0, y: -100, color: 'text-primary-400' }])
           setCurrentLevel(1)
         }
       }, 1500) // 1.5 second victory pause
@@ -156,19 +156,12 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
     if (!invaderMode) return
 
     const interval = setInterval(() => {
-      // Update projectile positions
-      setProjectiles(prev => {
-        const updated = prev.map(p => ({ ...p, y: p.y - 10 }))
-        return updated.filter(p => p.y > -400)
-      })
-
-      // Check collisions
+      const projectilesToRemove = new Set()
+      const gamepadsToRemove = new Set()
+      
+      // Check collisions first before updating positions
       setProjectiles(prevProjectiles => {
-        const projectilesToRemove = new Set()
-        
         setGamepads(prevGamepads => {
-          const gamepadsToRemove = new Set()
-          
           prevProjectiles.forEach((projectile, pIndex) => {
             prevGamepads.forEach((gamepad, gIndex) => {
               if (projectilesToRemove.has(pIndex) || gamepadsToRemove.has(gIndex)) return
@@ -201,7 +194,11 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
           return prevGamepads.filter((_, i) => !gamepadsToRemove.has(i))
         })
         
-        return prevProjectiles.filter((_, i) => !projectilesToRemove.has(i))
+        // Update positions and remove hit projectiles in one operation
+        return prevProjectiles
+          .filter((_, i) => !projectilesToRemove.has(i))
+          .map(p => ({ ...p, y: p.y - 10 }))
+          .filter(p => p.y > -400)
       })
     }, 30)
 
