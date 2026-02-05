@@ -461,8 +461,8 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
               }}
             >
               <div className="relative">
-                <Gamepad2 className={`w-20 h-20 ${gamepad.color} animate-float`} />
-                <Sparkles className="w-8 h-8 text-accent-400 absolute -top-2 -right-2 animate-pulse" />
+                <Gamepad2 className={`w-10 h-10 md:w-20 md:h-20 ${gamepad.color} animate-float`} />
+                <Sparkles className="w-4 h-4 md:w-8 md:h-8 text-accent-400 absolute -top-1 -right-1 md:-top-2 md:-right-2 animate-pulse" />
               </div>
             </motion.div>
           ))}
@@ -580,8 +580,8 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
               style={{ zIndex: 10 + gamepad.id }}
             >
               <div className="relative">
-                <Gamepad2 className={`w-20 h-20 ${gamepad.color} animate-float`} />
-                <Sparkles className="w-8 h-8 text-accent-400 absolute -top-2 -right-2 animate-pulse" />
+                <Gamepad2 className={`w-10 h-10 md:w-20 md:h-20 ${gamepad.color} animate-float`} />
+                <Sparkles className="w-4 h-4 md:w-8 md:h-8 text-accent-400 absolute -top-1 -right-1 md:-top-2 md:-right-2 animate-pulse" />
               </div>
             </motion.div>
           ))}
@@ -611,7 +611,7 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
               <motion.div
                 initial={{ opacity: 0, scale: 0 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="fixed top-16 right-8 text-6xl font-bold text-green-400 pointer-events-none"
+                className="fixed top-16 right-8 text-3xl md:text-6xl font-bold text-green-400 pointer-events-none"
                 style={{ 
                   zIndex: 9999,
                   textShadow: '0 0 10px #4ade80, 0 0 20px #4ade80, 0 0 30px #22c55e'
@@ -622,7 +622,7 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
-                className="fixed top-28 right-8 text-2xl font-bold text-accent-400 pointer-events-none"
+                className="fixed top-28 right-8 text-xl md:text-2xl font-bold text-accent-400 pointer-events-none"
                 style={{ zIndex: 9999 }}
               >
                 Level {currentLevel}
