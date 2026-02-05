@@ -165,6 +165,7 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
     const interval = setInterval(() => {
       const projectilesToRemove = new Set()
       const gamepadsToRemove = new Set()
+      const projectileKillCounts = new Map() // Track kills per projectile
       
       // Check collisions first before updating positions
       setProjectiles(prevProjectiles => {
@@ -178,7 +179,7 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
             if (projectilesToRemove.has(pIndex)) return // Skip already marked projectiles
             
             prevGamepads.forEach((gamepad, gIndex) => {
-              if (projectilesToRemove.has(pIndex) || gamepadsToRemove.has(gIndex)) return
+              if (gamepadsToRemove.has(gIndex)) return
               
               // Optimized distance check - avoid sqrt when possible
               const dx = projectile.x - gamepad.x
@@ -188,11 +189,11 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
               if (distanceSquared < 1600) { // 40 * 40 = 1600
                 projectilesToRemove.add(pIndex)
                 gamepadsToRemove.add(gIndex)
+                // Track kills for this projectile
+                projectileKillCounts.set(pIndex, (projectileKillCounts.get(pIndex) || 0) + 1)
                 // Mark gamepad as exploding
                 setExplodingGamepads(prev => new Set([...prev, gamepad.id]))
                 createExplosion(gamepad.x, gamepad.y, gamepad.color)
-                // Increment score
-                setScore(prev => prev + 1)
                 // Remove gamepad after explosion animation
                 setTimeout(() => {
                   setExplodingGamepads(prev => {
@@ -203,6 +204,18 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
                 }, 100)
               }
             })
+          })
+          
+          // Award points based on multi-kills
+          projectileKillCounts.forEach((killCount) => {
+            if (killCount > 1) {
+              // Multi-kill: 1.5 points per kill, rounded up
+              const points = Math.ceil(killCount * 1.5)
+              setScore(prev => prev + points)
+            } else {
+              // Single kill: 1 point
+              setScore(prev => prev + 1)
+            }
           })
           
           return prevGamepads.filter((_, i) => !gamepadsToRemove.has(i))
@@ -483,8 +496,8 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
               }}
             >
               <div className="relative">
-                <div className={`w-10 h-10 md:w-20 md:h-20 rounded-lg ${gamepad.color.replace('text-', 'bg-')} opacity-50 absolute inset-0`} />
-                <Gamepad2 className={`w-10 h-10 md:w-20 md:h-20 ${gamepad.color} animate-float relative z-10`} />
+                <div className={`w-10 h-10 md:w-20 md:h-20 rounded-lg ${gamepad.color.replace('text-', 'bg-')} opacity-30 absolute inset-0`} />
+                <Gamepad2 className={`w-10 h-10 md:w-20 md:h-20 ${gamepad.color} animate-float relative z-10`} fill="currentColor" fillOpacity="0.3" />
                 <Sparkles className="w-4 h-4 md:w-8 md:h-8 text-accent-400 absolute -top-1 -right-1 md:-top-2 md:-right-2 animate-pulse z-20" />
               </div>
             </motion.div>
@@ -602,8 +615,8 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
               style={{ zIndex: 10 + gamepad.id }}
             >
               <div className="relative">
-                <div className={`w-10 h-10 md:w-20 md:h-20 rounded-lg ${gamepad.color.replace('text-', 'bg-')} opacity-50 absolute inset-0`} />
-                <Gamepad2 className={`w-10 h-10 md:w-20 md:h-20 ${gamepad.color} animate-float relative z-10`} />
+                <div className={`w-10 h-10 md:w-20 md:h-20 rounded-lg ${gamepad.color.replace('text-', 'bg-')} opacity-30 absolute inset-0`} />
+                <Gamepad2 className={`w-10 h-10 md:w-20 md:h-20 ${gamepad.color} animate-float relative z-10`} fill="currentColor" fillOpacity="0.3" />
                 <Sparkles className="w-4 h-4 md:w-8 md:h-8 text-accent-400 absolute -top-1 -right-1 md:-top-2 md:-right-2 animate-pulse z-20" />
               </div>
             </motion.div>
