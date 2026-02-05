@@ -652,7 +652,7 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold overflow-visible"
+            className="text-[2.7rem] sm:text-6xl md:text-7xl lg:text-8xl font-bold overflow-visible"
           >
             <span className="block text-white mb-2">Brian Ferguson</span>
           </motion.h1>
