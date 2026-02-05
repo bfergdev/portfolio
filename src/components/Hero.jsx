@@ -56,7 +56,17 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
       const countdownInterval = setInterval(() => {
         count--
         if (count > 0) {
-          setFloatingNumber(prev => prev ? { ...prev, value: count } : null)
+          setFloatingNumber(prev => {
+            if (!prev) return null
+            // Increase velocity as count gets lower (faster movement)
+            const speedMultiplier = 1 + (10 - count) * 0.1
+            return { 
+              ...prev, 
+              value: count,
+              vx: prev.vx * speedMultiplier,
+              vy: prev.vy * speedMultiplier
+            }
+          })
         } else {
           clearInterval(countdownInterval)
           setIsCountingDown(false)
@@ -69,10 +79,10 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
           const cols = 5
           setGamepads(prev => prev.map((gp, index) => ({
             ...gp,
-            formationX: (index % cols) * 80 - 160,
-            formationY: Math.floor(index / cols) * 60 - 150,
-            x: (index % cols) * 80 - 160,
-            y: Math.floor(index / cols) * 60 - 150
+            formationX: (index % cols) * (window.innerWidth >= 768 ? 80 : 40) - (window.innerWidth >= 768 ? 160 : 80),
+            formationY: Math.floor(index / cols) * (window.innerWidth >= 768 ? 60 : 30) - (window.innerWidth >= 768 ? 150 : 75),
+            x: (index % cols) * (window.innerWidth >= 768 ? 80 : 40) - (window.innerWidth >= 768 ? 160 : 80),
+            y: Math.floor(index / cols) * (window.innerWidth >= 768 ? 60 : 30) - (window.innerWidth >= 768 ? 150 : 75)
           })))
         }
       }, 500) // 0.5 seconds per number
@@ -101,10 +111,10 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
             const nextLevelGamepads = Array.from({ length: 10 + currentLevel * 2 }, (_, i) => ({
               id: i,
               x: (i % 5) * 80 - 160,
-              y: Math.floor(i / 5) * 60 - 150,
+              y: Math.floor(i / 5) * (window.innerWidth >= 768 ? 60 : 30) - (window.innerWidth >= 768 ? 150 : 75),
               color: colors[i % colors.length],
-              formationX: (i % 5) * 80 - 160,
-              formationY: Math.floor(i / 5) * 60 - 150
+              formationX: (i % 5) * (window.innerWidth >= 768 ? 80 : 40) - (window.innerWidth >= 768 ? 160 : 80),
+              formationY: Math.floor(i / 5) * (window.innerWidth >= 768 ? 60 : 30) - (window.innerWidth >= 768 ? 150 : 75)
             }))
             
             setGamepads(nextLevelGamepads)
@@ -594,8 +604,16 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
                 y: floatingNumber.y,
                 scale: isCountingDown ? [1, 1.5, 1] : 1
               }}
-              transition={isCountingDown ? { duration: 0.5, repeat: Infinity } : { duration: 0 }}
-              className="inline-block absolute text-8xl font-bold text-green-400 pointer-events-none"
+              transition={isCountingDown ? { 
+                scale: { duration: 0.5, repeat: Infinity },
+                x: { type: 'spring', stiffness: 100, damping: 10 },
+                y: { type: 'spring', stiffness: 100, damping: 10 }
+              } : { 
+                type: 'spring', 
+                stiffness: 100, 
+                damping: 10 
+              }}
+              className="inline-block absolute text-4xl md:text-8xl font-bold text-green-400 pointer-events-none"
               style={{ 
                 zIndex: 101,
                 textShadow: '0 0 10px #4ade80, 0 0 20px #4ade80, 0 0 30px #22c55e'
@@ -611,7 +629,7 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
               <motion.div
                 initial={{ opacity: 0, scale: 0 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="fixed top-16 right-8 text-3xl md:text-6xl font-bold text-green-400 pointer-events-none"
+                className="fixed top-16 right-0 text-3xl md:text-6xl font-bold text-green-400 pointer-events-none"
                 style={{ 
                   zIndex: 9999,
                   textShadow: '0 0 10px #4ade80, 0 0 20px #4ade80, 0 0 30px #22c55e'
@@ -622,7 +640,7 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
-                className="fixed top-28 right-8 text-xl md:text-2xl font-bold text-accent-400 pointer-events-none"
+                className="fixed top-24 right-0 text-xl md:text-2xl font-bold text-accent-400 pointer-events-none"
                 style={{ zIndex: 9999 }}
               >
                 Level {currentLevel}
