@@ -586,8 +586,11 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
                 scale: isCountingDown ? [1, 1.5, 1] : 1
               }}
               transition={isCountingDown ? { duration: 0.5, repeat: Infinity } : { duration: 0 }}
-              className="inline-block absolute text-8xl font-bold text-gradient pointer-events-none"
-              style={{ zIndex: 101 }}
+              className="inline-block absolute text-8xl font-bold text-green-400 pointer-events-none"
+              style={{ 
+                zIndex: 101,
+                textShadow: '0 0 10px #4ade80, 0 0 20px #4ade80, 0 0 30px #22c55e'
+              }}
             >
               {floatingNumber.value}
             </motion.div>
