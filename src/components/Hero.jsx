@@ -467,8 +467,9 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
               }}
             >
               <div className="relative">
-                <Gamepad2 className={`w-10 h-10 md:w-20 md:h-20 ${gamepad.color} animate-float`} />
-                <Sparkles className="w-4 h-4 md:w-8 md:h-8 text-accent-400 absolute -top-1 -right-1 md:-top-2 md:-right-2 animate-pulse" />
+                <div className={`w-10 h-10 md:w-20 md:h-20 rounded-lg ${gamepad.color.replace('text-', 'bg-')} opacity-50 absolute inset-0`} />
+                <Gamepad2 className={`w-10 h-10 md:w-20 md:h-20 ${gamepad.color} animate-float relative z-10`} />
+                <Sparkles className="w-4 h-4 md:w-8 md:h-8 text-accent-400 absolute -top-1 -right-1 md:-top-2 md:-right-2 animate-pulse z-20" />
               </div>
             </motion.div>
           ))}
