@@ -11,12 +11,12 @@ import ParticleBackground from './components/ParticleBackground'
 function App() {
   const [activeSection, setActiveSection] = useState('home')
   const [gamepads, setGamepads] = useState([
-    { id: 0, x: 0, y: -100, color: 'text-primary-400' }
+    { id: 0, x: 0, y: 50, color: 'text-primary-400' }
   ])
   const [nextId, setNextId] = useState(1)
 
   const resetGamepads = () => {
-    setGamepads([{ id: 0, x: 0, y: -100, color: 'text-primary-400' }])
+    setGamepads([{ id: 0, x: 0, y: 50, color: 'text-primary-400' }])
     setNextId(1)
   }
 

@@ -117,7 +117,7 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
           setFloatingNumber(null)
           setProjectiles([])
           setParticles([])
-          setGamepads([{ id: 0, x: 0, y: -100, color: 'text-primary-400' }])
+          setGamepads([{ id: 0, x: 0, y: 50, color: 'text-primary-400' }])
           setCurrentLevel(1)
         }
       }, 1500) // 1.5 second victory pause
