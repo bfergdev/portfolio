@@ -17,7 +17,51 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
   const [currentLevel, setCurrentLevel] = useState(1)
   const [levelComplete, setLevelComplete] = useState(false)
   const [elapsedTime, setElapsedTime] = useState(0)
+  const [gameOver, setGameOver] = useState(false)
+  const [playerInitials, setPlayerInitials] = useState(['_', '_', '_'])
+  const [currentInitialIndex, setCurrentInitialIndex] = useState(0)
   const heroRef = useRef(null)
+
+  // Handle initial entry for game over screen
+  useEffect(() => {
+    if (!gameOver) return
+
+    const handleKeyPress = (e) => {
+      const key = e.key.toUpperCase()
+      
+      if (key === 'ENTER' && currentInitialIndex === 3) {
+        // Reset game
+        setGameOver(false)
+        setInvaderMode(false)
+        setShowScoreboard(false)
+        setFloatingNumber(null)
+        setProjectiles([])
+        setParticles([])
+        setGamepads([{ id: 0, x: 0, y: window.innerWidth >= 768 ? -80 : 50, color: 'text-primary-400' }])
+        setCurrentLevel(1)
+        setScore(0)
+        setPlayerInitials(['_', '_', '_'])
+        setCurrentInitialIndex(0)
+      } else if (key === 'BACKSPACE' && currentInitialIndex > 0) {
+        setCurrentInitialIndex(prev => prev - 1)
+        setPlayerInitials(prev => {
+          const newInitials = [...prev]
+          newInitials[currentInitialIndex - 1] = '_'
+          return newInitials
+        })
+      } else if (/^[A-Z]$/.test(key) && currentInitialIndex < 3) {
+        setPlayerInitials(prev => {
+          const newInitials = [...prev]
+          newInitials[currentInitialIndex] = key
+          return newInitials
+        })
+        setCurrentInitialIndex(prev => prev + 1)
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyPress)
+    return () => window.removeEventListener('keydown', handleKeyPress)
+  }, [gameOver, currentInitialIndex])
 
   const colors = [
     'text-primary-400',
@@ -119,13 +163,7 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
           }, 2000) // 2 second delay before starting next level
         } else {
           // Game complete!
-          setInvaderMode(false)
-          setShowScoreboard(false)
-          setFloatingNumber(null)
-          setProjectiles([])
-          setParticles([])
-          setGamepads([{ id: 0, x: 0, y: window.innerWidth >= 768 ? -80 : 50, color: 'text-primary-400' }])
-          setCurrentLevel(1)
+          setGameOver(true)
         }
       }, 1500) // 1.5 second victory pause
     }
