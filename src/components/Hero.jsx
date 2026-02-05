@@ -453,7 +453,7 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
                 y: gamepad.y
               }}
               transition={explodingGamepads.has(gamepad.id) ? {
-                duration: 0.3,
+                duration: 0.15,
                 ease: 'easeOut'
               } : gamepad.isNew ? { 
                 type: 'spring',
@@ -561,7 +561,7 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
                 y: gamepad.y
               }}
               transition={explodingGamepads.has(gamepad.id) ? {
-                duration: 0.3,
+                duration: 0.15,
                 ease: 'easeOut'
               } : gamepad.isNew ? { 
                 type: 'spring',
