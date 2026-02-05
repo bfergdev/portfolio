@@ -599,8 +599,11 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
               <motion.div
                 initial={{ opacity: 0, scale: 0 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="fixed top-8 right-8 text-6xl font-bold text-gradient pointer-events-none"
-                style={{ zIndex: 101 }}
+                className="fixed top-8 right-8 text-6xl font-bold text-green-400 pointer-events-none"
+                style={{ 
+                  zIndex: 9999,
+                  textShadow: '0 0 10px #4ade80, 0 0 20px #4ade80, 0 0 30px #22c55e'
+                }}
               >
                 {score}
               </motion.div>
@@ -608,7 +611,7 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 className="fixed top-24 right-8 text-2xl font-bold text-accent-400 pointer-events-none"
-                style={{ zIndex: 101 }}
+                style={{ zIndex: 9999 }}
               >
                 Level {currentLevel}
               </motion.div>
