@@ -60,11 +60,13 @@ const Navigation = ({ activeSection, onResetGamepads, leaderboard }) => {
                   if (holdTimerRef.current) {
                     clearTimeout(holdTimerRef.current)
                   }
+                  setShowLeaderboard(false)
                 }}
                 onMouseLeave={() => {
                   if (holdTimerRef.current) {
                     clearTimeout(holdTimerRef.current)
                   }
+                  setShowLeaderboard(false)
                 }}
                 onTouchStart={() => {
                   holdTimerRef.current = setTimeout(() => {
@@ -75,6 +77,7 @@ const Navigation = ({ activeSection, onResetGamepads, leaderboard }) => {
                   if (holdTimerRef.current) {
                     clearTimeout(holdTimerRef.current)
                   }
+                  setShowLeaderboard(false)
                 }}
               >
                 <Gamepad2 className="w-8 h-8 text-primary-400" />
