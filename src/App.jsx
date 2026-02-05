@@ -68,7 +68,7 @@ function App() {
       
       <main className="relative z-10">
         <section id="home">
-          <Hero gamepads={gamepads} setGamepads={setGamepads} nextId={nextId} setNextId={setNextId} />
+          <Hero gamepads={gamepads} setGamepads={setGamepads} nextId={nextId} setNextId={setNextId} onReset={resetGamepads} />
         </section>
         
         <section id="about">

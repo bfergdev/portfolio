@@ -2,7 +2,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronDown, Gamepad2, Sparkles } from 'lucide-react'
 import { useState, useEffect, useRef } from 'react'
 
-const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
+const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset }) => {
   const [invaderMode, setInvaderMode] = useState(false)
   const [formationOffset, setFormationOffset] = useState(0)
   const [direction, setDirection] = useState(1)
@@ -23,6 +23,25 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
   const [currentInitialIndex, setCurrentInitialIndex] = useState(0)
   const heroRef = useRef(null)
 
+  // Reset game over state when gamepads are reset externally
+  useEffect(() => {
+    if (gamepads.length === 1 && gamepads[0].id === 0 && gameOver) {
+      setGameOver(false)
+      setInvaderMode(false)
+      setShowScoreboard(false)
+      setFloatingNumber(null)
+      setProjectiles([])
+      setParticles([])
+      setCurrentLevel(1)
+      setScore(0)
+      setFinalScore(0)
+      setPlayerInitials(['_', '_', '_'])
+      setCurrentInitialIndex(0)
+      setIsCountingDown(false)
+      setLevelComplete(false)
+    }
+  }, [gamepads, gameOver])
+
   // Handle initial entry for game over screen
   useEffect(() => {
     if (!gameOver) return
@@ -32,17 +51,22 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
       
       if (key === 'ENTER' && currentInitialIndex === 3) {
         // Reset game
+        if (onReset) {
+          onReset()
+        }
         setGameOver(false)
         setInvaderMode(false)
         setShowScoreboard(false)
         setFloatingNumber(null)
         setProjectiles([])
         setParticles([])
-        setGamepads([{ id: 0, x: 0, y: window.innerWidth >= 768 ? -80 : 50, color: 'text-primary-400' }])
         setCurrentLevel(1)
         setScore(0)
+        setFinalScore(0)
         setPlayerInitials(['_', '_', '_'])
         setCurrentInitialIndex(0)
+        setIsCountingDown(false)
+        setLevelComplete(false)
       } else if (key === 'BACKSPACE' && currentInitialIndex > 0) {
         setCurrentInitialIndex(prev => prev - 1)
         setPlayerInitials(prev => {
