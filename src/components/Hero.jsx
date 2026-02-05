@@ -634,7 +634,7 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold overflow-visible"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold overflow-visible"
           >
             <span className="block text-white mb-2">Brian Ferguson</span>
             <span className="block text-gradient glow-text leading-tight pb-2">
