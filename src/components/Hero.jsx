@@ -16,6 +16,7 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
   const [showScoreboard, setShowScoreboard] = useState(false)
   const [currentLevel, setCurrentLevel] = useState(1)
   const [levelComplete, setLevelComplete] = useState(false)
+  const [elapsedTime, setElapsedTime] = useState(0)
   const heroRef = useRef(null)
 
   const colors = [
@@ -233,6 +234,21 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
 
     return () => clearInterval(interval)
   }, [particles.length, invaderMode])
+
+  // Timer for game duration
+  useEffect(() => {
+    if (!invaderMode) {
+      setElapsedTime(0)
+      return
+    }
+
+    const startTime = Date.now() - (elapsedTime * 1000)
+    const interval = setInterval(() => {
+      setElapsedTime(Math.floor((Date.now() - startTime) / 1000))
+    }, 1000)
+
+    return () => clearInterval(interval)
+  }, [invaderMode])
 
   // Update floating number physics
   useEffect(() => {
@@ -651,6 +667,14 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
                 style={{ zIndex: 9999 }}
               >
                 Lv {currentLevel}
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                className="fixed top-[5.5rem] md:top-32 right-1 md:right-2 text-sm md:text-lg font-bold text-white pointer-events-none"
+                style={{ zIndex: 9999 }}
+              >
+                {Math.floor(elapsedTime / 60)}:{(elapsedTime % 60).toString().padStart(2, '0')}
               </motion.div>
             </>
           )}
