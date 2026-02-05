@@ -131,15 +131,22 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
       // Level complete! All invaders destroyed
       setLevelComplete(true)
       
-      // Wait a moment then scroll to next section
+      // Wait a moment then check if game is complete or scroll to next section
       setTimeout(() => {
-        const sections = ['about', 'projects', 'skills', 'contact']
-        const nextSection = sections[currentLevel - 1] // currentLevel is 1-based
-        
-        if (nextSection) {
-          const element = document.getElementById(nextSection)
-          if (element) {
-            element.scrollIntoView({ behavior: 'smooth' })
+        // Check if this was the final level (level 5)
+        if (currentLevel >= 5) {
+          // Game complete!
+          setGameOver(true)
+        } else {
+          // Continue to next level
+          const sections = ['about', 'projects', 'skills', 'contact']
+          const nextSection = sections[currentLevel - 1] // currentLevel is 1-based
+          
+          if (nextSection) {
+            const element = document.getElementById(nextSection)
+            if (element) {
+              element.scrollIntoView({ behavior: 'smooth' })
+            }
           }
           
           // Prepare for next level
@@ -161,9 +168,6 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
             setGamepads(nextLevelGamepads)
             setInvaderMode(true)
           }, 2000) // 2 second delay before starting next level
-        } else {
-          // Game complete!
-          setGameOver(true)
         }
       }, 1500) // 1.5 second victory pause
     }
@@ -728,6 +732,81 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
                 {Math.floor(elapsedTime / 60)}:{(elapsedTime % 60).toString().padStart(2, '0')}
               </motion.div>
             </>
+          )}
+
+          {/* Game Over Screen */}
+          {gameOver && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="fixed inset-0 z-[10000] flex items-center justify-center bg-black bg-opacity-90"
+            >
+              <div className="text-center space-y-8 px-4">
+                <motion.h1
+                  initial={{ y: -50 }}
+                  animate={{ y: 0 }}
+                  className="text-4xl md:text-6xl font-bold text-yellow-400 mb-8"
+                  style={{
+                    fontFamily: 'monospace',
+                    textShadow: '0 0 20px #fbbf24, 0 0 40px #f59e0b'
+                  }}
+                >
+                  CONGRATULATIONS!
+                </motion.h1>
+
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.3 }}
+                  className="space-y-4"
+                >
+                  <div className="text-2xl md:text-4xl font-bold text-green-400" style={{ fontFamily: 'monospace' }}>
+                    SCORE: {score}
+                  </div>
+                  <div className="text-2xl md:text-4xl font-bold text-cyan-400" style={{ fontFamily: 'monospace' }}>
+                    TIME: {Math.floor(elapsedTime / 60)}:{(elapsedTime % 60).toString().padStart(2, '0')}
+                  </div>
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.6 }}
+                  className="mt-12 space-y-4"
+                >
+                  <div className="text-xl md:text-2xl text-white" style={{ fontFamily: 'monospace' }}>
+                    ENTER YOUR INITIALS
+                  </div>
+                  <div className="flex justify-center gap-4 md:gap-8">
+                    {playerInitials.map((initial, index) => (
+                      <motion.div
+                        key={index}
+                        animate={{
+                          scale: currentInitialIndex === index ? [1, 1.2, 1] : 1,
+                          color: currentInitialIndex === index ? '#fbbf24' : '#ffffff'
+                        }}
+                        transition={{ duration: 0.5, repeat: currentInitialIndex === index ? Infinity : 0 }}
+                        className="text-5xl md:text-7xl font-bold border-b-4 border-white w-16 md:w-24 text-center"
+                        style={{ fontFamily: 'monospace' }}
+                      >
+                        {initial}
+                      </motion.div>
+                    ))}
+                  </div>
+                  {currentInitialIndex === 3 && (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: [0.5, 1, 0.5] }}
+                      transition={{ duration: 1, repeat: Infinity }}
+                      className="text-lg md:text-xl text-green-400 mt-8"
+                      style={{ fontFamily: 'monospace' }}
+                    >
+                      PRESS ENTER TO CONTINUE
+                    </motion.div>
+                  )}
+                </motion.div>
+              </div>
+            </motion.div>
           )}
 
           <motion.h1
