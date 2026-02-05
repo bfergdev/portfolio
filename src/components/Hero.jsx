@@ -14,7 +14,22 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
   const [isCountingDown, setIsCountingDown] = useState(false)
   const [score, setScore] = useState(0)
   const [showScoreboard, setShowScoreboard] = useState(false)
+  const [currentLevel, setCurrentLevel] = useState(1)
+  const [levelComplete, setLevelComplete] = useState(false)
   const heroRef = useRef(null)
+
+  const colors = [
+    'text-primary-400',
+    'text-accent-400', 
+    'text-green-400',
+    'text-yellow-400',
+    'text-pink-400',
+    'text-purple-400',
+    'text-orange-400',
+    'text-red-400',
+    'text-cyan-400',
+    'text-blue-400'
+  ]
 
   const scrollToProjects = () => {
     const element = document.getElementById('projects')
@@ -65,15 +80,50 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
       
       return () => clearInterval(countdownInterval)
     } else if (gamepads.length === 0 && invaderMode) {
-      // Only exit invader mode when ALL gamepads are destroyed
-      setInvaderMode(false)
-      setShowScoreboard(false)
-      setFloatingNumber(null)
-      // Clear all projectiles and particles
-      setProjectiles([])
-      setParticles([])
-      // Respawn default gamepad above the text
-      setGamepads([{ id: 0, x: 0, y: -200, color: 'text-primary-400' }])
+      // Level complete! All invaders destroyed
+      setLevelComplete(true)
+      
+      // Wait a moment then scroll to next section
+      setTimeout(() => {
+        const sections = ['about', 'projects', 'skills', 'contact']
+        const nextSection = sections[currentLevel - 1] // currentLevel is 1-based
+        
+        if (nextSection) {
+          const element = document.getElementById(nextSection)
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth' })
+          }
+          
+          // Prepare for next level
+          setTimeout(() => {
+            setCurrentLevel(prev => prev + 1)
+            setInvaderMode(false)
+            setLevelComplete(false)
+            
+            // Spawn new wave for next level
+            const nextLevelGamepads = Array.from({ length: 10 + currentLevel * 2 }, (_, i) => ({
+              id: i,
+              x: (i % 5) * 80 - 160,
+              y: Math.floor(i / 5) * 60 - 200,
+              color: colors[i % colors.length],
+              formationX: (i % 5) * 80 - 160,
+              formationY: Math.floor(i / 5) * 60 - 200
+            }))
+            
+            setGamepads(nextLevelGamepads)
+            setInvaderMode(true)
+          }, 2000) // 2 second delay before starting next level
+        } else {
+          // Game complete!
+          setInvaderMode(false)
+          setShowScoreboard(false)
+          setFloatingNumber(null)
+          setProjectiles([])
+          setParticles([])
+          setGamepads([{ id: 0, x: 0, y: -200, color: 'text-primary-400' }])
+          setCurrentLevel(1)
+        }
+      }, 1500) // 1.5 second victory pause
     }
   }, [gamepads.length, invaderMode, isCountingDown])
 
@@ -314,19 +364,6 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
     }])
   }
 
-  const colors = [
-    'text-primary-400',
-    'text-accent-400', 
-    'text-green-400',
-    'text-yellow-400',
-    'text-pink-400',
-    'text-purple-400',
-    'text-orange-400',
-    'text-red-400',
-    'text-cyan-400',
-    'text-blue-400'
-  ]
-
   const getRandomColor = (excludeColor) => {
     const availableColors = colors.filter(c => c !== excludeColor)
     return availableColors[Math.floor(Math.random() * availableColors.length)]
@@ -512,14 +549,24 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
 
           {/* Scoreboard */}
           {showScoreboard && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="fixed top-8 right-8 text-6xl font-bold text-gradient pointer-events-none"
-              style={{ zIndex: 101 }}
-            >
-              {score}
-            </motion.div>
+            <>
+              <motion.div
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="fixed top-8 right-8 text-6xl font-bold text-gradient pointer-events-none"
+                style={{ zIndex: 101 }}
+              >
+                {score}
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                className="fixed top-24 right-8 text-2xl font-bold text-accent-400 pointer-events-none"
+                style={{ zIndex: 101 }}
+              >
+                Level {currentLevel}
+              </motion.div>
+            </>
           )}
 
           <motion.h1
