@@ -18,6 +18,7 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
   const [levelComplete, setLevelComplete] = useState(false)
   const [elapsedTime, setElapsedTime] = useState(0)
   const [gameOver, setGameOver] = useState(false)
+  const [finalScore, setFinalScore] = useState(0)
   const [playerInitials, setPlayerInitials] = useState(['_', '_', '_'])
   const [currentInitialIndex, setCurrentInitialIndex] = useState(0)
   const heroRef = useRef(null)
@@ -135,7 +136,12 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
       setTimeout(() => {
         // Check if this was the final level (level 5)
         if (currentLevel >= 5) {
-          // Game complete!
+          // Game complete! Calculate final score
+          // Score formula: kills * 100 + time bonus (max 5000 points for fast completion)
+          // Time bonus: 5000 - (elapsedTime * 10), minimum 0
+          const timeBonus = Math.max(0, 5000 - (elapsedTime * 10))
+          const calculatedScore = (score * 100) + timeBonus
+          setFinalScore(calculatedScore)
           setGameOver(true)
         } else {
           // Continue to next level
@@ -292,8 +298,10 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
 
   // Timer for game duration
   useEffect(() => {
-    if (!invaderMode) {
-      setElapsedTime(0)
+    if (!invaderMode || gameOver) {
+      if (!invaderMode && !gameOver) {
+        setElapsedTime(0)
+      }
       return
     }
 
@@ -303,7 +311,7 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
     }, 1000)
 
     return () => clearInterval(interval)
-  }, [invaderMode])
+  }, [invaderMode, gameOver])
 
   // Update floating number physics
   useEffect(() => {
@@ -760,10 +768,13 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
                   transition={{ delay: 0.3 }}
                   className="space-y-4"
                 >
-                  <div className="text-2xl md:text-4xl font-bold text-green-400" style={{ fontFamily: 'monospace' }}>
-                    SCORE: {score}
+                  <div className="text-2xl md:text-4xl font-bold text-yellow-400" style={{ fontFamily: 'monospace' }}>
+                    SCORE: {finalScore.toLocaleString()}
                   </div>
-                  <div className="text-2xl md:text-4xl font-bold text-cyan-400" style={{ fontFamily: 'monospace' }}>
+                  <div className="text-xl md:text-3xl font-bold text-green-400" style={{ fontFamily: 'monospace' }}>
+                    KILLS: {score}
+                  </div>
+                  <div className="text-xl md:text-3xl font-bold text-cyan-400" style={{ fontFamily: 'monospace' }}>
                     TIME: {Math.floor(elapsedTime / 60)}:{(elapsedTime % 60).toString().padStart(2, '0')}
                   </div>
                 </motion.div>
