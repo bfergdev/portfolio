@@ -643,7 +643,7 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
                 className="fixed top-[4.5rem] md:top-24 right-0 text-xl md:text-2xl font-bold text-accent-400 pointer-events-none"
                 style={{ zIndex: 9999 }}
               >
-                Level {currentLevel}
+                Lv {currentLevel}
               </motion.div>
             </>
           )}
