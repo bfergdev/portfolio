@@ -203,7 +203,7 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId }) => {
                     next.delete(gamepad.id)
                     return next
                   })
-                }, 300)
+                }, 100)
               }
             })
           })
