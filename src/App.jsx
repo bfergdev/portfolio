@@ -10,15 +10,35 @@ import ParticleBackground from './components/ParticleBackground'
 
 function App() {
   const [activeSection, setActiveSection] = useState('home')
+  
+  // Responsive controller positioning: above title on desktop, below on mobile
+  const getInitialY = () => window.innerWidth >= 768 ? -80 : 50
+  
   const [gamepads, setGamepads] = useState([
-    { id: 0, x: 0, y: 50, color: 'text-primary-400' }
+    { id: 0, x: 0, y: getInitialY(), color: 'text-primary-400' }
   ])
   const [nextId, setNextId] = useState(1)
 
   const resetGamepads = () => {
-    setGamepads([{ id: 0, x: 0, y: 50, color: 'text-primary-400' }])
+    setGamepads([{ id: 0, x: 0, y: getInitialY(), color: 'text-primary-400' }])
     setNextId(1)
   }
+  
+  // Update controller position on window resize
+  useEffect(() => {
+    const handleResize = () => {
+      setGamepads(prev => {
+        // Only update if there's a single default gamepad
+        if (prev.length === 1 && prev[0].id === 0) {
+          return [{ ...prev[0], y: getInitialY() }]
+        }
+        return prev
+      })
+    }
+    
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   useEffect(() => {
     const handleScroll = () => {
