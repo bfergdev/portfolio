@@ -1,10 +1,12 @@
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Gamepad2 } from 'lucide-react'
-import { useState, useEffect } from 'react'
+import { Menu, X, Gamepad2, Trophy } from 'lucide-react'
+import { useState, useEffect, useRef } from 'react'
 
-const Navigation = ({ activeSection, onResetGamepads }) => {
+const Navigation = ({ activeSection, onResetGamepads, leaderboard }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [showName, setShowName] = useState(false)
+  const [showLeaderboard, setShowLeaderboard] = useState(false)
+  const holdTimerRef = useRef(null)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -44,10 +46,35 @@ const Navigation = ({ activeSection, onResetGamepads }) => {
             <div className="flex items-center gap-3">
               <motion.div
                 whileHover={{ scale: 1.05 }}
-                className="cursor-pointer"
+                className="cursor-pointer relative"
                 onClick={() => {
                   onResetGamepads()
                   scrollToSection('home')
+                }}
+                onMouseDown={() => {
+                  holdTimerRef.current = setTimeout(() => {
+                    setShowLeaderboard(true)
+                  }, 500)
+                }}
+                onMouseUp={() => {
+                  if (holdTimerRef.current) {
+                    clearTimeout(holdTimerRef.current)
+                  }
+                }}
+                onMouseLeave={() => {
+                  if (holdTimerRef.current) {
+                    clearTimeout(holdTimerRef.current)
+                  }
+                }}
+                onTouchStart={() => {
+                  holdTimerRef.current = setTimeout(() => {
+                    setShowLeaderboard(true)
+                  }, 500)
+                }}
+                onTouchEnd={() => {
+                  if (holdTimerRef.current) {
+                    clearTimeout(holdTimerRef.current)
+                  }
                 }}
               >
                 <Gamepad2 className="w-8 h-8 text-primary-400" />
@@ -131,6 +158,90 @@ const Navigation = ({ activeSection, onResetGamepads }) => {
           </div>
         </motion.div>
       )}
+
+      {/* Leaderboard Popup */}
+      <AnimatePresence>
+        {showLeaderboard && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[10001] flex items-center justify-center bg-black bg-opacity-80"
+            onClick={() => setShowLeaderboard(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.8, y: -50 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.8, y: -50 }}
+              className="bg-slate-900 border-2 border-yellow-400 rounded-lg p-6 md:p-8 max-w-md w-full mx-4"
+              onClick={(e) => e.stopPropagation()}
+              style={{ fontFamily: 'monospace' }}
+            >
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-3">
+                  <Trophy className="w-8 h-8 text-yellow-400" />
+                  <h2 className="text-2xl md:text-3xl font-bold text-yellow-400">LEADERBOARD</h2>
+                </div>
+                <button
+                  onClick={() => setShowLeaderboard(false)}
+                  className="text-gray-400 hover:text-white transition-colors"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
+
+              <div className="space-y-3">
+                {leaderboard && leaderboard.length > 0 ? (
+                  leaderboard.slice(0, 10).map((entry, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.05 }}
+                      className={`flex items-center justify-between p-3 rounded ${
+                        index === 0 ? 'bg-yellow-400/20 border border-yellow-400/50' :
+                        index === 1 ? 'bg-gray-400/20 border border-gray-400/50' :
+                        index === 2 ? 'bg-orange-400/20 border border-orange-400/50' :
+                        'bg-slate-800/50'
+                      }`}
+                    >
+                      <div className="flex items-center gap-4">
+                        <span className={`text-xl font-bold w-8 ${
+                          index === 0 ? 'text-yellow-400' :
+                          index === 1 ? 'text-gray-300' :
+                          index === 2 ? 'text-orange-400' :
+                          'text-gray-500'
+                        }`}>
+                          {index + 1}.
+                        </span>
+                        <span className="text-lg font-bold text-white">
+                          {entry.initials}
+                        </span>
+                      </div>
+                      <div className="text-right">
+                        <div className="text-lg font-bold text-green-400">
+                          {entry.score.toLocaleString()}
+                        </div>
+                        <div className="text-xs text-gray-400">
+                          {entry.kills} kills • {entry.time}
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))
+                ) : (
+                  <div className="text-center text-gray-400 py-8">
+                    No scores yet. Be the first!
+                  </div>
+                )}
+              </div>
+
+              <div className="mt-6 text-center text-sm text-gray-500">
+                Click & hold controller icon to view
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   )
 }

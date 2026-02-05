@@ -2,7 +2,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronDown, Gamepad2, Sparkles } from 'lucide-react'
 import { useState, useEffect, useRef } from 'react'
 
-const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset }) => {
+const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset, onAddToLeaderboard }) => {
   const [invaderMode, setInvaderMode] = useState(false)
   const [formationOffset, setFormationOffset] = useState(0)
   const [direction, setDirection] = useState(1)
@@ -22,6 +22,7 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset }) => {
   const [playerInitials, setPlayerInitials] = useState(['_', '_', '_'])
   const [currentInitialIndex, setCurrentInitialIndex] = useState(0)
   const heroRef = useRef(null)
+  const mobileInputRef = useRef(null)
 
   // Reset game over state when gamepads are reset externally
   useEffect(() => {
@@ -46,10 +47,25 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset }) => {
   useEffect(() => {
     if (!gameOver) return
 
+    // Auto-focus mobile input on mobile devices
+    if (mobileInputRef.current && window.innerWidth < 768) {
+      setTimeout(() => mobileInputRef.current?.focus(), 100)
+    }
+
     const handleKeyPress = (e) => {
       const key = e.key.toUpperCase()
       
       if (key === 'ENTER' && currentInitialIndex === 3) {
+        // Save to leaderboard
+        if (onAddToLeaderboard) {
+          onAddToLeaderboard({
+            initials: playerInitials.join(''),
+            score: finalScore,
+            kills: score,
+            time: `${Math.floor(elapsedTime / 60)}:${(elapsedTime % 60).toString().padStart(2, '0')}`,
+            timestamp: Date.now()
+          })
+        }
         // Reset game
         if (onReset) {
           onReset()
@@ -812,7 +828,62 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset }) => {
                   <div className="text-xl md:text-2xl text-white" style={{ fontFamily: 'monospace' }}>
                     ENTER YOUR INITIALS
                   </div>
-                  <div className="flex justify-center gap-4 md:gap-8">
+                  {/* Hidden input for mobile keyboard */}
+                  <input
+                    ref={mobileInputRef}
+                    type="text"
+                    maxLength="1"
+                    className="md:hidden fixed opacity-0 pointer-events-none"
+                    style={{ position: 'absolute', left: '-9999px' }}
+                    onKeyDown={(e) => {
+                      const key = e.key.toUpperCase()
+                      if (key === 'ENTER' && currentInitialIndex === 3) {
+                        // Save to leaderboard
+                        if (onAddToLeaderboard) {
+                          onAddToLeaderboard({
+                            initials: playerInitials.join(''),
+                            score: finalScore,
+                            kills: score,
+                            time: `${Math.floor(elapsedTime / 60)}:${(elapsedTime % 60).toString().padStart(2, '0')}`,
+                            timestamp: Date.now()
+                          })
+                        }
+                        if (onReset) onReset()
+                        setGameOver(false)
+                        setInvaderMode(false)
+                        setShowScoreboard(false)
+                        setFloatingNumber(null)
+                        setProjectiles([])
+                        setParticles([])
+                        setCurrentLevel(1)
+                        setScore(0)
+                        setFinalScore(0)
+                        setPlayerInitials(['_', '_', '_'])
+                        setCurrentInitialIndex(0)
+                        setIsCountingDown(false)
+                        setLevelComplete(false)
+                      } else if (key === 'BACKSPACE' && currentInitialIndex > 0) {
+                        e.preventDefault()
+                        setCurrentInitialIndex(prev => prev - 1)
+                        setPlayerInitials(prev => {
+                          const newInitials = [...prev]
+                          newInitials[currentInitialIndex - 1] = '_'
+                          return newInitials
+                        })
+                        if (mobileInputRef.current) mobileInputRef.current.value = ''
+                      } else if (/^[A-Z]$/.test(key) && currentInitialIndex < 3) {
+                        e.preventDefault()
+                        setPlayerInitials(prev => {
+                          const newInitials = [...prev]
+                          newInitials[currentInitialIndex] = key
+                          return newInitials
+                        })
+                        setCurrentInitialIndex(prev => prev + 1)
+                        if (mobileInputRef.current) mobileInputRef.current.value = ''
+                      }
+                    }}
+                  />
+                  <div className="flex justify-center gap-4 md:gap-8" onClick={() => mobileInputRef.current?.focus()}>
                     {playerInitials.map((initial, index) => (
                       <motion.div
                         key={index}

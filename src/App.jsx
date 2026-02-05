@@ -18,6 +18,20 @@ function App() {
     { id: 0, x: 0, y: getInitialY(), color: 'text-primary-400' }
   ])
   const [nextId, setNextId] = useState(1)
+  
+  // Leaderboard state with localStorage persistence
+  const [leaderboard, setLeaderboard] = useState(() => {
+    const saved = localStorage.getItem('gameLeaderboard')
+    return saved ? JSON.parse(saved) : []
+  })
+  
+  const addToLeaderboard = (entry) => {
+    const newLeaderboard = [...leaderboard, entry]
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 50) // Keep top 50
+    setLeaderboard(newLeaderboard)
+    localStorage.setItem('gameLeaderboard', JSON.stringify(newLeaderboard))
+  }
 
   const resetGamepads = () => {
     setGamepads([{ id: 0, x: 0, y: getInitialY(), color: 'text-primary-400' }])
@@ -64,11 +78,11 @@ function App() {
   return (
     <div className="relative min-h-screen overflow-x-hidden">
       <ParticleBackground />
-      <Navigation activeSection={activeSection} onResetGamepads={resetGamepads} />
+      <Navigation activeSection={activeSection} onResetGamepads={resetGamepads} leaderboard={leaderboard} />
       
       <main className="relative z-10">
         <section id="home">
-          <Hero gamepads={gamepads} setGamepads={setGamepads} nextId={nextId} setNextId={setNextId} onReset={resetGamepads} />
+          <Hero gamepads={gamepads} setGamepads={setGamepads} nextId={nextId} setNextId={setNextId} onReset={resetGamepads} onAddToLeaderboard={addToLeaderboard} />
         </section>
         
         <section id="about">
