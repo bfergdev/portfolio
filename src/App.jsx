@@ -7,6 +7,7 @@ import Skills from './components/Skills'
 import Contact from './components/Contact'
 import Navigation from './components/Navigation'
 import ParticleBackground from './components/ParticleBackground'
+import { supabase } from './lib/supabase'
 
 function App() {
   const [activeSection, setActiveSection] = useState('home')
@@ -19,18 +20,61 @@ function App() {
   ])
   const [nextId, setNextId] = useState(1)
   
-  // Leaderboard state with localStorage persistence
-  const [leaderboard, setLeaderboard] = useState(() => {
-    const saved = localStorage.getItem('gameLeaderboard')
-    return saved ? JSON.parse(saved) : []
-  })
+  // Leaderboard state with Supabase persistence
+  const [leaderboard, setLeaderboard] = useState([])
+  const [isLoadingLeaderboard, setIsLoadingLeaderboard] = useState(true)
   
-  const addToLeaderboard = (entry) => {
-    const newLeaderboard = [...leaderboard, entry]
-      .sort((a, b) => b.score - a.score)
-      .slice(0, 50) // Keep top 50
-    setLeaderboard(newLeaderboard)
-    localStorage.setItem('gameLeaderboard', JSON.stringify(newLeaderboard))
+  // Fetch leaderboard from Supabase on mount
+  useEffect(() => {
+    fetchLeaderboard()
+  }, [])
+  
+  const fetchLeaderboard = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('leaderboard')
+        .select('*')
+        .order('score', { ascending: false })
+        .limit(50)
+      
+      if (error) throw error
+      setLeaderboard(data || [])
+    } catch (error) {
+      console.error('Error fetching leaderboard:', error)
+      // Fallback to localStorage if Supabase fails
+      const saved = localStorage.getItem('gameLeaderboard')
+      setLeaderboard(saved ? JSON.parse(saved) : [])
+    } finally {
+      setIsLoadingLeaderboard(false)
+    }
+  }
+  
+  const addToLeaderboard = async (entry) => {
+    try {
+      // Add timestamp if not present
+      const entryWithTimestamp = {
+        ...entry,
+        created_at: entry.timestamp || new Date().toISOString()
+      }
+      
+      // Insert into Supabase
+      const { error } = await supabase
+        .from('leaderboard')
+        .insert([entryWithTimestamp])
+      
+      if (error) throw error
+      
+      // Refresh leaderboard
+      await fetchLeaderboard()
+    } catch (error) {
+      console.error('Error adding to leaderboard:', error)
+      // Fallback to localStorage
+      const newLeaderboard = [...leaderboard, entry]
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 50)
+      setLeaderboard(newLeaderboard)
+      localStorage.setItem('gameLeaderboard', JSON.stringify(newLeaderboard))
+    }
   }
 
   const resetGamepads = () => {
