@@ -27,6 +27,29 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset, onAddToLeader
   const pressTimerRef = useRef(null)
   const pressedGamepadRef = useRef(null)
 
+  // Reset all game state when gamepads are reset to initial state
+  useEffect(() => {
+    // Check if gamepads have been reset to initial state (single gamepad with id 0)
+    if (gamepads.length === 1 && gamepads[0].id === 0) {
+      setInvaderMode(false)
+      setShowScoreboard(false)
+      setIsCountingDown(false)
+      setFloatingNumber(null)
+      setScore(0)
+      setCurrentLevel(1)
+      setLevelComplete(false)
+      setElapsedTime(0)
+      setGameOver(false)
+      setFinalScore(0)
+      setPlayerInitials(['_', '_', '_'])
+      setCurrentInitialIndex(0)
+      setProjectiles([])
+      setParticles([])
+      setExplodingGamepads(new Set())
+      setSpinningGamepads(new Set())
+    }
+  }, [gamepads])
+
   // Disable scrolling during invader mode
   useEffect(() => {
     if (invaderMode) {
