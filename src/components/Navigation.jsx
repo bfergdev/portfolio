@@ -10,6 +10,7 @@ const Navigation = ({ activeSection, onResetGamepads, leaderboard }) => {
   const mouseDownTimeRef = useRef(null)
   const clickTimerRef = useRef(null)
   const touchStartTimeRef = useRef(null)
+  const touchHandledRef = useRef(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -71,6 +72,12 @@ const Navigation = ({ activeSection, onResetGamepads, leaderboard }) => {
                 whileHover={{ scale: 1.05 }}
                 className="cursor-pointer relative"
                 onClick={() => {
+                  // Skip if touch was already handled
+                  if (touchHandledRef.current) {
+                    touchHandledRef.current = false
+                    return
+                  }
+                  
                   // Clear any existing click timer
                   if (clickTimerRef.current) {
                     clearTimeout(clickTimerRef.current)
@@ -110,7 +117,7 @@ const Navigation = ({ activeSection, onResetGamepads, leaderboard }) => {
                   
                   // If it was a quick tap (< 500ms) and leaderboard is not showing, reset game
                   if (touchDuration < 500 && !showLeaderboard) {
-                    e.preventDefault() // Prevent onClick from also firing
+                    touchHandledRef.current = true // Flag to prevent onClick from also firing
                     onResetGamepads()
                     scrollToSection('home')
                   }
