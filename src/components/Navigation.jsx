@@ -47,9 +47,11 @@ const Navigation = ({ activeSection, onResetGamepads, leaderboard }) => {
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 className="cursor-pointer relative"
-                onClick={() => {
-                  onResetGamepads()
-                  scrollToSection('home')
+                onClick={(e) => {
+                  if (!showLeaderboard) {
+                    onResetGamepads()
+                    scrollToSection('home')
+                  }
                 }}
                 onMouseDown={(e) => {
                   e.preventDefault()
@@ -58,12 +60,15 @@ const Navigation = ({ activeSection, onResetGamepads, leaderboard }) => {
                     holdTimerRef.current = null
                   }, 500)
                 }}
-                onMouseUp={() => {
+                onMouseUp={(e) => {
                   if (holdTimerRef.current) {
                     clearTimeout(holdTimerRef.current)
                     holdTimerRef.current = null
                   }
-                  setShowLeaderboard(false)
+                  if (showLeaderboard) {
+                    e.stopPropagation()
+                    setShowLeaderboard(false)
+                  }
                 }}
                 onMouseLeave={() => {
                   if (holdTimerRef.current) {
@@ -72,16 +77,19 @@ const Navigation = ({ activeSection, onResetGamepads, leaderboard }) => {
                   }
                   setShowLeaderboard(false)
                 }}
-                onTouchStart={() => {
+                onTouchStart={(e) => {
                   holdTimerRef.current = setTimeout(() => {
                     setShowLeaderboard(true)
                     holdTimerRef.current = null
                   }, 500)
                 }}
-                onTouchEnd={() => {
+                onTouchEnd={(e) => {
                   if (holdTimerRef.current) {
                     clearTimeout(holdTimerRef.current)
                     holdTimerRef.current = null
+                  }
+                  if (showLeaderboard) {
+                    e.stopPropagation()
                   }
                   setShowLeaderboard(false)
                 }}
