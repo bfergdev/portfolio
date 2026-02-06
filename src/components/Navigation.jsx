@@ -99,6 +99,7 @@ const Navigation = ({ activeSection, onResetGamepads, leaderboard }) => {
                     transition={{ duration: 0.3, ease: "easeOut" }}
                     className="cursor-pointer whitespace-nowrap flex items-center gap-2"
                     onClick={() => scrollToSection('home')}
+                    style={{ userSelect: 'none', WebkitUserSelect: 'none' }}
                   >
                     <span className="text-xl font-bold text-gradient">Brian Ferguson</span>
                     <span className="text-lg text-white hidden sm:inline">- Principal Game Designer</span>
