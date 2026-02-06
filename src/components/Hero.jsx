@@ -630,8 +630,8 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset, onAddToLeader
                 damping: 15,
                 duration: 0.5
               } : { 
-                type: 'spring',
-                stiffness: 200
+                x: { type: 'tween', duration: 0 },
+                y: { type: 'tween', duration: 0 }
               }}
               className="inline-block absolute pointer-events-none"
               style={{ 
@@ -744,8 +744,8 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset, onAddToLeader
                 damping: 15,
                 duration: 0.5
               } : { 
-                type: 'spring',
-                stiffness: 200
+                x: { type: 'tween', duration: 0 },
+                y: { type: 'tween', duration: 0 }
               }}
               drag={true}
               dragConstraints={{ left: -300, right: 300, top: -300, bottom: 300 }}
