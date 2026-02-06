@@ -55,38 +55,15 @@ const Navigation = ({ activeSection, onResetGamepads, leaderboard }) => {
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 className="cursor-pointer relative"
-                onClick={(e) => {
-                  const clickDuration = Date.now() - (mouseDownTimeRef.current || 0)
-                  // Only trigger click action if it was a quick click (< 400ms)
-                  if (clickDuration < 400 && !showLeaderboard) {
+                onClick={() => {
+                  if (!showLeaderboard) {
                     onResetGamepads()
                     scrollToSection('home')
                   }
                 }}
-                onMouseDown={(e) => {
+                onDoubleClick={(e) => {
                   e.preventDefault()
-                  mouseDownTimeRef.current = Date.now()
-                  holdTimerRef.current = setTimeout(() => {
-                    setShowLeaderboard(true)
-                    holdTimerRef.current = null
-                  }, 500)
-                }}
-                onMouseUp={(e) => {
-                  if (holdTimerRef.current) {
-                    clearTimeout(holdTimerRef.current)
-                    holdTimerRef.current = null
-                  }
-                  if (showLeaderboard) {
-                    e.stopPropagation()
-                    setShowLeaderboard(false)
-                  }
-                }}
-                onMouseLeave={() => {
-                  if (holdTimerRef.current) {
-                    clearTimeout(holdTimerRef.current)
-                    holdTimerRef.current = null
-                  }
-                  setShowLeaderboard(false)
+                  setShowLeaderboard(!showLeaderboard)
                 }}
                 onTouchStart={(e) => {
                   holdTimerRef.current = setTimeout(() => {
