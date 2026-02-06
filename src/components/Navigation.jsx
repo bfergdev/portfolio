@@ -211,8 +211,8 @@ const Navigation = ({ activeSection, onResetGamepads, leaderboard }) => {
                 fontFamily: 'monospace', 
                 userSelect: 'none', 
                 WebkitUserSelect: 'none',
-                boxShadow: '0 0 100px 50px rgba(251, 191, 36, 0.6), 0 0 200px 100px rgba(251, 191, 36, 0.4), 0 0 300px 150px rgba(251, 191, 36, 0.2)',
-                background: 'radial-gradient(ellipse at center, rgba(251, 191, 36, 0.15) 0%, rgba(15, 23, 42, 1) 70%)'
+                boxShadow: '0 0 40px 15px rgba(251, 191, 36, 0.3), 0 0 80px 30px rgba(251, 191, 36, 0.15)',
+                background: 'radial-gradient(ellipse at center, rgba(251, 191, 36, 0.08) 0%, rgba(15, 23, 42, 1) 60%)'
               }}
             >
               <div className="flex items-center justify-between mb-6">
