@@ -9,6 +9,7 @@ const Navigation = ({ activeSection, onResetGamepads, leaderboard }) => {
   const holdTimerRef = useRef(null)
   const mouseDownTimeRef = useRef(null)
   const clickTimerRef = useRef(null)
+  const touchStartTimeRef = useRef(null)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -80,20 +81,31 @@ const Navigation = ({ activeSection, onResetGamepads, leaderboard }) => {
                   setShowLeaderboard(!showLeaderboard)
                 }}
                 onTouchStart={(e) => {
+                  touchStartTimeRef.current = Date.now()
                   holdTimerRef.current = setTimeout(() => {
                     setShowLeaderboard(true)
                     holdTimerRef.current = null
                   }, 500)
                 }}
                 onTouchEnd={(e) => {
+                  const touchDuration = Date.now() - (touchStartTimeRef.current || 0)
+                  
                   if (holdTimerRef.current) {
                     clearTimeout(holdTimerRef.current)
                     holdTimerRef.current = null
                   }
+                  
+                  // If it was a quick tap (< 500ms) and leaderboard is not showing, reset game
+                  if (touchDuration < 500 && !showLeaderboard) {
+                    onResetGamepads()
+                    scrollToSection('home')
+                  }
+                  
                   if (showLeaderboard) {
                     e.stopPropagation()
                   }
                   setShowLeaderboard(false)
+                  touchStartTimeRef.current = null
                 }}
               >
                 <Gamepad2 className="w-8 h-8 text-primary-400" />
