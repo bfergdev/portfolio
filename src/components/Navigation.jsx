@@ -21,6 +21,19 @@ const Navigation = ({ activeSection, onResetGamepads, leaderboard }) => {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  // Lock scrolling when leaderboard is open
+  useEffect(() => {
+    if (showLeaderboard) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [showLeaderboard])
+
   const navItems = [
     { id: 'home', label: 'Home' },
     { id: 'about', label: 'About' },
