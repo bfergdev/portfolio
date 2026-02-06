@@ -719,37 +719,40 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset, onAddToLeader
             </motion.div>
           ))}
 
-          {/* Floating Number */}
-          {floatingNumber && !showScoreboard && (
+          {/* Clone Counter - Static in top right */}
+          {floatingNumber && !showScoreboard && !isCountingDown && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="fixed top-16 right-1 md:right-2 text-3xl md:text-6xl font-bold text-green-400 pointer-events-none"
+              style={{ 
+                zIndex: 9999,
+                textShadow: '0 0 10px #4ade80, 0 0 20px #4ade80, 0 0 30px #22c55e'
+              }}
+            >
+              {floatingNumber.value}
+            </motion.div>
+          )}
+
+          {/* Countdown Number - Centered */}
+          {floatingNumber && isCountingDown && (
             <motion.div
               animate={{
-                x: floatingNumber.x,
-                y: floatingNumber.y,
-                scale: isCountingDown && floatingNumber.value <= 3 ? [1, 1.5, 1] : 1
+                scale: floatingNumber.value <= 3 ? [1, 1.5, 1] : 1
               }}
-              transition={isCountingDown && floatingNumber.value <= 3 ? { 
-                scale: { duration: 0.4, repeat: Infinity },
-                x: { type: 'spring', stiffness: 150, damping: 15 },
-                y: { type: 'spring', stiffness: 150, damping: 15 }
-              } : { 
-                type: 'spring', 
-                stiffness: 150, 
-                damping: 15 
-              }}
+              transition={floatingNumber.value <= 3 ? { 
+                scale: { duration: 0.4, repeat: Infinity }
+              } : {}}
               className={`inline-block absolute text-4xl md:text-8xl font-bold pointer-events-none ${
-                isCountingDown 
-                  ? floatingNumber.value <= 3 
-                    ? 'text-red-500' 
-                    : 'text-yellow-400'
-                  : 'text-green-400'
+                floatingNumber.value <= 3 
+                  ? 'text-red-500' 
+                  : 'text-yellow-400'
               }`}
               style={{ 
                 zIndex: 101,
-                textShadow: isCountingDown 
-                  ? floatingNumber.value <= 3
-                    ? '0 0 10px #ef4444, 0 0 20px #ef4444, 0 0 30px #dc2626'
-                    : '0 0 10px #fbbf24, 0 0 20px #fbbf24, 0 0 30px #f59e0b'
-                  : '0 0 10px #4ade80, 0 0 20px #4ade80, 0 0 30px #22c55e'
+                textShadow: floatingNumber.value <= 3
+                  ? '0 0 10px #ef4444, 0 0 20px #ef4444, 0 0 30px #dc2626'
+                  : '0 0 10px #fbbf24, 0 0 20px #fbbf24, 0 0 30px #f59e0b'
               }}
             >
               {floatingNumber.value}
