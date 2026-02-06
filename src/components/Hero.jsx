@@ -137,13 +137,13 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset, onAddToLeader
     }
   }
 
-  // Activate invader mode when 10+ gamepads
+  // Activate invader mode when 5+ gamepads
   useEffect(() => {
-    if (gamepads.length >= 10 && !invaderMode && !isCountingDown) {
-      // Start countdown from 10 to 0
+    if (gamepads.length >= 5 && !invaderMode && !isCountingDown) {
+      // Start countdown from 5 to 0
       setIsCountingDown(true)
       setFloatingNumber({
-        value: 10,
+        value: 5,
         x: 0,
         y: 0,
         vx: 0,
@@ -151,7 +151,7 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset, onAddToLeader
       })
       
       // Countdown animation
-      let count = 10
+      let count = 5
       const countdownInterval = setInterval(() => {
         count--
         if (count > 0) {
@@ -218,8 +218,8 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset, onAddToLeader
             setParticles([])
             setProjectiles([])
             
-            // Spawn new wave for next level
-            const nextLevelGamepads = Array.from({ length: 10 + currentLevel * 2 }, (_, i) => ({
+            // Spawn new wave for next level (start with 5, add 5 per level)
+            const nextLevelGamepads = Array.from({ length: 5 + currentLevel * 5 }, (_, i) => ({
               id: i,
               x: (i % 5) * 80 - 160,
               y: Math.floor(i / 5) * (window.innerWidth >= 768 ? 60 : 30) - (window.innerWidth >= 768 ? 150 : 75),
@@ -531,19 +531,17 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset, onAddToLeader
     // Disable cloning during countdown or invader mode
     if (isCountingDown || invaderMode) return
     
-    const newColor1 = getRandomColor(gamepad.color)
-    const newColor2 = getRandomColor(gamepad.color)
-    
+    // Clones inherit parent color
     const newGamepads = [
-      { id: nextId, x: gamepad.x - 50, y: gamepad.y - 50, color: newColor1, isNew: true },
-      { id: nextId + 1, x: gamepad.x + 50, y: gamepad.y + 50, color: newColor2, isNew: true }
+      { id: nextId, x: gamepad.x - 50, y: gamepad.y - 50, color: gamepad.color, isNew: true },
+      { id: nextId + 1, x: gamepad.x + 50, y: gamepad.y + 50, color: gamepad.color, isNew: true }
     ]
     
     setGamepads(prev => {
       const newCount = prev.length + 1 // +1 because we're removing 1 and adding 2
       
-      // Spawn or update floating number (starts at 2 for first clone)
-      if (newCount >= 2 && newCount < 10) {
+      // Spawn or update floating number (starts at 2 for first clone, max 5)
+      if (newCount >= 2 && newCount <= 5) {
         setFloatingNumber({
           value: newCount,
           x: (Math.random() - 0.5) * 400,
