@@ -35,7 +35,7 @@ function App() {
         .from('leaderboard')
         .select('*')
         .order('score', { ascending: false })
-        .limit(50)
+        .limit(5)
       
       if (error) throw error
       setLeaderboard(data || [])
@@ -68,7 +68,7 @@ function App() {
       // Fallback to localStorage
       const newLeaderboard = [...leaderboard, entry]
         .sort((a, b) => b.score - a.score)
-        .slice(0, 50)
+        .slice(0, 5)
       setLeaderboard(newLeaderboard)
       localStorage.setItem('gameLeaderboard', JSON.stringify(newLeaderboard))
     }
