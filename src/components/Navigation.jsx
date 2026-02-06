@@ -8,6 +8,7 @@ const Navigation = ({ activeSection, onResetGamepads, leaderboard }) => {
   const [showLeaderboard, setShowLeaderboard] = useState(false)
   const holdTimerRef = useRef(null)
   const mouseDownTimeRef = useRef(null)
+  const clickTimerRef = useRef(null)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -56,13 +57,26 @@ const Navigation = ({ activeSection, onResetGamepads, leaderboard }) => {
                 whileHover={{ scale: 1.05 }}
                 className="cursor-pointer relative"
                 onClick={() => {
-                  if (!showLeaderboard) {
-                    onResetGamepads()
-                    scrollToSection('home')
+                  // Clear any existing click timer
+                  if (clickTimerRef.current) {
+                    clearTimeout(clickTimerRef.current)
                   }
+                  
+                  // Delay single click action to allow double-click to fire
+                  clickTimerRef.current = setTimeout(() => {
+                    if (!showLeaderboard) {
+                      onResetGamepads()
+                      scrollToSection('home')
+                    }
+                  }, 200)
                 }}
                 onDoubleClick={(e) => {
                   e.preventDefault()
+                  // Clear single click timer on double-click
+                  if (clickTimerRef.current) {
+                    clearTimeout(clickTimerRef.current)
+                    clickTimerRef.current = null
+                  }
                   setShowLeaderboard(!showLeaderboard)
                 }}
                 onTouchStart={(e) => {
