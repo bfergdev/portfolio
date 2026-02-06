@@ -22,6 +22,7 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset, onAddToLeader
   const [playerInitials, setPlayerInitials] = useState(['_', '_', '_'])
   const [currentInitialIndex, setCurrentInitialIndex] = useState(0)
   const [spinningGamepads, setSpinningGamepads] = useState(new Set())
+  const [resetKey, setResetKey] = useState(0)
   const heroRef = useRef(null)
   const mobileInputRef = useRef(null)
   const pressTimerRef = useRef(null)
@@ -47,6 +48,7 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset, onAddToLeader
       setParticles([])
       setExplodingGamepads(new Set())
       setSpinningGamepads(new Set())
+      setResetKey(prev => prev + 1) // Force remount of gamepads
     }
   }, [gamepads])
 
@@ -741,7 +743,7 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset, onAddToLeader
         >
           {!invaderMode && gamepads.map((gamepad) => (
             <motion.div
-              key={gamepad.id}
+              key={`${gamepad.id}-${resetKey}`}
               initial={gamepad.isNew ? { scale: 0, opacity: 0, rotate: -180 } : { scale: 0 }}
               animate={{ 
                 scale: explodingGamepads.has(gamepad.id) ? [1, 1.5, 0] : 1,
