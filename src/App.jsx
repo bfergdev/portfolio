@@ -51,16 +51,13 @@ function App() {
   
   const addToLeaderboard = async (entry) => {
     try {
-      // Add timestamp if not present
-      const entryWithTimestamp = {
-        ...entry,
-        created_at: entry.timestamp || new Date().toISOString()
-      }
+      // Remove timestamp field - Supabase uses created_at which is auto-generated
+      const { timestamp, ...entryData } = entry
       
       // Insert into Supabase
       const { error } = await supabase
         .from('leaderboard')
-        .insert([entryWithTimestamp])
+        .insert([entryData])
       
       if (error) throw error
       
