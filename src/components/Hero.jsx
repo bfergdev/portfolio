@@ -21,8 +21,11 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset, onAddToLeader
   const [finalScore, setFinalScore] = useState(0)
   const [playerInitials, setPlayerInitials] = useState(['_', '_', '_'])
   const [currentInitialIndex, setCurrentInitialIndex] = useState(0)
+  const [spinningGamepads, setSpinningGamepads] = useState(new Set())
   const heroRef = useRef(null)
   const mobileInputRef = useRef(null)
+  const pressTimerRef = useRef(null)
+  const pressedGamepadRef = useRef(null)
 
   // Disable scrolling during invader mode
   useEffect(() => {
@@ -518,6 +521,19 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset, onAddToLeader
   }
 
   const handleGamepadClick = (id) => {
+    // Trigger spin animation
+    setSpinningGamepads(prev => new Set(prev).add(id))
+    setTimeout(() => {
+      setSpinningGamepads(prev => {
+        const newSet = new Set(prev)
+        newSet.delete(id)
+        return newSet
+      })
+    }, 500)
+  }
+
+  const handleGamepadLongPress = (id) => {
+    // Change color on long press
     setGamepads(prev => prev.map(gp => {
       if (gp.id === id) {
         const newColor = getRandomColor(gp.color)
@@ -731,7 +747,26 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset, onAddToLeader
               }}
               whileHover={{ scale: 1.1, rotate: 5 }}
               whileDrag={{ scale: 1.2, rotate: 10, cursor: 'grabbing' }}
-              onTap={() => handleGamepadClick(gamepad.id)}
+              onTapStart={() => {
+                pressedGamepadRef.current = gamepad.id
+                pressTimerRef.current = setTimeout(() => {
+                  handleGamepadLongPress(gamepad.id)
+                  pressTimerRef.current = null
+                }, 500)
+              }}
+              onTap={() => {
+                if (pressTimerRef.current) {
+                  clearTimeout(pressTimerRef.current)
+                  pressTimerRef.current = null
+                  handleGamepadClick(gamepad.id)
+                }
+              }}
+              onTapCancel={() => {
+                if (pressTimerRef.current) {
+                  clearTimeout(pressTimerRef.current)
+                  pressTimerRef.current = null
+                }
+              }}
               onDoubleClick={() => handleGamepadDoubleClick(gamepad)}
               className="inline-block absolute cursor-grab"
               style={{ zIndex: 10 + gamepad.id }}
