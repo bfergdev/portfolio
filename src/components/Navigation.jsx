@@ -54,16 +54,15 @@ const Navigation = ({ activeSection, onResetGamepads, leaderboard }) => {
                 onMouseDown={() => {
                   holdTimerRef.current = setTimeout(() => {
                     setShowLeaderboard(true)
+                    holdTimerRef.current = null
                   }, 500)
                 }}
                 onMouseUp={() => {
                   if (holdTimerRef.current) {
                     clearTimeout(holdTimerRef.current)
                     holdTimerRef.current = null
-                  } else {
-                    // Timer completed, leaderboard is showing, close it
-                    setShowLeaderboard(false)
                   }
+                  setShowLeaderboard(false)
                 }}
                 onMouseLeave={() => {
                   if (holdTimerRef.current) {
@@ -75,16 +74,15 @@ const Navigation = ({ activeSection, onResetGamepads, leaderboard }) => {
                 onTouchStart={() => {
                   holdTimerRef.current = setTimeout(() => {
                     setShowLeaderboard(true)
+                    holdTimerRef.current = null
                   }, 500)
                 }}
                 onTouchEnd={() => {
                   if (holdTimerRef.current) {
                     clearTimeout(holdTimerRef.current)
                     holdTimerRef.current = null
-                  } else {
-                    // Timer completed, leaderboard is showing, close it
-                    setShowLeaderboard(false)
                   }
+                  setShowLeaderboard(false)
                 }}
               >
                 <Gamepad2 className="w-8 h-8 text-primary-400" />
