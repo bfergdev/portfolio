@@ -51,7 +51,8 @@ const Navigation = ({ activeSection, onResetGamepads, leaderboard }) => {
                   onResetGamepads()
                   scrollToSection('home')
                 }}
-                onMouseDown={() => {
+                onMouseDown={(e) => {
+                  e.preventDefault()
                   holdTimerRef.current = setTimeout(() => {
                     setShowLeaderboard(true)
                     holdTimerRef.current = null
@@ -183,7 +184,7 @@ const Navigation = ({ activeSection, onResetGamepads, leaderboard }) => {
               exit={{ scale: 0.8, y: -50 }}
               className="bg-slate-900 border-2 border-yellow-400 rounded-lg p-6 md:p-8 max-w-md w-full mx-4"
               onClick={(e) => e.stopPropagation()}
-              style={{ fontFamily: 'monospace' }}
+              style={{ fontFamily: 'monospace', userSelect: 'none', WebkitUserSelect: 'none' }}
             >
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">
@@ -241,10 +242,6 @@ const Navigation = ({ activeSection, onResetGamepads, leaderboard }) => {
                     No scores yet. Be the first!
                   </div>
                 )}
-              </div>
-
-              <div className="mt-6 text-center text-sm text-gray-500">
-                Click & hold controller icon to view
               </div>
             </motion.div>
           </motion.div>
