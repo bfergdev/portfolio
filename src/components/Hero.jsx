@@ -72,7 +72,7 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset, onAddToLeader
         // Save to leaderboard
         if (onAddToLeaderboard) {
           onAddToLeaderboard({
-            initials: playerInitials.join(''),
+            initials: playerInitials.join('').replace(/_/g, ''),
             score: finalScore,
             kills: score,
             time: `${Math.floor(elapsedTime / 60)}:${(elapsedTime % 60).toString().padStart(2, '0')}`,
@@ -855,7 +855,7 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset, onAddToLeader
                         // Save to leaderboard
                         if (onAddToLeaderboard) {
                           onAddToLeaderboard({
-                            initials: playerInitials.join(''),
+                            initials: playerInitials.join('').replace(/_/g, ''),
                             score: finalScore,
                             kills: score,
                             time: `${Math.floor(elapsedTime / 60)}:${(elapsedTime % 60).toString().padStart(2, '0')}`,
