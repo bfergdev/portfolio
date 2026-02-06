@@ -7,6 +7,7 @@ const Navigation = ({ activeSection, onResetGamepads, leaderboard }) => {
   const [showName, setShowName] = useState(false)
   const [showLeaderboard, setShowLeaderboard] = useState(false)
   const holdTimerRef = useRef(null)
+  const mouseDownTimeRef = useRef(null)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -55,13 +56,16 @@ const Navigation = ({ activeSection, onResetGamepads, leaderboard }) => {
                 whileHover={{ scale: 1.05 }}
                 className="cursor-pointer relative"
                 onClick={(e) => {
-                  if (!showLeaderboard) {
+                  const clickDuration = Date.now() - (mouseDownTimeRef.current || 0)
+                  // Only trigger click action if it was a quick click (< 400ms)
+                  if (clickDuration < 400 && !showLeaderboard) {
                     onResetGamepads()
                     scrollToSection('home')
                   }
                 }}
                 onMouseDown={(e) => {
                   e.preventDefault()
+                  mouseDownTimeRef.current = Date.now()
                   holdTimerRef.current = setTimeout(() => {
                     setShowLeaderboard(true)
                     holdTimerRef.current = null
