@@ -68,7 +68,7 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset, onAddToLeader
     const handleKeyPress = (e) => {
       const key = e.key.toUpperCase()
       
-      if (key === 'ENTER' && currentInitialIndex === 3) {
+      if (key === 'ENTER' && currentInitialIndex >= 1) {
         // Save to leaderboard
         if (onAddToLeaderboard) {
           onAddToLeaderboard({
@@ -850,7 +850,7 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset, onAddToLeader
                       }
                     }}
                     onKeyDown={(e) => {
-                      if (e.key === 'Enter' && currentInitialIndex === 3) {
+                      if (e.key === 'Enter' && currentInitialIndex >= 1) {
                         e.preventDefault()
                         // Save to leaderboard
                         if (onAddToLeaderboard) {
@@ -903,7 +903,7 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset, onAddToLeader
                       </motion.div>
                     ))}
                   </div>
-                  {currentInitialIndex === 3 && (
+                  {currentInitialIndex >= 1 && (
                     <motion.div
                       initial={{ opacity: 0 }}
                       animate={{ opacity: [0.5, 1, 0.5] }}
