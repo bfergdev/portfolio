@@ -110,6 +110,7 @@ const Navigation = ({ activeSection, onResetGamepads, leaderboard }) => {
                   
                   // If it was a quick tap (< 500ms) and leaderboard is not showing, reset game
                   if (touchDuration < 500 && !showLeaderboard) {
+                    e.preventDefault() // Prevent onClick from also firing
                     onResetGamepads()
                     scrollToSection('home')
                   }
