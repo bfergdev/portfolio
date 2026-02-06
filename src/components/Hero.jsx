@@ -753,7 +753,7 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset, onAddToLeader
               transition={isCountingDown && floatingNumber.value <= 3 ? { 
                 scale: { duration: 0.4, repeat: Infinity }
               } : {}}
-              className={`fixed top-16 right-1 md:right-2 text-3xl md:text-6xl font-bold pointer-events-none ${
+              className={`fixed top-16 right-1 md:right-2 text-3xl md:text-6xl font-bold text-right pointer-events-none ${
                 isCountingDown 
                   ? floatingNumber.value <= 3 
                     ? 'text-red-500' 
@@ -779,7 +779,7 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset, onAddToLeader
               <motion.div
                 initial={{ opacity: 0, scale: 0 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="fixed top-16 right-1 md:right-2 text-3xl md:text-6xl font-bold text-green-400 pointer-events-none"
+                className="fixed top-16 right-1 md:right-2 text-3xl md:text-6xl font-bold text-right text-green-400 pointer-events-none"
                 style={{ 
                   zIndex: 9999,
                   textShadow: '0 0 10px #4ade80, 0 0 20px #4ade80, 0 0 30px #22c55e'
