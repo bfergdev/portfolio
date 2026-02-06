@@ -207,7 +207,13 @@ const Navigation = ({ activeSection, onResetGamepads, leaderboard }) => {
               exit={{ scale: 0.8, y: -50 }}
               className="bg-slate-900 border-2 border-yellow-400 rounded-lg p-6 md:p-8 max-w-md w-full mx-4"
               onClick={(e) => e.stopPropagation()}
-              style={{ fontFamily: 'monospace', userSelect: 'none', WebkitUserSelect: 'none' }}
+              style={{ 
+                fontFamily: 'monospace', 
+                userSelect: 'none', 
+                WebkitUserSelect: 'none',
+                boxShadow: '0 0 100px 50px rgba(251, 191, 36, 0.6), 0 0 200px 100px rgba(251, 191, 36, 0.4), 0 0 300px 150px rgba(251, 191, 36, 0.2)',
+                background: 'radial-gradient(ellipse at center, rgba(251, 191, 36, 0.15) 0%, rgba(15, 23, 42, 1) 70%)'
+              }}
             >
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">
