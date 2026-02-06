@@ -21,7 +21,6 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset, onAddToLeader
   const [finalScore, setFinalScore] = useState(0)
   const [playerInitials, setPlayerInitials] = useState(['_', '_', '_'])
   const [currentInitialIndex, setCurrentInitialIndex] = useState(0)
-  const [spinningGamepads, setSpinningGamepads] = useState(new Set())
   const [resetKey, setResetKey] = useState(0)
   const heroRef = useRef(null)
   const mobileInputRef = useRef(null)
@@ -47,7 +46,6 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset, onAddToLeader
       setProjectiles([])
       setParticles([])
       setExplodingGamepads(new Set())
-      setSpinningGamepads(new Set())
       setResetKey(prev => prev + 1) // Force remount of gamepads
     }
   }, [gamepads])
@@ -545,18 +543,6 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset, onAddToLeader
     return availableColors[Math.floor(Math.random() * availableColors.length)]
   }
 
-  const handleGamepadClick = (id) => {
-    // Trigger spin animation
-    setSpinningGamepads(prev => new Set(prev).add(id))
-    setTimeout(() => {
-      setSpinningGamepads(prev => {
-        const newSet = new Set(prev)
-        newSet.delete(id)
-        return newSet
-      })
-    }, 500)
-  }
-
   const handleGamepadLongPress = (id) => {
     // Change color on long press
     setGamepads(prev => prev.map(gp => {
@@ -631,16 +617,13 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset, onAddToLeader
               animate={{ 
                 scale: explodingGamepads.has(gamepad.id) ? [1, 1.5, 0] : 1,
                 opacity: explodingGamepads.has(gamepad.id) ? [1, 1, 0] : 1,
-                rotate: explodingGamepads.has(gamepad.id) ? [0, 180, 360] : spinningGamepads.has(gamepad.id) ? [0, 360] : 0,
+                rotate: explodingGamepads.has(gamepad.id) ? [0, 180, 360] : 0,
                 x: gamepad.x,
                 y: gamepad.y
               }}
               transition={explodingGamepads.has(gamepad.id) ? {
                 duration: 0.15,
                 ease: 'easeOut'
-              } : spinningGamepads.has(gamepad.id) ? {
-                duration: 0.5,
-                ease: 'easeInOut'
               } : gamepad.isNew ? { 
                 type: 'spring',
                 stiffness: 200,
@@ -748,16 +731,13 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset, onAddToLeader
               animate={{ 
                 scale: explodingGamepads.has(gamepad.id) ? [1, 1.5, 0] : 1,
                 opacity: explodingGamepads.has(gamepad.id) ? [1, 1, 0] : 1,
-                rotate: explodingGamepads.has(gamepad.id) ? [0, 180, 360] : spinningGamepads.has(gamepad.id) ? [0, 360] : 0,
+                rotate: explodingGamepads.has(gamepad.id) ? [0, 180, 360] : 0,
                 x: gamepad.x,
                 y: gamepad.y
               }}
               transition={explodingGamepads.has(gamepad.id) ? {
                 duration: 0.15,
                 ease: 'easeOut'
-              } : spinningGamepads.has(gamepad.id) ? {
-                duration: 0.5,
-                ease: 'easeInOut'
               } : gamepad.isNew ? { 
                 type: 'spring',
                 stiffness: 200,
@@ -789,7 +769,6 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset, onAddToLeader
                 if (pressTimerRef.current) {
                   clearTimeout(pressTimerRef.current)
                   pressTimerRef.current = null
-                  handleGamepadClick(gamepad.id)
                 }
               }}
               onTapCancel={() => {
