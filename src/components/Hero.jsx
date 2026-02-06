@@ -744,39 +744,6 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset, onAddToLeader
             </motion.div>
           ))}
 
-          {/* Universal Number Display - Always top right, purpose changes */}
-          {floatingNumber && !showScoreboard && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0 }}
-              animate={{ 
-                opacity: 1, 
-                scale: isCountingDown && floatingNumber.value <= 3 ? [1, 1.2, 1] : 1
-              }}
-              transition={isCountingDown && floatingNumber.value <= 3 ? { 
-                scale: { duration: 0.4, repeat: Infinity }
-              } : {}}
-              className={`fixed top-16 right-1 md:right-2 text-3xl md:text-6xl font-bold pointer-events-none ${
-                isCountingDown 
-                  ? floatingNumber.value <= 3 
-                    ? 'text-red-500' 
-                    : 'text-yellow-400'
-                  : 'text-green-400'
-              }`}
-              style={{ 
-                zIndex: 9999,
-                textAlign: 'right',
-                minWidth: '3rem',
-                textShadow: isCountingDown 
-                  ? floatingNumber.value <= 3
-                    ? '0 0 10px #ef4444, 0 0 20px #ef4444, 0 0 30px #dc2626'
-                    : '0 0 10px #fbbf24, 0 0 20px #fbbf24, 0 0 30px #f59e0b'
-                  : '0 0 10px #4ade80, 0 0 20px #4ade80, 0 0 30px #22c55e'
-              }}
-            >
-              {floatingNumber.value}
-            </motion.div>
-          )}
-
           {/* Scoreboard */}
           {showScoreboard && (
             <>
@@ -1018,6 +985,39 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset, onAddToLeader
           <ChevronDown className="w-8 h-8 text-primary-400 animate-bounce" />
         </motion.div>
       </div>
+
+      {/* Universal Number Display - Always top right, purpose changes */}
+      {floatingNumber && !showScoreboard && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{ 
+            opacity: 1, 
+            scale: isCountingDown && floatingNumber.value <= 3 ? [1, 1.2, 1] : 1
+          }}
+          transition={isCountingDown && floatingNumber.value <= 3 ? { 
+            scale: { duration: 0.4, repeat: Infinity }
+          } : {}}
+          className={`fixed top-16 right-1 md:right-2 text-3xl md:text-6xl font-bold pointer-events-none ${
+            isCountingDown 
+              ? floatingNumber.value <= 3 
+                ? 'text-red-500' 
+                : 'text-yellow-400'
+              : 'text-green-400'
+          }`}
+          style={{ 
+            zIndex: 9999,
+            textAlign: 'right',
+            minWidth: '3rem',
+            textShadow: isCountingDown 
+              ? floatingNumber.value <= 3
+                ? '0 0 10px #ef4444, 0 0 20px #ef4444, 0 0 30px #dc2626'
+                : '0 0 10px #fbbf24, 0 0 20px #fbbf24, 0 0 30px #f59e0b'
+              : '0 0 10px #4ade80, 0 0 20px #4ade80, 0 0 30px #22c55e'
+          }}
+        >
+          {floatingNumber.value}
+        </motion.div>
+      )}
     </div>
   )
 }
