@@ -606,13 +606,16 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset, onAddToLeader
               animate={{ 
                 scale: explodingGamepads.has(gamepad.id) ? [1, 1.5, 0] : 1,
                 opacity: explodingGamepads.has(gamepad.id) ? [1, 1, 0] : 1,
-                rotate: explodingGamepads.has(gamepad.id) ? [0, 180, 360] : 0,
+                rotate: explodingGamepads.has(gamepad.id) ? [0, 180, 360] : spinningGamepads.has(gamepad.id) ? [0, 360] : 0,
                 x: gamepad.x,
                 y: gamepad.y
               }}
               transition={explodingGamepads.has(gamepad.id) ? {
                 duration: 0.15,
                 ease: 'easeOut'
+              } : spinningGamepads.has(gamepad.id) ? {
+                duration: 0.5,
+                ease: 'easeInOut'
               } : gamepad.isNew ? { 
                 type: 'spring',
                 stiffness: 200,
@@ -720,13 +723,16 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset, onAddToLeader
               animate={{ 
                 scale: explodingGamepads.has(gamepad.id) ? [1, 1.5, 0] : 1,
                 opacity: explodingGamepads.has(gamepad.id) ? [1, 1, 0] : 1,
-                rotate: explodingGamepads.has(gamepad.id) ? [0, 180, 360] : 0,
+                rotate: explodingGamepads.has(gamepad.id) ? [0, 180, 360] : spinningGamepads.has(gamepad.id) ? [0, 360] : 0,
                 x: gamepad.x,
                 y: gamepad.y
               }}
               transition={explodingGamepads.has(gamepad.id) ? {
                 duration: 0.15,
                 ease: 'easeOut'
+              } : spinningGamepads.has(gamepad.id) ? {
+                duration: 0.5,
+                ease: 'easeInOut'
               } : gamepad.isNew ? { 
                 type: 'spring',
                 stiffness: 200,
