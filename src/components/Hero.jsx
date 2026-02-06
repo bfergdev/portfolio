@@ -24,6 +24,19 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset, onAddToLeader
   const heroRef = useRef(null)
   const mobileInputRef = useRef(null)
 
+  // Disable scrolling during invader mode
+  useEffect(() => {
+    if (invaderMode) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [invaderMode])
+
   // Reset game over state when gamepads are reset externally
   useEffect(() => {
     if (gamepads.length === 1 && gamepads[0].id === 0 && gameOver) {
