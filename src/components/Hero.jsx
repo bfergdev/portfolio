@@ -214,6 +214,10 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset, onAddToLeader
             setInvaderMode(false)
             setLevelComplete(false)
             
+            // Clear all particles and projectiles to prevent artifacts
+            setParticles([])
+            setProjectiles([])
+            
             // Spawn new wave for next level
             const nextLevelGamepads = Array.from({ length: 10 + currentLevel * 2 }, (_, i) => ({
               id: i,
