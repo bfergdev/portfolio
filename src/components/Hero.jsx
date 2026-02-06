@@ -450,6 +450,11 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset, onAddToLeader
     })
     
     setParticles(prev => [...prev, ...newParticles])
+    
+    // Remove particles after animation (reduced from 800ms to 400ms to prevent artifacts)
+    setTimeout(() => {
+      setParticles(prev => prev.filter(p => !newParticles.find(np => np.id === p.id)))
+    }, 400)
   }
 
   const handleMouseMove = (e) => {
@@ -630,6 +635,11 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset, onAddToLeader
             {particles.map(particle => (
               <motion.div
                 key={particle.id}
+                initial={{
+                  x: particle.x,
+                  y: particle.y,
+                  opacity: particle.opacity
+                }}
                 animate={{
                   x: particle.x,
                   y: particle.y,
