@@ -1,6 +1,68 @@
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, useMotionValue } from 'framer-motion'
 import { ChevronDown, Gamepad2, Sparkles } from 'lucide-react'
 import { useState, useEffect, useRef } from 'react'
+
+const DraggableGamepad = ({ gamepad, isExploding, onDragEnd, onLongPress, onDoubleClick, pressTimerRef, pressedGamepadRef }) => {
+  const motionX = useMotionValue(gamepad.x)
+  const motionY = useMotionValue(gamepad.y)
+
+  return (
+    <motion.div
+      initial={gamepad.isNew ? { scale: 0, opacity: 0, rotate: -180 } : { scale: 0 }}
+      animate={{ 
+        scale: isExploding ? [1, 1.5, 0] : 1,
+        opacity: isExploding ? [1, 1, 0] : 1,
+        rotate: isExploding ? [0, 180, 360] : 0,
+      }}
+      transition={isExploding ? {
+        duration: 0.15,
+        ease: 'easeOut'
+      } : gamepad.isNew ? { 
+        type: 'spring',
+        stiffness: 200,
+        damping: 15,
+        duration: 0.5
+      } : {}}
+      style={{ x: motionX, y: motionY, zIndex: 10 + gamepad.id }}
+      drag={true}
+      dragConstraints={{ left: -300, right: 300, top: -300, bottom: 300 }}
+      dragElastic={0.2}
+      dragTransition={{ bounceStiffness: 300, bounceDamping: 20 }}
+      onDragEnd={(e, info) => {
+        onDragEnd(gamepad.id, info)
+      }}
+      whileHover={{ scale: 1.1, rotate: 5 }}
+      whileDrag={{ scale: 1.2, rotate: 10, cursor: 'grabbing' }}
+      onTapStart={() => {
+        pressedGamepadRef.current = gamepad.id
+        pressTimerRef.current = setTimeout(() => {
+          onLongPress(gamepad.id)
+          pressTimerRef.current = null
+        }, 500)
+      }}
+      onTap={() => {
+        if (pressTimerRef.current) {
+          clearTimeout(pressTimerRef.current)
+          pressTimerRef.current = null
+        }
+      }}
+      onTapCancel={() => {
+        if (pressTimerRef.current) {
+          clearTimeout(pressTimerRef.current)
+          pressTimerRef.current = null
+        }
+      }}
+      onDoubleClick={() => onDoubleClick(gamepad)}
+      className="inline-block absolute cursor-grab"
+    >
+      <div className="relative">
+        <div className={`w-10 h-10 md:w-20 md:h-20 rounded-lg ${gamepad.color.replace('text-', 'bg-')} opacity-30 absolute inset-0`} />
+        <Gamepad2 className={`w-10 h-10 md:w-20 md:h-20 ${gamepad.color} animate-float relative z-10`} fill="currentColor" fillOpacity="0.3" />
+        <Sparkles className="w-4 h-4 md:w-8 md:h-8 text-accent-400 absolute -top-1 -right-1 md:-top-2 md:-right-2 animate-pulse z-20" />
+      </div>
+    </motion.div>
+  )
+}
 
 const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset, onAddToLeaderboard }) => {
   const [invaderMode, setInvaderMode] = useState(false)
@@ -725,70 +787,20 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset, onAddToLeader
           onMouseMove={!invaderMode ? handleMouseMove : undefined}
         >
           {!invaderMode && gamepads.map((gamepad) => (
-            <div
+            <DraggableGamepad
               key={`${gamepad.id}-${resetKey}`}
-              className="absolute"
-              style={{ 
-                transform: `translate(${gamepad.x}px, ${gamepad.y}px)`,
-                zIndex: 10 + gamepad.id 
+              gamepad={gamepad}
+              isExploding={explodingGamepads.has(gamepad.id)}
+              onDragEnd={(id, info) => {
+                setGamepads(prev => prev.map(gp => 
+                  gp.id === id ? { ...gp, x: gp.x + info.offset.x, y: gp.y + info.offset.y, isNew: false } : gp
+                ))
               }}
-            >
-              <motion.div
-                initial={gamepad.isNew ? { scale: 0, opacity: 0, rotate: -180 } : { scale: 0 }}
-                animate={{ 
-                  scale: explodingGamepads.has(gamepad.id) ? [1, 1.5, 0] : 1,
-                  opacity: explodingGamepads.has(gamepad.id) ? [1, 1, 0] : 1,
-                  rotate: explodingGamepads.has(gamepad.id) ? [0, 180, 360] : 0,
-                }}
-                transition={explodingGamepads.has(gamepad.id) ? {
-                  duration: 0.15,
-                  ease: 'easeOut'
-                } : gamepad.isNew ? { 
-                  type: 'spring',
-                  stiffness: 200,
-                  damping: 15,
-                  duration: 0.5
-                } : {}}
-                drag={true}
-                dragConstraints={{ left: -300, right: 300, top: -300, bottom: 300 }}
-                dragElastic={0.2}
-                dragTransition={{ bounceStiffness: 300, bounceDamping: 20 }}
-                onDragEnd={(e, info) => {
-                  setGamepads(prev => prev.map(gp => 
-                    gp.id === gamepad.id ? { ...gp, x: gp.x + info.offset.x, y: gp.y + info.offset.y, isNew: false } : gp
-                  ))
-                }}
-                whileHover={{ scale: 1.1, rotate: 5 }}
-                whileDrag={{ scale: 1.2, rotate: 10, cursor: 'grabbing' }}
-                onTapStart={() => {
-                  pressedGamepadRef.current = gamepad.id
-                  pressTimerRef.current = setTimeout(() => {
-                    handleGamepadLongPress(gamepad.id)
-                    pressTimerRef.current = null
-                  }, 500)
-                }}
-                onTap={() => {
-                  if (pressTimerRef.current) {
-                    clearTimeout(pressTimerRef.current)
-                    pressTimerRef.current = null
-                  }
-                }}
-                onTapCancel={() => {
-                  if (pressTimerRef.current) {
-                    clearTimeout(pressTimerRef.current)
-                    pressTimerRef.current = null
-                  }
-                }}
-                onDoubleClick={() => handleGamepadDoubleClick(gamepad)}
-                className="inline-block cursor-grab"
-              >
-                <div className="relative">
-                  <div className={`w-10 h-10 md:w-20 md:h-20 rounded-lg ${gamepad.color.replace('text-', 'bg-')} opacity-30 absolute inset-0`} />
-                  <Gamepad2 className={`w-10 h-10 md:w-20 md:h-20 ${gamepad.color} animate-float relative z-10`} fill="currentColor" fillOpacity="0.3" />
-                  <Sparkles className="w-4 h-4 md:w-8 md:h-8 text-accent-400 absolute -top-1 -right-1 md:-top-2 md:-right-2 animate-pulse z-20" />
-                </div>
-              </motion.div>
-            </div>
+              onLongPress={handleGamepadLongPress}
+              onDoubleClick={handleGamepadDoubleClick}
+              pressTimerRef={pressTimerRef}
+              pressedGamepadRef={pressedGamepadRef}
+            />
           ))}
 
           {/* Scoreboard */}
