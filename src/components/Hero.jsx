@@ -96,9 +96,14 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset, onAddToLeader
   const pressedGamepadRef = useRef(null)
 
   // Reset all game state when gamepads are reset to initial state
+  const prevGamepadsLengthRef = useRef(gamepads.length)
   useEffect(() => {
-    // Check if gamepads have been reset to initial state (single gamepad with id 0)
-    if (gamepads.length === 1 && gamepads[0].id === 0) {
+    // Only trigger reset when gamepads count drops back to 1 (actual reset from header),
+    // not when the single gamepad's color changes
+    const wasReset = gamepads.length === 1 && gamepads[0].id === 0 && prevGamepadsLengthRef.current > 1
+    prevGamepadsLengthRef.current = gamepads.length
+    
+    if (wasReset) {
       setInvaderMode(false)
       setShowScoreboard(false)
       setIsCountingDown(false)
