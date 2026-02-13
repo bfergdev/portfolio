@@ -28,6 +28,12 @@ const DraggableGamepad = ({ gamepad, isExploding, onDragEnd, onLongPress, onDoub
       dragConstraints={{ left: -300, right: 300, top: -300, bottom: 300 }}
       dragElastic={0.2}
       dragTransition={{ bounceStiffness: 300, bounceDamping: 20 }}
+      onDragStart={() => {
+        if (pressTimerRef.current) {
+          clearTimeout(pressTimerRef.current)
+          pressTimerRef.current = null
+        }
+      }}
       onDragEnd={(e, info) => {
         onDragEnd(gamepad.id, info)
       }}
