@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from 'react'
 const DraggableGamepad = ({ gamepad, isExploding, onDragEnd, onLongPress, onDoubleClick, pressTimerRef, pressedGamepadRef }) => {
   const motionX = useMotionValue(gamepad.x)
   const motionY = useMotionValue(gamepad.y)
+  const isDraggingRef = useRef(false)
 
   return (
     <motion.div
@@ -29,30 +30,29 @@ const DraggableGamepad = ({ gamepad, isExploding, onDragEnd, onLongPress, onDoub
       dragElastic={0.2}
       dragTransition={{ bounceStiffness: 300, bounceDamping: 20 }}
       onDragStart={() => {
+        isDraggingRef.current = true
         if (pressTimerRef.current) {
           clearTimeout(pressTimerRef.current)
           pressTimerRef.current = null
         }
       }}
       onDragEnd={(e, info) => {
+        isDraggingRef.current = false
         onDragEnd(gamepad.id, info)
       }}
       whileHover={{ scale: 1.1, rotate: 5 }}
       whileDrag={{ scale: 1.2, rotate: 10, cursor: 'grabbing' }}
-      onTapStart={() => {
+      onPointerDown={() => {
+        isDraggingRef.current = false
         pressedGamepadRef.current = gamepad.id
         pressTimerRef.current = setTimeout(() => {
-          onLongPress(gamepad.id)
+          if (!isDraggingRef.current) {
+            onLongPress(gamepad.id)
+          }
           pressTimerRef.current = null
         }, 500)
       }}
-      onTap={() => {
-        if (pressTimerRef.current) {
-          clearTimeout(pressTimerRef.current)
-          pressTimerRef.current = null
-        }
-      }}
-      onTapCancel={() => {
+      onPointerUp={() => {
         if (pressTimerRef.current) {
           clearTimeout(pressTimerRef.current)
           pressTimerRef.current = null
