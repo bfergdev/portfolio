@@ -1,5 +1,6 @@
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { ExternalLink } from 'lucide-react'
+import { useState } from 'react'
 import ashesImg from '../../images/ashes.png'
 import apocalypseImg from '../../images/apocalypse.png'
 import veeshanImg from '../../images/veeshan.png'
@@ -8,6 +9,7 @@ import discoveryImg from '../../images/discovery.png'
 import veliousImg from '../../images/velious.png'
 
 const Projects = () => {
+  const [featuredIndex, setFeaturedIndex] = useState(0)
   const projects = [
     {
       title: 'Ashes of Creation',
@@ -20,6 +22,15 @@ const Projects = () => {
       role: 'Senior Game Designer',
       company: 'Intrepid Studios',
       years: '2020 - 2025',
+      flavorText: [
+        'Spearheaded multidisciplinary development from conception through launch on: Classes, Weapons, PVP, Siege, Combat Balance, CCC, Mounts/Vehicles, PVE Enemies, Fishing, & Narrative Events.',
+        'Performed leadership duties including Hiring, Onboarding, Training, and Mentoring.',
+        'Unlocked creativity with blueprint and scripting support across the project.',
+        'Aligned with fellow designers to create a unified vision.',
+        'Partnered with engineers, providing them with technical direction and iterative consultation in developing our tools and systems.',
+        'Enabled artists with creative direction and technical implementation of assets.',
+        'Coordinated with production and the wider team to manage asset pipelines and deliver accurate timelines.',
+      ],
     },
     {
       title: 'Ashes of Creation: Apocalypse',
@@ -102,38 +113,42 @@ const Projects = () => {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1, duration: 0.6 }}
-              whileHover={{ y: -10 }}
-              className="group relative"
-            >
-              <div className={`absolute inset-0 bg-gradient-to-r ${project.color} rounded-2xl blur-xl opacity-0 group-hover:opacity-30 transition-opacity`} />
-              
-              <div className="relative bg-slate-900/80 backdrop-blur-sm border border-primary-500/20 rounded-2xl overflow-hidden flex flex-col h-full">
-                <div className="relative h-48 overflow-hidden">
+        {/* Featured Project Card */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={featuredIndex}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.4 }}
+            className="mb-12 group relative"
+          >
+            <div className={`absolute inset-0 bg-gradient-to-r ${projects[featuredIndex].color} rounded-2xl blur-xl opacity-20`} />
+            
+            <div className="relative bg-slate-900/80 backdrop-blur-sm border border-primary-500/30 rounded-2xl overflow-hidden">
+              <div className="flex flex-col lg:flex-row">
+                <div className="relative lg:w-1/2 h-64 lg:h-auto min-h-[300px] overflow-hidden">
                   {/* Animated gradient background */}
-                  <div className={`absolute inset-0 bg-gradient-to-br ${project.color} opacity-20 animate-pulse`} />
-                  <div className={`absolute inset-0 bg-gradient-to-tl ${project.color} opacity-10 group-hover:opacity-30 transition-opacity duration-500`} />
+                  <div className={`absolute inset-0 bg-gradient-to-br ${projects[featuredIndex].color} opacity-20 animate-pulse`} />
+                  <div className={`absolute inset-0 bg-gradient-to-tl ${projects[featuredIndex].color} opacity-10`} />
                   
                   {/* Animated orbs */}
-                  <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${project.color} rounded-full blur-3xl opacity-40 group-hover:opacity-60 transition-opacity duration-500`} />
-                  <div className={`absolute bottom-0 left-0 w-40 h-40 bg-gradient-to-tr ${project.color} rounded-full blur-3xl opacity-30 group-hover:opacity-50 transition-opacity duration-500`} />
+                  <div className={`absolute top-0 right-0 w-48 h-48 bg-gradient-to-br ${projects[featuredIndex].color} rounded-full blur-3xl opacity-40`} />
+                  <div className={`absolute bottom-0 left-0 w-56 h-56 bg-gradient-to-tr ${projects[featuredIndex].color} rounded-full blur-3xl opacity-30`} />
                   
                   <img
-                    src={project.image}
-                    alt={project.title}
-                    className="relative z-10 w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-500 drop-shadow-2xl pointer-events-none"
+                    src={projects[featuredIndex].image}
+                    alt={projects[featuredIndex].title}
+                    className="relative z-10 w-full h-full object-contain p-6 lg:p-8 drop-shadow-2xl pointer-events-none"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent pointer-events-none" />
-                  <div className="absolute top-4 right-4 flex gap-2 z-20">
+                  <div className="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-r from-slate-900 via-transparent to-transparent pointer-events-none" />
+                </div>
+
+                <div className="p-6 lg:p-8 lg:w-1/2 flex flex-col">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="text-sm text-primary-400">{projects[featuredIndex].category}</div>
                     <motion.a
-                      href={project.link}
+                      href={projects[featuredIndex].link}
                       target="_blank"
                       rel="noopener noreferrer"
                       whileHover={{ scale: 1.1 }}
@@ -143,22 +158,27 @@ const Projects = () => {
                       <ExternalLink size={20} className="pointer-events-none" />
                     </motion.a>
                   </div>
-                </div>
-
-                <div className="p-6 flex-grow flex flex-col">
-                  <div className="text-sm text-primary-400 mb-2">{project.category}</div>
-                  <h3 className="text-2xl font-bold text-white mb-3">{project.title}</h3>
-                  <p className="text-gray-400 mb-4 flex-grow">{project.description}</p>
+                  <h3 className="text-3xl lg:text-4xl font-bold text-white mb-3">{projects[featuredIndex].title}</h3>
                   
-                  {project.role && (
+                  {projects[featuredIndex].role && (
                     <div className="mb-4 text-sm">
-                      <div className="text-accent-400 font-semibold">{project.role}</div>
-                      <div className="text-gray-500">{project.company} • {project.years}</div>
+                      <div className="text-accent-400 font-semibold text-base">{projects[featuredIndex].role}</div>
+                      <div className="text-gray-500">{projects[featuredIndex].company} • {projects[featuredIndex].years}</div>
                     </div>
                   )}
                   
-                  <div className="flex flex-wrap gap-2">
-                    {project.tags.map((tag, tagIndex) => (
+                  <p className="text-gray-400 mb-4">{projects[featuredIndex].description}</p>
+                  
+                  {projects[featuredIndex].flavorText && (
+                    <ul className="text-gray-400 text-sm space-y-2 mb-4 list-disc list-outside pl-4">
+                      {projects[featuredIndex].flavorText.map((item, i) => (
+                        <li key={i}>{item}</li>
+                      ))}
+                    </ul>
+                  )}
+                  
+                  <div className="flex flex-wrap gap-2 mt-auto">
+                    {projects[featuredIndex].tags.map((tag, tagIndex) => (
                       <span
                         key={tagIndex}
                         className="px-3 py-1 bg-primary-500/10 border border-primary-500/30 rounded-full text-xs text-primary-300"
@@ -169,7 +189,48 @@ const Projects = () => {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Project Selector Grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+          {projects.map((project, index) => (
+            index !== featuredIndex && (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.05, duration: 0.4 }}
+                whileHover={{ y: -5, scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                onClick={() => setFeaturedIndex(index)}
+                className="group relative cursor-pointer"
+              >
+                <div className={`absolute inset-0 bg-gradient-to-r ${project.color} rounded-xl blur-lg opacity-0 group-hover:opacity-30 transition-opacity`} />
+                
+                <div className="relative bg-slate-900/80 backdrop-blur-sm border border-primary-500/20 group-hover:border-primary-500/50 rounded-xl overflow-hidden transition-colors">
+                  <div className="relative h-28 sm:h-32 overflow-hidden">
+                    <div className={`absolute inset-0 bg-gradient-to-br ${project.color} opacity-15`} />
+                    <div className={`absolute top-0 right-0 w-20 h-20 bg-gradient-to-br ${project.color} rounded-full blur-2xl opacity-30`} />
+                    
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      className="relative z-10 w-full h-full object-contain p-3 group-hover:scale-110 transition-transform duration-500 drop-shadow-xl pointer-events-none"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent pointer-events-none" />
+                  </div>
+
+                  <div className="p-3">
+                    <div className="text-xs text-primary-400 mb-1">{project.category}</div>
+                    <h4 className="text-sm font-bold text-white leading-tight">{project.title}</h4>
+                    <div className="text-xs text-gray-500 mt-1">{project.years}</div>
+                  </div>
+                </div>
+              </motion.div>
+            )
           ))}
         </div>
       </div>
