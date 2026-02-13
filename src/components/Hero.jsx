@@ -727,13 +727,11 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset, onAddToLeader
           {!invaderMode && gamepads.map((gamepad) => (
             <motion.div
               key={`${gamepad.id}-${resetKey}`}
-              initial={gamepad.isNew ? { scale: 0, opacity: 0, rotate: -180 } : { scale: 0 }}
+              initial={gamepad.isNew ? { scale: 0, opacity: 0, rotate: -180, x: gamepad.x, y: gamepad.y } : { scale: 0, x: gamepad.x, y: gamepad.y }}
               animate={{ 
                 scale: explodingGamepads.has(gamepad.id) ? [1, 1.5, 0] : 1,
                 opacity: explodingGamepads.has(gamepad.id) ? [1, 1, 0] : 1,
                 rotate: explodingGamepads.has(gamepad.id) ? [0, 180, 360] : 0,
-                x: gamepad.x,
-                y: gamepad.y
               }}
               transition={explodingGamepads.has(gamepad.id) ? {
                 duration: 0.15,
@@ -743,17 +741,14 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset, onAddToLeader
                 stiffness: 200,
                 damping: 15,
                 duration: 0.5
-              } : { 
-                x: { type: 'tween', duration: 0 },
-                y: { type: 'tween', duration: 0 }
-              }}
+              } : {}}
               drag={true}
               dragConstraints={{ left: -300, right: 300, top: -300, bottom: 300 }}
               dragElastic={0.2}
               dragTransition={{ bounceStiffness: 300, bounceDamping: 20 }}
               onDragEnd={(e, info) => {
                 setGamepads(prev => prev.map(gp => 
-                  gp.id === gamepad.id ? { ...gp, x: gp.x + info.offset.x, y: gp.y + info.offset.y } : gp
+                  gp.id === gamepad.id ? { ...gp, x: gp.x + info.offset.x, y: gp.y + info.offset.y, isNew: false } : gp
                 ))
               }}
               whileHover={{ scale: 1.1, rotate: 5 }}
