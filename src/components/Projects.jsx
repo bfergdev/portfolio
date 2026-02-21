@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion'
-import { ExternalLink, Play, X, ChevronLeft, ChevronRight } from 'lucide-react'
+import { ExternalLink, Play, X, ChevronLeft, ChevronRight, FolderOpen, ZoomIn } from 'lucide-react'
 import { useState, useRef, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import ashesImg from '../../images/ashes.png'
@@ -86,6 +86,120 @@ const VideoModal = ({ videos, label, onClose, initialIndex = 0 }) => {
           </div>
         )}
       </motion.div>
+    </motion.div>,
+    document.body
+  )
+}
+
+const DocGallery = ({ docs, title, onClose }) => {
+  const [expanded, setExpanded] = useState(null)
+
+  useEffect(() => {
+    const handleKey = (e) => {
+      if (e.key === 'Escape') {
+        if (expanded) setExpanded(null)
+        else onClose()
+      }
+    }
+    window.addEventListener('keydown', handleKey)
+    return () => window.removeEventListener('keydown', handleKey)
+  }, [expanded, onClose])
+
+  return createPortal(
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[10000] flex items-center justify-center p-4"
+      onClick={() => expanded ? setExpanded(null) : onClose()}
+    >
+      <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
+      <motion.div
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.9, opacity: 0 }}
+        transition={{ duration: 0.2 }}
+        className="relative w-full max-w-5xl max-h-[85vh] flex flex-col"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <h3 className="text-lg font-bold text-white">{title}</h3>
+            <p className="text-xs text-gray-400">{docs.length} design documents — click to expand</p>
+          </div>
+          <button onClick={onClose} className="text-gray-400 hover:text-white transition-colors p-1">
+            <X size={20} />
+          </button>
+        </div>
+        <div className="overflow-y-auto pr-2 custom-scrollbar">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+            {docs.map((doc, i) => (
+              <motion.button
+                key={i}
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                onClick={() => setExpanded(doc)}
+                className="group relative bg-slate-900/80 border border-primary-500/20 hover:border-primary-500/50 rounded-lg overflow-hidden text-left transition-colors"
+              >
+                <div className="relative aspect-[3/4] overflow-hidden">
+                  <img
+                    src={doc.thumb}
+                    alt={doc.name}
+                    className="w-full h-full object-cover object-top"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center">
+                    <ZoomIn size={24} className="text-white opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </div>
+                </div>
+                <div className="p-2">
+                  <div className="text-xs font-medium text-gray-300 leading-tight truncate">{doc.name}</div>
+                  <div className="text-[10px] text-gray-500 mt-0.5">{doc.category}</div>
+                </div>
+              </motion.button>
+            ))}
+          </div>
+        </div>
+      </motion.div>
+
+      <AnimatePresence>
+        {expanded && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[10001] flex items-center justify-center p-4"
+            onClick={() => setExpanded(null)}
+          >
+            <div className="absolute inset-0 bg-black/90" />
+            <motion.div
+              initial={{ scale: 0.8 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.8 }}
+              transition={{ duration: 0.2 }}
+              className="relative max-w-4xl max-h-[90vh] w-full"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between mb-3">
+                <div>
+                  <div className="text-sm font-semibold text-primary-400">{expanded.name}</div>
+                  <div className="text-xs text-gray-500">{expanded.category}</div>
+                </div>
+                <button onClick={() => setExpanded(null)} className="text-gray-400 hover:text-white transition-colors p-1">
+                  <X size={20} />
+                </button>
+              </div>
+              <div className="overflow-auto max-h-[80vh] rounded-xl border border-primary-500/30 shadow-2xl">
+                <img
+                  src={expanded.thumb}
+                  alt={expanded.name}
+                  className="w-full h-auto"
+                />
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>,
     document.body
   )
@@ -199,6 +313,7 @@ const FlavorItem = ({ summary, detail, videos }) => {
 
 const Projects = () => {
   const [featuredIndex, setFeaturedIndex] = useState(0)
+  const [showDocs, setShowDocs] = useState(false)
   const projects = [
     {
       title: 'Ashes of Creation',
@@ -211,6 +326,37 @@ const Projects = () => {
       role: 'Senior Game Designer',
       company: 'Intrepid Studios',
       years: '2020 - 2025',
+      docs: [
+        { name: 'Combat Guiding Pillars', category: 'Combat & Balance', thumb: '/doc-thumbs/combat-guiding-pillars.jpg' },
+        { name: 'Tank Landing Page', category: 'Combat & Balance', thumb: '/doc-thumbs/tank-landing-page.jpg' },
+        { name: 'Ranger Abilities', category: 'Combat & Balance', thumb: '/doc-thumbs/ranger-abilities.jpg' },
+        { name: 'Mage Abilities', category: 'Combat & Balance', thumb: '/doc-thumbs/mage-abilities.jpg' },
+        { name: 'Weapon Development Pipeline', category: 'Combat & Balance', thumb: '/doc-thumbs/weapon-development.jpg' },
+        { name: '2H Spear GDD', category: 'Combat & Balance', thumb: '/doc-thumbs/2h-spear-gdd.jpg' },
+        { name: 'Attack Speed System', category: 'Combat & Balance', thumb: '/doc-thumbs/attack-speed.jpg' },
+        { name: 'CDS Hybrid Scaling', category: 'Combat & Balance', thumb: '/doc-thumbs/cds-hybrid-scaling.jpg' },
+        { name: 'Ability Master Sheet', category: 'Combat & Balance', thumb: '/doc-thumbs/ability-master-sheet.jpg' },
+        { name: 'Stats WIP', category: 'Combat & Balance', thumb: '/doc-thumbs/stats-wip.jpg' },
+        { name: 'Proc & Passive Ideas', category: 'Combat & Balance', thumb: '/doc-thumbs/proc-passive-ideas.jpg' },
+        { name: 'Weapons Balance', category: 'Combat & Balance', thumb: '/doc-thumbs/weapons-balance.jpg' },
+        { name: 'VFX Visibility Strategy', category: 'Combat & Balance', thumb: '/doc-thumbs/vfx-visibility-strategy.jpg' },
+        { name: 'Node Siege GDD', category: 'PVP Systems', thumb: '/doc-thumbs/node-siege-gdd.jpg' },
+        { name: 'Siege Machines & Gadgets', category: 'PVP Systems', thumb: '/doc-thumbs/siege-machines-gadgets.jpg' },
+        { name: 'Expanded Corruption', category: 'PVP Systems', thumb: '/doc-thumbs/expanded-corruption.jpg' },
+        { name: 'Conflict Objectives', category: 'PVP Systems', thumb: '/doc-thumbs/conflict-objectives.jpg' },
+        { name: 'Siege Respawns & Safehouses', category: 'PVP Systems', thumb: '/doc-thumbs/siege-respawns-safehouses.jpg' },
+        { name: 'Economy M3 MVP', category: 'Economy', thumb: '/doc-thumbs/economy-m3-mvp.jpg' },
+        { name: 'Itemization Philosophy', category: 'Economy', thumb: '/doc-thumbs/itemization-philosophy.jpg' },
+        { name: 'Reward Tables', category: 'Economy', thumb: '/doc-thumbs/reward-tables.jpg' },
+        { name: 'Verra Narrative', category: 'Storytelling', thumb: '/doc-thumbs/verra-narrative.jpg' },
+        { name: 'Harbinger Quest', category: 'Storytelling', thumb: '/doc-thumbs/harbinger-quest.jpg' },
+        { name: 'Targeting 3.0', category: 'UI/UX Design', thumb: '/doc-thumbs/targeting-3.jpg' },
+        { name: 'Defensive Target 2.0', category: 'UI/UX Design', thumb: '/doc-thumbs/defensive-target-2.jpg' },
+        { name: 'DDE 2.0 Requirements', category: 'Tool Design', thumb: '/doc-thumbs/dde-2-requirements.jpg' },
+        { name: 'Design Onboarding', category: 'Leadership', thumb: '/doc-thumbs/design-onboarding.jpg' },
+        { name: 'Feature Ownership', category: 'Leadership', thumb: '/doc-thumbs/feature-ownership.jpg' },
+        { name: 'Champions & Disciples', category: 'Systems Design', thumb: '/doc-thumbs/champions-disciples.jpg' },
+      ],
       flavorText: [
         {
           summary: 'Owned Mage, Tank, and Ranger archetypes — authored ability kits, skill trees, stat systems, and the combat guiding pillars from concept through Alpha 2.',
@@ -274,6 +420,13 @@ const Projects = () => {
       role: 'Game Designer',
       company: 'Intrepid Studios',
       years: '2019 - 2020',
+      docs: [
+        { name: 'Loot Pass Economy', category: 'Economy', thumb: '/doc-thumbs/apoc-loot-pass.jpg' },
+        { name: 'Compendium Rewards', category: 'Battle Pass', thumb: '/doc-thumbs/apoc-compendium-rewards.jpg' },
+        { name: 'Destructible Item HP Balance', category: 'Systems Balance', thumb: '/doc-thumbs/apoc-destructible-hp.jpg' },
+        { name: 'Recovery Analysis', category: 'Competitive Analysis', thumb: '/doc-thumbs/apoc-recovery-analysis.jpg' },
+        { name: 'Storm Speed System', category: 'Systems Balance', thumb: '/doc-thumbs/apoc-storm-speed.jpg' },
+      ],
       flavorText: [
         'Architected the full loot pass economy — weapon, utility, health, and combo drop tables with weighted probability math across common, rare, and legendary tiers.',
         'Managed 5,000+ world spawners across multiple types (Chests, RareItem, WorldItem, WorldCommon, WorldMana) with per-map spawn rates and difficulty-scaled chest distribution (Easy 25% → Advanced 55%).',
@@ -387,18 +540,31 @@ const Projects = () => {
                 <div className="p-6 lg:p-8 lg:w-1/2 flex flex-col">
                   <div className="flex items-center justify-between mb-2">
                     <div className="text-sm text-primary-400">{projects[featuredIndex].category}</div>
-                    <motion.a
+                    <div className="flex items-center gap-2">
+                      {projects[featuredIndex].docs && (
+                        <motion.button
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.9 }}
+                          onClick={() => setShowDocs(true)}
+                          className="p-2 bg-slate-900/80 backdrop-blur-sm rounded-lg hover:bg-primary-500/50 transition-colors cursor-pointer"
+                          title="View design documents"
+                        >
+                          <FolderOpen size={20} className="pointer-events-none text-primary-300" />
+                        </motion.button>
+                      )}
+                    </div>
+                  </div>
+                  <h3 className="text-3xl lg:text-4xl font-bold mb-3">
+                    <a
                       href={projects[featuredIndex].link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                      className="p-2 bg-slate-900/80 backdrop-blur-sm rounded-lg hover:bg-primary-500/50 transition-colors cursor-pointer"
+                      className="text-white hover:text-primary-400 transition-colors"
                     >
-                      <ExternalLink size={20} className="pointer-events-none" />
-                    </motion.a>
-                  </div>
-                  <h3 className="text-3xl lg:text-4xl font-bold text-white mb-3">{projects[featuredIndex].title}</h3>
+                      {projects[featuredIndex].title}
+                      <ExternalLink size={16} className="inline-block ml-2 mb-1 opacity-40" />
+                    </a>
+                  </h3>
                   
                   {projects[featuredIndex].role && (
                     <div className="mb-4 text-sm">
@@ -433,6 +599,16 @@ const Projects = () => {
               </div>
             </div>
           </motion.div>
+        </AnimatePresence>
+
+        <AnimatePresence>
+          {showDocs && projects[featuredIndex].docs && (
+            <DocGallery
+              docs={projects[featuredIndex].docs}
+              title={`${projects[featuredIndex].title} — Design Documents`}
+              onClose={() => setShowDocs(false)}
+            />
+          )}
         </AnimatePresence>
 
         {/* Project Selector Grid */}
