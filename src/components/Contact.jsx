@@ -5,7 +5,7 @@ const Contact = () => {
 
   const socialLinks = [
     { icon: Linkedin, href: 'https://www.linkedin.com/in/brianferg/', label: 'LinkedIn' },
-    { icon: Mail, href: 'mailto:bferg.dev@gmail.com', label: 'Email' },
+    { icon: Mail, href: 'mailto:bferg.dev@gmail.com', label: 'bferg.dev@gmail.com' },
   ]
 
   return (
