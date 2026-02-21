@@ -191,7 +191,7 @@ const DocGallery = ({ docs, title, onClose }) => {
               </div>
               <div className="overflow-auto max-h-[80vh] rounded-xl border border-primary-500/30 shadow-2xl">
                 <img
-                  src={expanded.thumb}
+                  src={expanded.thumb.replace('.jpg', '-full.jpg')}
                   alt={expanded.name}
                   className="w-full h-auto"
                 />
