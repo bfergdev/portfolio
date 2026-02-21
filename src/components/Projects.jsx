@@ -547,7 +547,7 @@ const Projects = () => {
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                           onClick={() => setShowDocs(true)}
-                          className="relative overflow-hidden flex items-center gap-2 px-3 py-1.5 bg-primary-500/10 border border-primary-500/40 rounded-full hover:bg-primary-500/20 hover:border-primary-400/60 transition-colors cursor-pointer group"
+                          className="relative overflow-hidden flex items-center gap-2 px-3 py-1.5 bg-primary-500/10 border border-primary-500/40 rounded-full hover:bg-primary-500/20 hover:border-primary-400/60 transition-all cursor-pointer group shadow-[0_0_12px_2px_rgba(56,189,248,0.25)] hover:shadow-[0_0_20px_4px_rgba(56,189,248,0.4)]"
                           title="View design documents"
                         >
                           <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-primary-400/20 to-transparent" />
