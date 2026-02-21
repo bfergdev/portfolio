@@ -1,11 +1,16 @@
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Gamepad2, Trophy } from 'lucide-react'
+import { Menu, X, Gamepad2, Trophy, FolderOpen, ZoomIn } from 'lucide-react'
 import { useState, useEffect, useRef } from 'react'
+import { createPortal } from 'react-dom'
+import allDocs from '../data/allDocs'
 
 const Navigation = ({ activeSection, onResetGamepads, leaderboard }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [showName, setShowName] = useState(false)
   const [showLeaderboard, setShowLeaderboard] = useState(false)
+  const [showWorks, setShowWorks] = useState(false)
+  const [worksExpanded, setWorksExpanded] = useState(null)
+  const [worksFilter, setWorksFilter] = useState('All')
   const holdTimerRef = useRef(null)
   const mouseDownTimeRef = useRef(null)
   const clickTimerRef = useRef(null)
@@ -35,13 +40,26 @@ const Navigation = ({ activeSection, onResetGamepads, leaderboard }) => {
     }
   }, [showLeaderboard])
 
+  useEffect(() => {
+    if (showWorks) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => { document.body.style.overflow = '' }
+  }, [showWorks])
+
   const navItems = [
     { id: 'home', label: 'Home' },
     { id: 'about', label: 'About' },
     { id: 'projects', label: 'Projects' },
     { id: 'skills', label: 'Skills' },
+    { id: 'works', label: 'Works', action: () => setShowWorks(true) },
     { id: 'contact', label: 'Contact' },
   ]
+
+  const worksCategories = ['All', ...new Set(allDocs.map(d => d.category))]
+  const filteredDocs = worksFilter === 'All' ? allDocs : allDocs.filter(d => d.category === worksFilter)
 
   const scrollToSection = (id) => {
     const element = document.getElementById(id)
@@ -155,9 +173,9 @@ const Navigation = ({ activeSection, onResetGamepads, leaderboard }) => {
               {navItems.map((item) => (
                 <motion.button
                   key={item.id}
-                  onClick={() => scrollToSection(item.id)}
+                  onClick={() => item.action ? item.action() : scrollToSection(item.id)}
                   className={`relative px-3 py-2 text-sm font-medium transition-colors ${
-                    activeSection === item.id
+                    activeSection === item.id || (item.id === 'works' && showWorks)
                       ? 'text-primary-400'
                       : 'text-gray-300 hover:text-white'
                   }`}
@@ -196,7 +214,7 @@ const Navigation = ({ activeSection, onResetGamepads, leaderboard }) => {
             {navItems.map((item) => (
               <motion.button
                 key={item.id}
-                onClick={() => scrollToSection(item.id)}
+                onClick={() => { item.action ? item.action() : scrollToSection(item.id); setIsOpen(false) }}
                 className={`text-2xl font-medium ${
                   activeSection === item.id
                     ? 'text-gradient'
@@ -295,6 +313,123 @@ const Navigation = ({ activeSection, onResetGamepads, leaderboard }) => {
               </div>
             </motion.div>
           </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Works Modal */}
+      <AnimatePresence>
+        {showWorks && createPortal(
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/85 backdrop-blur-sm p-4"
+            onClick={() => { setShowWorks(false); setWorksExpanded(null); setWorksFilter('All') }}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="bg-slate-900/95 border border-primary-500/30 rounded-2xl w-full max-w-6xl max-h-[90vh] flex flex-col overflow-hidden"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between p-6 border-b border-primary-500/20 shrink-0">
+                <div className="flex items-center gap-3">
+                  <FolderOpen className="w-6 h-6 text-primary-400" />
+                  <h2 className="text-2xl font-bold text-white">Design Documents</h2>
+                  <span className="text-sm text-gray-500">({allDocs.length} works)</span>
+                </div>
+                <button
+                  onClick={() => { setShowWorks(false); setWorksExpanded(null); setWorksFilter('All') }}
+                  className="text-gray-400 hover:text-white transition-colors"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
+
+              <div className="flex gap-2 px-6 pt-4 pb-2 flex-wrap shrink-0">
+                {worksCategories.map((cat) => (
+                  <button
+                    key={cat}
+                    onClick={() => setWorksFilter(cat)}
+                    className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
+                      worksFilter === cat
+                        ? 'bg-primary-500/30 text-primary-300 border border-primary-500/50'
+                        : 'bg-slate-800/50 text-gray-400 border border-slate-700/50 hover:text-white hover:border-primary-500/30'
+                    }`}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
+
+              <div className="overflow-y-auto p-6 pt-3">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                  {filteredDocs.map((doc, i) => (
+                    <motion.div
+                      key={doc.name}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: i * 0.02 }}
+                      className="group cursor-pointer"
+                      onClick={() => setWorksExpanded(doc)}
+                    >
+                      <div className="relative overflow-hidden rounded-lg border border-primary-500/20 group-hover:border-primary-400/50 transition-colors">
+                        <img
+                          src={doc.thumb}
+                          alt={doc.name}
+                          className="w-full aspect-[3/4] object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-2">
+                          <ZoomIn size={16} className="text-white/80" />
+                        </div>
+                      </div>
+                      <div className="mt-1.5">
+                        <div className="text-xs font-medium text-gray-300 leading-tight truncate">{doc.name}</div>
+                        <div className="text-[10px] text-primary-500/70">{doc.category}</div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+
+            <AnimatePresence>
+              {worksExpanded && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="fixed inset-0 z-[10001] flex items-center justify-center bg-black/90 p-4"
+                  onClick={() => setWorksExpanded(null)}
+                >
+                  <motion.div
+                    initial={{ scale: 0.9 }}
+                    animate={{ scale: 1 }}
+                    exit={{ scale: 0.9 }}
+                    className="relative max-w-4xl w-full"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <button
+                      onClick={() => setWorksExpanded(null)}
+                      className="absolute -top-10 right-0 text-gray-400 hover:text-white transition-colors"
+                    >
+                      <X size={24} />
+                    </button>
+                    <div className="text-sm text-primary-400 mb-2">{worksExpanded.category} — {worksExpanded.name}</div>
+                    <div className="overflow-auto max-h-[80vh] rounded-xl border border-primary-500/30 shadow-2xl">
+                      <img
+                        src={worksExpanded.thumb.replace('.jpg', '-full.jpg')}
+                        alt={worksExpanded.name}
+                        className="w-full h-auto"
+                      />
+                    </div>
+                  </motion.div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>,
+          document.body
         )}
       </AnimatePresence>
     </>

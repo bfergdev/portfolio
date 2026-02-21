@@ -544,13 +544,20 @@ const Projects = () => {
                     <div className="flex items-center gap-2">
                       {projects[featuredIndex].docs && (
                         <motion.button
-                          whileHover={{ scale: 1.1 }}
-                          whileTap={{ scale: 0.9 }}
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
                           onClick={() => setShowDocs(true)}
-                          className="p-2 bg-slate-900/80 backdrop-blur-sm rounded-lg hover:bg-primary-500/50 transition-colors cursor-pointer"
+                          className="relative overflow-hidden flex items-center gap-2 px-3 py-1.5 bg-primary-500/10 border border-primary-500/40 rounded-full hover:bg-primary-500/20 hover:border-primary-400/60 transition-colors cursor-pointer group"
                           title="View design documents"
                         >
-                          <FolderOpen size={20} className="pointer-events-none text-primary-300" />
+                          <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-primary-400/20 to-transparent" />
+                          <motion.div
+                            animate={{ rotate: [0, -10, 10, -5, 0] }}
+                            transition={{ duration: 2, repeat: Infinity, repeatDelay: 4 }}
+                          >
+                            <FolderOpen size={14} className="text-primary-400" />
+                          </motion.div>
+                          <span className="text-xs font-medium text-primary-300">{projects[featuredIndex].docs.length} Design Docs</span>
                         </motion.button>
                       )}
                     </div>
