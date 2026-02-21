@@ -1,53 +1,225 @@
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
+import { useState, useEffect } from 'react'
+import { createPortal } from 'react-dom'
+import { X, ZoomIn, FolderOpen } from 'lucide-react'
+
+const SkillDocGallery = ({ docs, title, onClose }) => {
+  const [expanded, setExpanded] = useState(null)
+
+  useEffect(() => {
+    const handleKey = (e) => {
+      if (e.key === 'Escape') {
+        if (expanded) setExpanded(null)
+        else onClose()
+      }
+    }
+    window.addEventListener('keydown', handleKey)
+    return () => window.removeEventListener('keydown', handleKey)
+  }, [expanded, onClose])
+
+  return createPortal(
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[10000] flex items-center justify-center p-4"
+      onClick={() => expanded ? setExpanded(null) : onClose()}
+    >
+      <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
+      <motion.div
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.9, opacity: 0 }}
+        transition={{ duration: 0.2 }}
+        className="relative w-full max-w-5xl max-h-[85vh] flex flex-col"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <h3 className="text-lg font-bold text-white">{title}</h3>
+            <p className="text-xs text-gray-400">{docs.length} design document{docs.length !== 1 ? 's' : ''} — click to expand</p>
+          </div>
+          <button onClick={onClose} className="text-gray-400 hover:text-white transition-colors p-1">
+            <X size={20} />
+          </button>
+        </div>
+        <div className="overflow-y-auto pr-2 custom-scrollbar">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+            {docs.map((doc, i) => (
+              <motion.button
+                key={i}
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                onClick={() => setExpanded(doc)}
+                className="group relative bg-slate-900/80 border border-primary-500/20 hover:border-primary-500/50 rounded-lg overflow-hidden text-left transition-colors"
+              >
+                <div className="relative aspect-[3/4] overflow-hidden">
+                  <img
+                    src={doc.thumb}
+                    alt={doc.name}
+                    className="w-full h-full object-cover object-top"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center">
+                    <ZoomIn size={24} className="text-white opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </div>
+                </div>
+                <div className="p-2">
+                  <div className="text-xs font-medium text-gray-300 leading-tight truncate">{doc.name}</div>
+                </div>
+              </motion.button>
+            ))}
+          </div>
+        </div>
+      </motion.div>
+
+      <AnimatePresence>
+        {expanded && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[10001] flex items-center justify-center p-4"
+            onClick={() => setExpanded(null)}
+          >
+            <div className="absolute inset-0 bg-black/90" />
+            <motion.div
+              initial={{ scale: 0.8 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.8 }}
+              transition={{ duration: 0.2 }}
+              className="relative max-w-4xl max-h-[90vh] w-full"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between mb-3">
+                <div className="text-sm font-semibold text-primary-400">{expanded.name}</div>
+                <button onClick={() => setExpanded(null)} className="text-gray-400 hover:text-white transition-colors p-1">
+                  <X size={20} />
+                </button>
+              </div>
+              <div className="overflow-auto max-h-[80vh] rounded-xl border border-primary-500/30 shadow-2xl">
+                <img
+                  src={expanded.thumb.replace('.jpg', '-full.jpg')}
+                  alt={expanded.name}
+                  className="w-full h-auto"
+                />
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>,
+    document.body
+  )
+}
 
 const Skills = () => {
+  const [activeDocs, setActiveDocs] = useState(null)
+
   const skillCategories = [
     {
       title: 'Combat & Class Design',
       skills: [
-        { name: 'Archetype Ownership', context: 'Mage, Tank, and Ranger from concept through Alpha 2' },
-        { name: 'Ability & Skill Tree Design', context: '3 skill schools per class across all 8 archetypes' },
-        { name: 'Weapon Combo Pipeline', context: '20+ weapon types with damage, speed, and finisher tuning' },
-        { name: 'Stat Systems & Formulas', context: '6 base attributes, CDS hybrid scaling, diminishing returns' },
-        { name: 'Attack Speed & Animation', context: 'Non-uniform scaling with Haste Modulus Curve tooling' },
-        { name: 'Status Effects & Procs', context: 'Promotion chains, set bonuses, elemental scaling' },
+        { name: 'Archetype Ownership', context: 'Mage, Tank, and Ranger from concept through Alpha 2', docs: [
+          { name: 'Ranger Abilities', thumb: '/doc-thumbs/ranger-abilities.jpg' },
+          { name: 'Mage Abilities', thumb: '/doc-thumbs/mage-abilities.jpg' },
+          { name: 'Tank Landing Page', thumb: '/doc-thumbs/tank-landing-page.jpg' },
+          { name: 'Combat Guiding Pillars', thumb: '/doc-thumbs/combat-guiding-pillars.jpg' },
+          { name: 'Ability Master Sheet', thumb: '/doc-thumbs/ability-master-sheet.jpg' },
+        ]},
+        { name: 'Ability & Skill Tree Design', context: '3 skill schools per class across all 8 archetypes', docs: [
+          { name: 'Ability Master Sheet', thumb: '/doc-thumbs/ability-master-sheet.jpg' },
+          { name: 'Ranger Abilities', thumb: '/doc-thumbs/ranger-abilities.jpg' },
+          { name: 'Mage Abilities', thumb: '/doc-thumbs/mage-abilities.jpg' },
+        ]},
+        { name: 'Weapon Combo Pipeline', context: '20+ weapon types with damage, speed, and finisher tuning', docs: [
+          { name: 'Weapon Development Pipeline', thumb: '/doc-thumbs/weapon-development.jpg' },
+          { name: '2H Spear GDD', thumb: '/doc-thumbs/2h-spear-gdd.jpg' },
+          { name: 'Weapons Balance', thumb: '/doc-thumbs/weapons-balance.jpg' },
+        ]},
+        { name: 'Stat Systems & Formulas', context: '6 base attributes, CDS hybrid scaling, diminishing returns', docs: [
+          { name: 'CDS Hybrid Scaling', thumb: '/doc-thumbs/cds-hybrid-scaling.jpg' },
+          { name: 'Stats WIP', thumb: '/doc-thumbs/stats-wip.jpg' },
+        ]},
+        { name: 'Attack Speed & Animation', context: 'Non-uniform scaling with Haste Modulus Curve tooling', docs: [
+          { name: 'Attack Speed System', thumb: '/doc-thumbs/attack-speed.jpg' },
+        ]},
+        { name: 'Status Effects & Procs', context: 'Promotion chains, set bonuses, elemental scaling', docs: [
+          { name: 'Proc & Passive Ideas', thumb: '/doc-thumbs/proc-passive-ideas.jpg' },
+        ]},
       ],
     },
     {
       title: 'PVP & Large-Scale Systems',
       skills: [
-        { name: 'Node Siege Design', context: 'Full GDD author — scroll acquisition through destruction states' },
-        { name: 'Siege Machines & Gadgets', context: '15+ machines: trebuchets, rams, ballistas, siege towers' },
-        { name: 'Corruption & Flagging', context: '6 penalty tiers, auto-flagging, repentance quests' },
-        { name: 'Conflict Objectives', context: 'Skirmish, prep, and assault phases with asymmetric goals' },
-        { name: 'Mass Combat Performance', context: 'VFX visibility strategy across all 8 classes' },
+        { name: 'Node Siege Design', context: 'Full GDD author — scroll acquisition through destruction states', docs: [
+          { name: 'Node Siege GDD', thumb: '/doc-thumbs/node-siege-gdd.jpg' },
+          { name: 'Siege Respawns & Safehouses', thumb: '/doc-thumbs/siege-respawns-safehouses.jpg' },
+        ]},
+        { name: 'Siege Machines & Gadgets', context: '15+ machines: trebuchets, rams, ballistas, siege towers', docs: [
+          { name: 'Siege Machines & Gadgets', thumb: '/doc-thumbs/siege-machines-gadgets.jpg' },
+        ]},
+        { name: 'Corruption & Flagging', context: '6 penalty tiers, auto-flagging, repentance quests', docs: [
+          { name: 'Expanded Corruption', thumb: '/doc-thumbs/expanded-corruption.jpg' },
+        ]},
+        { name: 'Conflict Objectives', context: 'Skirmish, prep, and assault phases with asymmetric goals', docs: [
+          { name: 'Conflict Objectives', thumb: '/doc-thumbs/conflict-objectives.jpg' },
+        ]},
+        { name: 'Mass Combat Performance', context: 'VFX visibility strategy across all 8 classes', docs: [
+          { name: 'VFX Visibility Strategy', thumb: '/doc-thumbs/vfx-visibility-strategy.jpg' },
+        ]},
       ],
     },
     {
       title: 'Economy & Itemization',
       skills: [
-        { name: 'Itemization Philosophy', context: '"The Endless Runway" — power curves, rarity, stat restraint' },
-        { name: 'Reward Tables & Loot', context: 'Nested tables with global modifiers at world/region/node levels' },
-        { name: 'Artisanship Pipeline', context: 'Gathering, processing, and crafting with gameplay layers' },
-        { name: 'Battle Pass & Live Economy', context: 'Compendium rewards, drop weight tuning, spawn balancing' },
-        { name: 'Competitive Benchmarking', context: 'Recovery analysis vs. Fortnite, Apex, PUBG' },
+        { name: 'Itemization Philosophy', context: '"The Endless Runway" — power curves, rarity, stat restraint', docs: [
+          { name: 'Itemization Philosophy', thumb: '/doc-thumbs/itemization-philosophy.jpg' },
+        ]},
+        { name: 'Reward Tables & Loot', context: 'Nested tables with global modifiers at world/region/node levels', docs: [
+          { name: 'Reward Tables', thumb: '/doc-thumbs/reward-tables.jpg' },
+          { name: 'Harbinger Quest', thumb: '/doc-thumbs/harbinger-quest.jpg' },
+        ]},
+        { name: 'Artisanship Pipeline', context: 'Gathering, processing, and crafting with gameplay layers', docs: [
+          { name: 'Economy M3 MVP', thumb: '/doc-thumbs/economy-m3-mvp.jpg' },
+        ]},
+        { name: 'Battle Pass & Live Economy', context: 'Compendium rewards, drop weight tuning, spawn balancing', docs: [
+          { name: 'Compendium Rewards', thumb: '/doc-thumbs/apoc-compendium-rewards.jpg' },
+          { name: 'Loot Pass Economy', thumb: '/doc-thumbs/apoc-loot-pass.jpg' },
+        ]},
+        { name: 'Competitive Benchmarking', context: 'Recovery analysis vs. Fortnite, Apex, PUBG', docs: [
+          { name: 'Recovery Analysis', thumb: '/doc-thumbs/apoc-recovery-analysis.jpg' },
+        ]},
       ],
     },
     {
       title: 'Narrative & World Design',
       skills: [
-        { name: 'Quest Design & NPC Authoring', context: 'Harbinger quest chains, coalition quests, NPC characters' },
-        { name: 'World Lore & Storytelling', context: 'Verra narrative, Ancients, event-driven corrupted zones' },
+        { name: 'Quest Design & NPC Authoring', context: 'Harbinger quest chains, coalition quests, NPC characters', docs: [
+          { name: 'Harbinger Quest', thumb: '/doc-thumbs/harbinger-quest.jpg' },
+        ]},
+        { name: 'World Lore & Storytelling', context: 'Verra narrative, Ancients, event-driven corrupted zones', docs: [
+          { name: 'Verra Narrative', thumb: '/doc-thumbs/verra-narrative.jpg' },
+        ]},
         { name: 'Encounter & Boss Design', context: 'Scripted behaviors, one-off abilities, phase mechanics' },
-        { name: 'Settlement & Node Systems', context: 'Champions, Disciples, Military Node elections' },
+        { name: 'Settlement & Node Systems', context: 'Champions, Disciples, Military Node elections', docs: [
+          { name: 'Champions & Disciples', thumb: '/doc-thumbs/champions-disciples.jpg' },
+        ]},
       ],
     },
     {
       title: 'UX & Tool Design',
       skills: [
-        { name: 'Combat Targeting Systems', context: 'Targeting 3.0 — Defensive, Implied, Soft, Focus, Hover' },
-        { name: 'VFX Visibility Strategy', context: 'Local vs. all-client FX splits for mass combat performance' },
-        { name: 'DDE 2.0 Requirements', context: 'Blueprint scripting, expression editor, multi-edit, diffing' },
+        { name: 'Combat Targeting Systems', context: 'Targeting 3.0 — Defensive, Implied, Soft, Focus, Hover', docs: [
+          { name: 'Targeting 3.0', thumb: '/doc-thumbs/targeting-3.jpg' },
+          { name: 'Defensive Target 2.0', thumb: '/doc-thumbs/defensive-target-2.jpg' },
+        ]},
+        { name: 'VFX Visibility Strategy', context: 'Local vs. all-client FX splits for mass combat performance', docs: [
+          { name: 'VFX Visibility Strategy', thumb: '/doc-thumbs/vfx-visibility-strategy.jpg' },
+        ]},
+        { name: 'DDE 2.0 Requirements', context: 'Blueprint scripting, expression editor, multi-edit, diffing', docs: [
+          { name: 'DDE 2.0 Requirements', thumb: '/doc-thumbs/dde-2-requirements.jpg' },
+        ]},
         { name: 'Prototyping & Scripting', context: 'Designer self-sufficiency for combat, economy, encounters' },
       ],
     },
@@ -55,8 +227,12 @@ const Skills = () => {
       title: 'Leadership & Process',
       skills: [
         { name: 'Design Quorum Co-Lead', context: 'Shared leadership with 4 senior designers under CD' },
-        { name: 'Hiring & Mentorship', context: 'Onboarding pipeline, new hire routines, mentee framework' },
-        { name: 'Feature Ownership', context: 'Pod structure, co-owners, generalist design pools' },
+        { name: 'Hiring & Mentorship', context: 'Onboarding pipeline, new hire routines, mentee framework', docs: [
+          { name: 'Design Onboarding', thumb: '/doc-thumbs/design-onboarding.jpg' },
+        ]},
+        { name: 'Feature Ownership', context: 'Pod structure, co-owners, generalist design pools', docs: [
+          { name: 'Feature Ownership', thumb: '/doc-thumbs/feature-ownership.jpg' },
+        ]},
         { name: 'Cross-Discipline Collaboration', context: 'Engineering, art, and production alignment sessions' },
         { name: 'Standards & Documentation', context: 'Check-in standards, folder structure, JIRA integration' },
       ],
@@ -113,8 +289,13 @@ const Skills = () => {
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: categoryIndex * 0.08 + skillIndex * 0.05, duration: 0.4 }}
+                    className={skill.docs ? 'cursor-pointer group' : ''}
+                    onClick={skill.docs ? () => setActiveDocs({ docs: skill.docs, title: skill.name }) : undefined}
                   >
-                    <div className="text-sm font-medium text-primary-300">{skill.name}</div>
+                    <div className="flex items-center gap-1.5">
+                      <span className={`text-sm font-medium ${skill.docs ? 'text-primary-300 group-hover:text-primary-200' : 'text-primary-300'} transition-colors`}>{skill.name}</span>
+                      {skill.docs && <FolderOpen size={12} className="text-primary-500/50 group-hover:text-primary-400 transition-colors flex-shrink-0" />}
+                    </div>
                     <div className="text-xs text-gray-500 mt-0.5">{skill.context}</div>
                   </motion.div>
                 ))}
@@ -140,6 +321,16 @@ const Skills = () => {
             </motion.div>
           ))}
         </motion.div>
+
+        <AnimatePresence>
+          {activeDocs && (
+            <SkillDocGallery
+              docs={activeDocs.docs}
+              title={activeDocs.title}
+              onClose={() => setActiveDocs(null)}
+            />
+          )}
+        </AnimatePresence>
       </div>
     </div>
   )
