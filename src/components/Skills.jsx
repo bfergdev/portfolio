@@ -4,33 +4,62 @@ const Skills = () => {
   const skillCategories = [
     {
       title: 'Combat & Class Design',
-      primary: ['Archetype Ownership', 'Ability & Skill Tree Design', 'Weapon Combo Pipeline'],
-      skills: ['Attack Speed Systems', 'Stat Systems & Damage Formulas', 'Status Effects & Procs', 'Class Revamps', 'Hybrid Tab/Action Combat', 'Animation Scaling', 'Haste Modulus Curves', 'Class Fantasy & Identity'],
+      skills: [
+        { name: 'Archetype Ownership', context: 'Mage, Tank, and Ranger from concept through Alpha 2' },
+        { name: 'Ability & Skill Tree Design', context: '3 skill schools per class across all 8 archetypes' },
+        { name: 'Weapon Combo Pipeline', context: '20+ weapon types with damage, speed, and finisher tuning' },
+        { name: 'Stat Systems & Formulas', context: '6 base attributes, CDS hybrid scaling, diminishing returns' },
+        { name: 'Attack Speed & Animation', context: 'Non-uniform scaling with Haste Modulus Curve tooling' },
+        { name: 'Status Effects & Procs', context: 'Promotion chains, set bonuses, elemental scaling' },
+      ],
     },
     {
       title: 'PVP & Large-Scale Systems',
-      primary: ['Node Siege Design', 'Siege Machines & Gadgets', 'Corruption & Flagging'],
-      skills: ['Conflict Objectives', 'Event Design', 'Safehouse Mechanics', 'Wave Respawns', 'Pillage Events', 'Buff Shrines', 'Siege Vehicles', 'Mass Combat Performance'],
+      skills: [
+        { name: 'Node Siege Design', context: 'Full GDD author — scroll acquisition through destruction states' },
+        { name: 'Siege Machines & Gadgets', context: '15+ machines: trebuchets, rams, ballistas, siege towers' },
+        { name: 'Corruption & Flagging', context: '6 penalty tiers, auto-flagging, repentance quests' },
+        { name: 'Conflict Objectives', context: 'Skirmish, prep, and assault phases with asymmetric goals' },
+        { name: 'Mass Combat Performance', context: 'VFX visibility strategy across all 8 classes' },
+      ],
     },
     {
       title: 'Economy & Itemization',
-      primary: ['Itemization Philosophy', 'Reward Tables & Loot', 'Artisanship Pipeline'],
-      skills: ['Power Curves & Rarity Tiers', 'Battle Pass Design', 'Live Economy', 'Competitive Benchmarking', 'Spawn Rate Balancing', 'Tradeskill Integration', 'Drop Weight Tuning', 'Economic Regions'],
+      skills: [
+        { name: 'Itemization Philosophy', context: '"The Endless Runway" — power curves, rarity, stat restraint' },
+        { name: 'Reward Tables & Loot', context: 'Nested tables with global modifiers at world/region/node levels' },
+        { name: 'Artisanship Pipeline', context: 'Gathering, processing, and crafting with gameplay layers' },
+        { name: 'Battle Pass & Live Economy', context: 'Compendium rewards, drop weight tuning, spawn balancing' },
+        { name: 'Competitive Benchmarking', context: 'Recovery analysis vs. Fortnite, Apex, PUBG' },
+      ],
     },
     {
       title: 'Narrative & World Design',
-      primary: ['Quest Design & NPC Authoring', 'World Lore & Storytelling'],
-      skills: ['Harbinger Quest Chains', 'Encounter & Boss Design', 'Settlement & Node Systems', 'Character Creation', 'Event-Driven Narrative', 'Coalition Quests', 'Corrupted Zone Design'],
+      skills: [
+        { name: 'Quest Design & NPC Authoring', context: 'Harbinger quest chains, coalition quests, NPC characters' },
+        { name: 'World Lore & Storytelling', context: 'Verra narrative, Ancients, event-driven corrupted zones' },
+        { name: 'Encounter & Boss Design', context: 'Scripted behaviors, one-off abilities, phase mechanics' },
+        { name: 'Settlement & Node Systems', context: 'Champions, Disciples, Military Node elections' },
+      ],
     },
     {
-      title: 'UX, Targeting & Tool Design',
-      primary: ['Combat Targeting Systems', 'VFX Visibility Strategy'],
-      skills: ['Defensive Target', 'Implied Target', 'Soft Target', 'Focus Target', 'DDE 2.0 Requirements', 'Blueprint Prototyping', 'Expression Editor Design', 'Raid Grouping UX'],
+      title: 'UX & Tool Design',
+      skills: [
+        { name: 'Combat Targeting Systems', context: 'Targeting 3.0 — Defensive, Implied, Soft, Focus, Hover' },
+        { name: 'VFX Visibility Strategy', context: 'Local vs. all-client FX splits for mass combat performance' },
+        { name: 'DDE 2.0 Requirements', context: 'Blueprint scripting, expression editor, multi-edit, diffing' },
+        { name: 'Prototyping & Scripting', context: 'Designer self-sufficiency for combat, economy, encounters' },
+      ],
     },
     {
       title: 'Leadership & Process',
-      primary: ['Design Quorum Co-Lead', 'Hiring & Mentorship', 'Feature Ownership'],
-      skills: ['Pod Structure', 'Onboarding Pipeline', 'Check-in Standards', 'Cross-Discipline Reviews', 'Production Coordination', 'Design Alignment', 'Folder Structure & Docs', 'Open Development'],
+      skills: [
+        { name: 'Design Quorum Co-Lead', context: 'Shared leadership with 4 senior designers under CD' },
+        { name: 'Hiring & Mentorship', context: 'Onboarding pipeline, new hire routines, mentee framework' },
+        { name: 'Feature Ownership', context: 'Pod structure, co-owners, generalist design pools' },
+        { name: 'Cross-Discipline Collaboration', context: 'Engineering, art, and production alignment sessions' },
+        { name: 'Standards & Documentation', context: 'Check-in standards, folder structure, JIRA integration' },
+      ],
     },
   ]
 
@@ -76,30 +105,18 @@ const Skills = () => {
             >
               <h3 className="text-lg font-bold text-white mb-4">{category.title}</h3>
               
-              <div className="flex flex-wrap gap-2">
-                {category.primary.map((skill, i) => (
-                  <motion.span
-                    key={`p-${i}`}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
+              <div className="space-y-3">
+                {category.skills.map((skill, skillIndex) => (
+                  <motion.div
+                    key={skillIndex}
+                    initial={{ opacity: 0, x: -10 }}
+                    whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
-                    transition={{ delay: categoryIndex * 0.08 + i * 0.05, duration: 0.4 }}
-                    className="px-3 py-1.5 bg-primary-500/15 border border-primary-500/40 rounded-lg text-sm font-medium text-primary-300"
+                    transition={{ delay: categoryIndex * 0.08 + skillIndex * 0.05, duration: 0.4 }}
                   >
-                    {skill}
-                  </motion.span>
-                ))}
-                {category.skills.map((skill, i) => (
-                  <motion.span
-                    key={`s-${i}`}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: categoryIndex * 0.08 + (category.primary.length + i) * 0.03, duration: 0.4 }}
-                    className="px-2.5 py-1 bg-slate-800/60 border border-slate-700/50 rounded-lg text-xs text-gray-400"
-                  >
-                    {skill}
-                  </motion.span>
+                    <div className="text-sm font-medium text-primary-300">{skill.name}</div>
+                    <div className="text-xs text-gray-500 mt-0.5">{skill.context}</div>
+                  </motion.div>
                 ))}
               </div>
             </motion.div>
