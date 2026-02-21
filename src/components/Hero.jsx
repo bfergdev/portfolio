@@ -1029,19 +1029,19 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset, onAddToLeader
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => window.dispatchEvent(new CustomEvent('openWorks'))}
+              onClick={scrollToProjects}
               className="px-8 py-4 bg-gradient-to-r from-primary-500 to-primary-600 rounded-lg font-semibold text-lg shadow-lg shadow-primary-500/50 hover:shadow-primary-500/80 transition-shadow"
             >
-              View My Work
+              View My Projects
             </motion.button>
 
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={scrollToProjects}
+              onClick={() => window.dispatchEvent(new CustomEvent('openWorks'))}
               className="px-8 py-4 border-2 border-primary-400 rounded-lg font-semibold text-lg hover:bg-primary-400/10 transition-colors"
             >
-              View My Projects
+              View My Work
             </motion.button>
             
             <motion.button
