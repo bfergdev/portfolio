@@ -4,61 +4,33 @@ const Skills = () => {
   const skillCategories = [
     {
       title: 'Combat & Class Design',
-      skills: [
-        { name: 'Archetype Ownership (Mage, Tank, Ranger)', level: 97 },
-        { name: 'Ability & Skill Tree Design', level: 95 },
-        { name: 'Weapon Combo Pipeline & Attack Speed', level: 95 },
-        { name: 'Stat Systems & Damage Formulas', level: 93 },
-        { name: 'Status Effects & Proc Systems', level: 92 },
-      ],
+      primary: ['Archetype Ownership', 'Ability & Skill Tree Design', 'Weapon Combo Pipeline'],
+      skills: ['Attack Speed Systems', 'Stat Systems & Damage Formulas', 'Status Effects & Procs', 'Class Revamps', 'Hybrid Tab/Action Combat', 'Animation Scaling', 'Haste Modulus Curves', 'Class Fantasy & Identity'],
     },
     {
       title: 'PVP & Large-Scale Systems',
-      skills: [
-        { name: 'Node Siege Design (GDD Author)', level: 95 },
-        { name: 'Siege Machines & Gadgets', level: 93 },
-        { name: 'Corruption & Flagging Systems', level: 92 },
-        { name: 'Conflict Objectives & Event Design', level: 90 },
-        { name: 'Mass Combat Performance Strategy', level: 88 },
-      ],
+      primary: ['Node Siege Design', 'Siege Machines & Gadgets', 'Corruption & Flagging'],
+      skills: ['Conflict Objectives', 'Event Design', 'Safehouse Mechanics', 'Wave Respawns', 'Pillage Events', 'Buff Shrines', 'Siege Vehicles', 'Mass Combat Performance'],
     },
     {
       title: 'Economy & Itemization',
-      skills: [
-        { name: 'Itemization Philosophy & Power Curves', level: 95 },
-        { name: 'Reward Tables & Loot Distribution', level: 93 },
-        { name: 'Artisanship (Gathering, Processing, Crafting)', level: 90 },
-        { name: 'Battle Pass & Live Economy', level: 90 },
-        { name: 'Competitive Analysis & Benchmarking', level: 88 },
-      ],
+      primary: ['Itemization Philosophy', 'Reward Tables & Loot', 'Artisanship Pipeline'],
+      skills: ['Power Curves & Rarity Tiers', 'Battle Pass Design', 'Live Economy', 'Competitive Benchmarking', 'Spawn Rate Balancing', 'Tradeskill Integration', 'Drop Weight Tuning', 'Economic Regions'],
     },
     {
       title: 'Narrative & World Design',
-      skills: [
-        { name: 'Quest Design & NPC Authoring', level: 90 },
-        { name: 'World Lore & Event Storytelling', level: 88 },
-        { name: 'Encounter & Boss Design', level: 88 },
-        { name: 'Settlement & Node Systems', level: 85 },
-      ],
+      primary: ['Quest Design & NPC Authoring', 'World Lore & Storytelling'],
+      skills: ['Harbinger Quest Chains', 'Encounter & Boss Design', 'Settlement & Node Systems', 'Character Creation', 'Event-Driven Narrative', 'Coalition Quests', 'Corrupted Zone Design'],
     },
     {
       title: 'UX, Targeting & Tool Design',
-      skills: [
-        { name: 'Combat Targeting Systems (Tab/Action)', level: 95 },
-        { name: 'VFX Visibility & Performance Strategy', level: 90 },
-        { name: 'Tool Requirements & DDE Pipeline', level: 88 },
-        { name: 'Blueprint & Scripting Prototyping', level: 85 },
-      ],
+      primary: ['Combat Targeting Systems', 'VFX Visibility Strategy'],
+      skills: ['Defensive Target', 'Implied Target', 'Soft Target', 'Focus Target', 'DDE 2.0 Requirements', 'Blueprint Prototyping', 'Expression Editor Design', 'Raid Grouping UX'],
     },
     {
       title: 'Leadership & Process',
-      skills: [
-        { name: 'Design Quorum & Team Leadership', level: 95 },
-        { name: 'Hiring, Onboarding & Mentorship', level: 93 },
-        { name: 'Cross-Discipline Collaboration', level: 92 },
-        { name: 'Feature Ownership & Pod Structure', level: 90 },
-        { name: 'Production Coordination & Timelines', level: 88 },
-      ],
+      primary: ['Design Quorum Co-Lead', 'Hiring & Mentorship', 'Feature Ownership'],
+      skills: ['Pod Structure', 'Onboarding Pipeline', 'Check-in Standards', 'Cross-Discipline Reviews', 'Production Coordination', 'Design Alignment', 'Folder Structure & Docs', 'Open Development'],
     },
   ]
 
@@ -102,28 +74,32 @@ const Skills = () => {
               transition={{ delay: categoryIndex * 0.08, duration: 0.6 }}
               className="bg-slate-900/50 backdrop-blur-sm border border-primary-500/20 rounded-2xl p-6"
             >
-              <h3 className="text-lg font-bold text-white mb-5">{category.title}</h3>
+              <h3 className="text-lg font-bold text-white mb-4">{category.title}</h3>
               
-              <div className="space-y-4">
-                {category.skills.map((skill, skillIndex) => (
-                  <div key={skillIndex}>
-                    <div className="flex justify-between items-center mb-1.5">
-                      <span className="text-gray-300 text-sm font-medium">{skill.name}</span>
-                      <span className="text-primary-400 text-sm font-semibold">{skill.level}%</span>
-                    </div>
-                    
-                    <div className="h-1.5 bg-slate-800 rounded-full overflow-hidden">
-                      <motion.div
-                        initial={{ width: 0 }}
-                        whileInView={{ width: `${skill.level}%` }}
-                        viewport={{ once: true, amount: 0.3 }}
-                        transition={{ delay: categoryIndex * 0.08 + skillIndex * 0.08, duration: 1, ease: 'easeOut' }}
-                        className="h-full bg-gradient-to-r from-primary-500 to-accent-500 rounded-full relative"
-                      >
-                        <div className="absolute inset-0 bg-white/20 animate-pulse" />
-                      </motion.div>
-                    </div>
-                  </div>
+              <div className="flex flex-wrap gap-2">
+                {category.primary.map((skill, i) => (
+                  <motion.span
+                    key={`p-${i}`}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: categoryIndex * 0.08 + i * 0.05, duration: 0.4 }}
+                    className="px-3 py-1.5 bg-primary-500/15 border border-primary-500/40 rounded-lg text-sm font-medium text-primary-300"
+                  >
+                    {skill}
+                  </motion.span>
+                ))}
+                {category.skills.map((skill, i) => (
+                  <motion.span
+                    key={`s-${i}`}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: categoryIndex * 0.08 + (category.primary.length + i) * 0.03, duration: 0.4 }}
+                    className="px-2.5 py-1 bg-slate-800/60 border border-slate-700/50 rounded-lg text-xs text-gray-400"
+                  >
+                    {skill}
+                  </motion.span>
                 ))}
               </div>
             </motion.div>
