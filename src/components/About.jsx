@@ -73,7 +73,7 @@ const About = () => {
           transition={{ delay: 0.4, duration: 0.6 }}
           className="mt-16 bg-slate-900/50 backdrop-blur-sm border border-primary-500/20 rounded-2xl p-8 md:p-12"
         >
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+          <div className="grid grid-cols-3 gap-8 text-center">
             <div>
               <div className="text-4xl font-bold text-gradient mb-2">10+</div>
               <div className="text-gray-400">Years Experience</div>
@@ -84,11 +84,7 @@ const About = () => {
             </div>
             <div>
               <div className="text-4xl font-bold text-gradient mb-2">3</div>
-              <div className="text-gray-400">Archetype Owner</div>
-            </div>
-            <div>
-              <div className="text-4xl font-bold text-gradient mb-2">7</div>
-              <div className="text-gray-400">Years AAA MMORPG</div>
+              <div className="text-gray-400">Games' Economies Balanced</div>
             </div>
           </div>
         </motion.div>
