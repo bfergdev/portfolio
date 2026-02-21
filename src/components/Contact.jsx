@@ -23,7 +23,7 @@ const Contact = () => {
             Available for Immediate Hire
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Actively seeking opportunities as a Senior Game Designer, Lead Game Designer, or Design Principal.
+            Actively seeking opportunities as a Lead Game Designer, Principal Game Designer, or Senior Game Designer.
             10 years of proven AAA MMORPG experience. Remote preferred, available to start immediately.
           </p>
         </motion.div>
