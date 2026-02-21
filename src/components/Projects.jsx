@@ -322,7 +322,7 @@ const Projects = () => {
       color: 'from-purple-500 to-pink-500',
       role: 'Senior Game Designer I \u2192 Senior Game Designer III',
       company: 'Intrepid Studios',
-      years: '2020 - 2025',
+      years: '2020 - 2026',
       docs: [
         { name: 'Status Effects & Promotions', category: 'Combat', thumb: '/doc-thumbs/status-effects-promotions.jpg' },
         { name: 'Ability Master Sheet', category: 'Combat', thumb: '/doc-thumbs/ability-master-sheet.jpg' },
