@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion'
-import { ExternalLink } from 'lucide-react'
+import { ExternalLink, Play, X, ChevronLeft, ChevronRight } from 'lucide-react'
 import { useState, useRef, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import ashesImg from '../../images/ashes.png'
@@ -9,9 +9,92 @@ import chainsImg from '../../images/chains.png'
 import discoveryImg from '../../images/discovery.png'
 import veliousImg from '../../images/velious.png'
 
-const FlavorItem = ({ summary, detail }) => {
+const VideoModal = ({ videos, label, onClose, initialIndex = 0 }) => {
+  const [index, setIndex] = useState(initialIndex)
+  const video = videos[index]
+  const embedUrl = `https://www.youtube.com/embed/${video.id}?autoplay=1&rel=0`
+
+  useEffect(() => {
+    const handleKey = (e) => {
+      if (e.key === 'Escape') onClose()
+      if (e.key === 'ArrowRight' && index < videos.length - 1) setIndex(i => i + 1)
+      if (e.key === 'ArrowLeft' && index > 0) setIndex(i => i - 1)
+    }
+    window.addEventListener('keydown', handleKey)
+    return () => window.removeEventListener('keydown', handleKey)
+  }, [index, videos.length, onClose])
+
+  return createPortal(
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[10000] flex items-center justify-center p-4"
+      onClick={onClose}
+    >
+      <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
+      <motion.div
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.9, opacity: 0 }}
+        transition={{ duration: 0.2 }}
+        className="relative w-full max-w-4xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-center justify-between mb-3">
+          <div className="text-sm text-gray-300">
+            <span className="text-primary-400 font-semibold">{label}</span>
+            {videos.length > 1 && <span className="text-gray-500 ml-2">{index + 1} / {videos.length}</span>}
+          </div>
+          <button onClick={onClose} className="text-gray-400 hover:text-white transition-colors p-1">
+            <X size={20} />
+          </button>
+        </div>
+        <div className="relative aspect-video bg-black rounded-xl overflow-hidden border border-primary-500/30 shadow-2xl">
+          <iframe
+            key={video.id}
+            src={embedUrl}
+            className="w-full h-full"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            title={video.title || label}
+          />
+        </div>
+        {videos.length > 1 && (
+          <div className="flex items-center justify-center gap-3 mt-3">
+            <button
+              onClick={() => setIndex(i => Math.max(0, i - 1))}
+              disabled={index === 0}
+              className="p-2 rounded-lg bg-slate-800/80 border border-primary-500/20 text-gray-400 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+            >
+              <ChevronLeft size={18} />
+            </button>
+            {videos.map((v, i) => (
+              <button
+                key={i}
+                onClick={() => setIndex(i)}
+                className={`w-2 h-2 rounded-full transition-all ${i === index ? 'bg-primary-400 scale-125' : 'bg-gray-600 hover:bg-gray-400'}`}
+              />
+            ))}
+            <button
+              onClick={() => setIndex(i => Math.min(videos.length - 1, i + 1))}
+              disabled={index === videos.length - 1}
+              className="p-2 rounded-lg bg-slate-800/80 border border-primary-500/20 text-gray-400 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+            >
+              <ChevronRight size={18} />
+            </button>
+          </div>
+        )}
+      </motion.div>
+    </motion.div>,
+    document.body
+  )
+}
+
+const FlavorItem = ({ summary, detail, videos }) => {
   const [show, setShow] = useState(false)
   const [popupStyle, setPopupStyle] = useState({})
+  const [activeVideo, setActiveVideo] = useState(null)
   const itemRef = useRef(null)
   const timeoutRef = useRef(null)
 
@@ -39,19 +122,53 @@ const FlavorItem = ({ summary, detail }) => {
     timeoutRef.current = setTimeout(() => setShow(false), 150)
   }
 
-  if (!detail) return <li>{summary}</li>
+  const renderSummary = () => {
+    if (!videos || videos.length === 0) return summary
+
+    let result = summary
+    const parts = []
+    let lastIndex = 0
+
+    const sortedVideos = [...videos].sort((a, b) => {
+      const aIdx = summary.toLowerCase().indexOf(a.keyword.toLowerCase())
+      const bIdx = summary.toLowerCase().indexOf(b.keyword.toLowerCase())
+      return aIdx - bIdx
+    })
+
+    for (const v of sortedVideos) {
+      const idx = result.toLowerCase().indexOf(v.keyword.toLowerCase(), lastIndex)
+      if (idx === -1) continue
+      if (idx > lastIndex) parts.push(result.slice(lastIndex, idx))
+      const matchedText = result.slice(idx, idx + v.keyword.length)
+      parts.push(
+        <button
+          key={v.keyword}
+          onClick={(e) => { e.stopPropagation(); setActiveVideo(v) }}
+          className="inline-flex items-center gap-0.5 text-primary-400 hover:text-primary-300 transition-colors cursor-pointer"
+        >
+          <Play size={10} className="flex-shrink-0" />
+          <span className="underline underline-offset-2">{matchedText}</span>
+        </button>
+      )
+      lastIndex = idx + v.keyword.length
+    }
+    if (lastIndex < result.length) parts.push(result.slice(lastIndex))
+    return parts.length > 0 ? parts : summary
+  }
+
+  if (!detail && (!videos || videos.length === 0)) return <li>{summary}</li>
 
   return (
     <li
       ref={itemRef}
-      className="cursor-help"
-      onMouseEnter={handleEnter}
-      onMouseLeave={handleLeave}
+      className={detail ? 'cursor-help' : ''}
+      onMouseEnter={detail ? handleEnter : undefined}
+      onMouseLeave={detail ? handleLeave : undefined}
     >
       <span className="hover:text-gray-300 transition-colors">
-        {summary}
+        {renderSummary()}
       </span>
-      {show && createPortal(
+      {detail && show && createPortal(
         <motion.div
           initial={{ opacity: 0, y: -4 }}
           animate={{ opacity: 1, y: 0 }}
@@ -67,6 +184,15 @@ const FlavorItem = ({ summary, detail }) => {
         </motion.div>,
         document.body
       )}
+      <AnimatePresence>
+        {activeVideo && (
+          <VideoModal
+            videos={activeVideo.urls}
+            label={activeVideo.label}
+            onClose={() => setActiveVideo(null)}
+          />
+        )}
+      </AnimatePresence>
     </li>
   )
 }
@@ -89,6 +215,27 @@ const Projects = () => {
         {
           summary: 'Owned Mage, Tank, and Ranger archetypes — authored ability kits, skill trees, stat systems, and the combat guiding pillars from concept through Alpha 2.',
           detail: 'Maintained the master ability sheet spanning all 8 archetypes (3 skill schools each). Led class revamps targeting utility, mass combat viability, and ability interaction matrices. Authored the combat guiding pillars defining hybrid tab/action philosophy, class fantasy identity, build diversity standards, and multi-hour session pacing. Designed the core stat system (6 base attributes with growth curves, diminishing returns) and the Combined Damage Stat (CDS) hybrid scaling solution.',
+          videos: [
+            {
+              keyword: 'Ranger',
+              label: 'Ranger Ability Demonstrations',
+              urls: [
+                { id: 'QiZqCHqzgec', title: 'Ranger Demo 1' },
+                { id: '6ycnAgeJUUw', title: 'Ranger Demo 2' },
+                { id: 'HB7M92gc1KA', title: 'Ranger Demo 3' },
+                { id: 'WZerWEIkvuo', title: 'Ranger Demo 4' },
+              ],
+            },
+            {
+              keyword: 'skill trees',
+              label: 'Early Skill Tree Concepts',
+              urls: [
+                { id: 'aGneKZOSYvE', title: 'Skill Tree Concept 1' },
+                { id: 'zIOi9fv_aS8', title: 'Skill Tree Concept 2' },
+                { id: 'pCHUfrqw_7U', title: 'Skill Tree Concept 3' },
+              ],
+            },
+          ],
         },
         {
           summary: 'Designed the full weapon combo pipeline across 20+ weapon types and engineered the attack speed system with non-uniform animation scaling.',
@@ -267,7 +414,7 @@ const Projects = () => {
                       {projects[featuredIndex].flavorText.map((item, i) => (
                         typeof item === 'string'
                           ? <li key={i}>{item}</li>
-                          : <FlavorItem key={i} summary={item.summary} detail={item.detail} />
+                          : <FlavorItem key={i} summary={item.summary} detail={item.detail} videos={item.videos} />
                       ))}
                     </ul>
                   )}
