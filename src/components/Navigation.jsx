@@ -53,8 +53,8 @@ const Navigation = ({ activeSection, onResetGamepads, leaderboard }) => {
     { id: 'home', label: 'Home' },
     { id: 'about', label: 'About' },
     { id: 'projects', label: 'Projects' },
-    { id: 'skills', label: 'Skills' },
     { id: 'works', label: 'Works', action: () => setShowWorks(true) },
+    { id: 'skills', label: 'Skills' },
     { id: 'contact', label: 'Contact' },
   ]
 
