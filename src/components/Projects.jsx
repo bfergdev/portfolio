@@ -614,14 +614,15 @@ const Projects = () => {
 
         {/* Project Selector Grid */}
         <div className="grid grid-cols-2 gap-4 max-w-2xl mx-auto">
-          {projects.map((project, index) => (
-            index !== featuredIndex && (
+          {projects.map((project, index) => {
+            if (index === featuredIndex) return null
+            return (
               <motion.div
-                key={index}
+                key={project.title}
+                layout
                 initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.05, duration: 0.4 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
                 whileHover={{ y: -5, scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
                 onClick={() => setFeaturedIndex(index)}
@@ -650,7 +651,7 @@ const Projects = () => {
                 </div>
               </motion.div>
             )
-          ))}
+          })}
         </div>
       </div>
     </div>
