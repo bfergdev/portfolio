@@ -49,6 +49,12 @@ const Navigation = ({ activeSection, onResetGamepads, leaderboard }) => {
     return () => { document.body.style.overflow = '' }
   }, [showWorks])
 
+  useEffect(() => {
+    const handleOpenWorks = () => setShowWorks(true)
+    window.addEventListener('openWorks', handleOpenWorks)
+    return () => window.removeEventListener('openWorks', handleOpenWorks)
+  }, [])
+
   const navItems = [
     { id: 'home', label: 'Home' },
     { id: 'about', label: 'About' },
