@@ -84,7 +84,7 @@ const About = () => {
             </div>
             <div>
               <div className="text-4xl font-bold text-gradient mb-2">3</div>
-              <div className="text-gray-400">Games' Economies Balanced</div>
+              <div className="text-gray-400">Economies Developed</div>
             </div>
           </div>
         </motion.div>
