@@ -16,6 +16,9 @@ dist-ssr
 .env.local
 .env*.local
 
+# Raw portfolio reference data
+portfolio_data/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
