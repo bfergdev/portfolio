@@ -4,10 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import ashesImg from '../../images/ashes.png'
 import apocalypseImg from '../../images/apocalypse.png'
-import veeshanImg from '../../images/veeshan.png'
-import chainsImg from '../../images/chains.png'
-import discoveryImg from '../../images/discovery.png'
-import veliousImg from '../../images/velious.png'
+import eq2Img from '../../images/eq2.png'
 
 const VideoModal = ({ videos, label, onClose, initialIndex = 0 }) => {
   const [index, setIndex] = useState(initialIndex)
@@ -448,52 +445,26 @@ const Projects = () => {
       ],
     },
     {
-      title: 'EverQuest II: Tears of Veeshan',
-      category: 'MMORPG Expansion',
-      description: 'System design responsibilities including PVP balance, itemization, tradeskills, PVE class balance, and encounter design.',
-      image: veeshanImg,
+      title: 'EverQuest II',
+      category: 'MMORPG — Live Service',
+      description: 'Systems designer across four expansions and multiple game updates. Owned tradeskill revamps, whole-game itemization passes, PVP stat systems, battleground design, and multi-channel progression strategy.',
+      image: eq2Img,
       link: 'https://www.everquest2.com/home',
-      tags: ['Systems Design', 'PVP Balance', 'Itemization', 'Tradeskills'],
+      tags: ['Itemization', 'PVP Balance', 'Tradeskills', 'Economy', 'Class Balance', 'Progression Design'],
       color: 'from-green-500 to-emerald-500',
-      role: 'Associate Game Designer',
+      role: 'Apprentice → Associate Game Designer',
       company: 'Sony Online Entertainment',
-      years: '2013',
-    },
-    {
-      title: 'EverQuest II: Chains of Eternity',
-      category: 'MMORPG Expansion',
-      description: 'Responsible for PVP balance, itemization, tradeskills, PVE class balance, and encounter design for major expansion.',
-      image: chainsImg,
-      link: 'https://www.everquest2.com/home',
-      tags: ['Class Balance', 'Encounter Design', 'Economy', 'PVP'],
-      color: 'from-orange-500 to-red-500',
-      role: 'Associate Game Designer',
-      company: 'Sony Online Entertainment',
-      years: '2012',
-    },
-    {
-      title: 'EverQuest II: Age of Discovery',
-      category: 'MMORPG Expansion',
-      description: 'System design for PVP balance, itemization, tradeskills, and PVE class balance across multiple content updates.',
-      image: discoveryImg,
-      link: 'https://www.everquest2.com/home',
-      tags: ['Systems Design', 'Tradeskills', 'Class Balance', 'Content'],
-      color: 'from-indigo-500 to-purple-500',
-      role: 'Associate Game Designer',
-      company: 'Sony Online Entertainment',
-      years: '2011 - 2013',
-    },
-    {
-      title: 'EverQuest II: Destiny of Velious',
-      category: 'MMORPG Expansion',
-      description: 'Provided systems design assistance including itemization, class balance, and tradeskills for major expansion release.',
-      image: veliousImg,
-      link: 'https://www.everquest2.com/home',
-      tags: ['Itemization', 'Class Balance', 'Tradeskills', 'Systems'],
-      color: 'from-cyan-500 to-blue-500',
-      role: 'Apprentice Game Designer',
-      company: 'Sony Online Entertainment',
-      years: '2010 - 2011',
+      years: '2010 - 2013',
+      flavorText: [
+        'Re-engineered the tradeskill system for Sentinel\'s Fate — introduced Far Seas Supply Division questlines and daily missions, making crafters a viable progression path that provided Master-level spells and specialized gear throughout leveling rather than only at cap.',
+        'Led the "Great Item Revamp" (GU61: The War of Zek) — reworked every item from Level 20 to 90 to eliminate stat bloat and cookie-cutter gear, normalizing power curves across all eras so launch-era items scaled consistently against newer items of the same level.',
+        'Designed level-agnostic Battlegrounds for Age of Discovery — scaled character stats to a unified baseline so players across a massive level range could compete in the same PVP matches, solving queue-time fragmentation and letting friends of different levels play together for the first time.',
+        'Built Champion\'s Respite (GU64: Qeynos Rises) — a dedicated PVP social hub where Qeynos and Freeport players could gather in a neutral lobby, access specialized PVP vendors, and socialize while waiting for match queues.',
+        'Architected the multi-channel progression model for Chains of Eternity — distributed gear across the Shades of Drinal signature questline, tradeskill prestige tasks, and group dungeons so players could achieve steady power growth without being forced exclusively into raiding.',
+        'Overhauled PVP stat mechanics (GU66: Scars of the Awakened) — refined Toughness and Lethality to reduce one-shot kills and rebalanced class-specific abilities like Brigand debuffs, ensuring every class had a meaningful role in competitive play.',
+        'Presented the multi-pronged itemization strategy at SOE Live 2013 — designed Purple Adornments and flexible item tiers (Cryptic, Arcane, Potent) to shrink the 500% solo-to-raider power gap while maintaining a clear progression ladder across all playstyles.',
+        'Introduced Best-in-Slot crafted chase items for Tears of Veeshan — required rare components from multiple high-end raid bosses, making top-tier crafters essential to the raiding community and extending the meaningful life of the expansion\'s hardest content.',
+      ],
     },
   ]
 
@@ -622,7 +593,7 @@ const Projects = () => {
         </AnimatePresence>
 
         {/* Project Selector Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+        <div className="grid grid-cols-2 gap-4 max-w-2xl mx-auto">
           {projects.map((project, index) => (
             index !== featuredIndex && (
               <motion.div
