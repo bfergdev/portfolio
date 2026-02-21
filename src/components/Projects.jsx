@@ -334,7 +334,6 @@ const Projects = () => {
         { name: 'Tank Abilities DD', category: 'Combat', thumb: '/doc-thumbs/tank-abilities-dd.jpg' },
         { name: 'Tank Abilities', category: 'Combat', thumb: '/doc-thumbs/tank-abilities.jpg' },
         { name: 'Tank Revamp', category: 'Combat', thumb: '/doc-thumbs/tank-revamp.jpg' },
-        { name: 'Ranger Abilities', category: 'Combat', thumb: '/doc-thumbs/ranger-abilities.jpg' },
         { name: 'Ranger Revamp', category: 'Combat', thumb: '/doc-thumbs/ranger-revamp.jpg' },
         { name: 'Melee Ranger', category: 'Combat', thumb: '/doc-thumbs/melee-ranger.jpg' },
         { name: 'Mage Abilities', category: 'Combat', thumb: '/doc-thumbs/mage-abilities.jpg' },

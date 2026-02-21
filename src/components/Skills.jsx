@@ -121,7 +121,6 @@ const Skills = () => {
       title: 'Combat & Class Design',
       skills: [
         { name: 'Archetype Ownership', context: 'Mage, Tank, and Ranger from concept through Alpha 2', docs: [
-          { name: 'Ranger Abilities', thumb: '/doc-thumbs/ranger-abilities.jpg' },
           { name: 'Ranger Revamp', thumb: '/doc-thumbs/ranger-revamp.jpg' },
           { name: 'Melee Ranger', thumb: '/doc-thumbs/melee-ranger.jpg' },
           { name: 'Mage Abilities', thumb: '/doc-thumbs/mage-abilities.jpg' },
@@ -132,7 +131,6 @@ const Skills = () => {
         ]},
         { name: 'Ability & Skill Tree Design', context: '3 skill schools per class across all 8 archetypes', docs: [
           { name: 'Ability Master Sheet', thumb: '/doc-thumbs/ability-master-sheet.jpg' },
-          { name: 'Ranger Abilities', thumb: '/doc-thumbs/ranger-abilities.jpg' },
           { name: 'Mage Abilities', thumb: '/doc-thumbs/mage-abilities.jpg' },
           { name: 'Tank Abilities', thumb: '/doc-thumbs/tank-abilities.jpg' },
           { name: 'Status Effects & Promotions', thumb: '/doc-thumbs/status-effects-promotions.jpg' },
