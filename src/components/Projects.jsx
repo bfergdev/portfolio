@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { ExternalLink } from 'lucide-react'
 import { useState, useRef, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import ashesImg from '../../images/ashes.png'
 import apocalypseImg from '../../images/apocalypse.png'
 import veeshanImg from '../../images/veeshan.png'
@@ -10,16 +11,27 @@ import veliousImg from '../../images/velious.png'
 
 const FlavorItem = ({ summary, detail }) => {
   const [show, setShow] = useState(false)
-  const [position, setPosition] = useState('bottom')
+  const [popupStyle, setPopupStyle] = useState({})
   const itemRef = useRef(null)
   const timeoutRef = useRef(null)
 
+  const updatePosition = () => {
+    if (!itemRef.current) return
+    const rect = itemRef.current.getBoundingClientRect()
+    const goUp = rect.bottom > window.innerHeight - 200
+    setPopupStyle({
+      position: 'fixed',
+      left: rect.left,
+      width: rect.width,
+      top: goUp ? undefined : rect.bottom + 6,
+      bottom: goUp ? window.innerHeight - rect.top + 6 : undefined,
+      zIndex: 9999,
+    })
+  }
+
   const handleEnter = () => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current)
-    if (itemRef.current) {
-      const rect = itemRef.current.getBoundingClientRect()
-      setPosition(rect.bottom > window.innerHeight - 200 ? 'top' : 'bottom')
-    }
+    updatePosition()
     setShow(true)
   }
 
@@ -32,32 +44,29 @@ const FlavorItem = ({ summary, detail }) => {
   return (
     <li
       ref={itemRef}
-      className="relative cursor-help"
+      className="cursor-help"
       onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}
     >
-      <span className="border-b border-dotted border-gray-500 hover:border-primary-400 hover:text-gray-300 transition-colors">
+      <span className="hover:text-gray-300 transition-colors">
         {summary}
       </span>
-      <AnimatePresence>
-        {show && (
-          <motion.div
-            initial={{ opacity: 0, y: position === 'bottom' ? -4 : 4 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.15 }}
-            onMouseEnter={handleEnter}
-            onMouseLeave={handleLeave}
-            className={`absolute left-0 right-0 z-50 ${
-              position === 'bottom' ? 'top-full mt-2' : 'bottom-full mb-2'
-            }`}
-          >
-            <div className="bg-slate-800/95 backdrop-blur-md border border-primary-500/30 rounded-lg p-3 shadow-xl shadow-black/40 text-xs text-gray-300 leading-relaxed">
-              {detail}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {show && createPortal(
+        <motion.div
+          initial={{ opacity: 0, y: -4 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.15 }}
+          style={popupStyle}
+          onMouseEnter={handleEnter}
+          onMouseLeave={handleLeave}
+        >
+          <div className="bg-slate-800/95 backdrop-blur-md border border-primary-500/30 rounded-lg p-3 shadow-xl shadow-black/40 text-xs text-gray-300 leading-relaxed">
+            {detail}
+          </div>
+        </motion.div>,
+        document.body
+      )}
     </li>
   )
 }
