@@ -434,6 +434,13 @@ const Projects = () => {
       role: 'Game Designer',
       company: 'Intrepid Studios',
       years: '2019 - 2020',
+      docs: [
+        { name: 'Loot Pass', category: 'Economy', thumb: '/doc-thumbs/loot-pass.jpg' },
+        { name: 'Compendium Rewards', category: 'Economy', thumb: '/doc-thumbs/compendium-rewards.jpg' },
+        { name: 'Destructible Item HP Balance', category: 'Systems', thumb: '/doc-thumbs/destructible-hp-balance.jpg' },
+        { name: 'Recovery Analysis', category: 'Combat', thumb: '/doc-thumbs/recovery-analysis.jpg' },
+        { name: 'Storm Speed', category: 'Systems', thumb: '/doc-thumbs/storm-speed.jpg' },
+      ],
       flavorText: [
         'Architected the full loot pass economy — weapon, utility, health, and combo drop tables with weighted probability math across common, rare, and legendary tiers.',
         'Managed 5,000+ world spawners across multiple types (Chests, RareItem, WorldItem, WorldCommon, WorldMana) with per-map spawn rates and difficulty-scaled chest distribution (Easy 25% → Advanced 55%).',

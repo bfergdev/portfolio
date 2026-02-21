@@ -45,6 +45,11 @@ const allDocs = [
   { name: 'Design Onboarding', category: 'Leadership', thumb: '/doc-thumbs/design-onboarding.jpg' },
   { name: 'Check-in Standards', category: 'Leadership', thumb: '/doc-thumbs/checkin-standards.jpg' },
   { name: 'Node Siege Phase 1', category: 'Leadership', thumb: '/doc-thumbs/node-siege-phase1.jpg' },
+  { name: 'Loot Pass', category: 'Economy', thumb: '/doc-thumbs/loot-pass.jpg' },
+  { name: 'Compendium Rewards', category: 'Economy', thumb: '/doc-thumbs/compendium-rewards.jpg' },
+  { name: 'Destructible Item HP Balance', category: 'Systems', thumb: '/doc-thumbs/destructible-hp-balance.jpg' },
+  { name: 'Recovery Analysis', category: 'Combat', thumb: '/doc-thumbs/recovery-analysis.jpg' },
+  { name: 'Storm Speed', category: 'Systems', thumb: '/doc-thumbs/storm-speed.jpg' },
 ]
 
 export default allDocs
