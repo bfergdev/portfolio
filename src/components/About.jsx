@@ -1,25 +1,25 @@
 import { motion } from 'framer-motion'
-import { Code2, Palette, Zap, Trophy } from 'lucide-react'
+import { Swords, Cog, Scale, DraftingCompass } from 'lucide-react'
 
 const About = () => {
   const features = [
     {
-      icon: Code2,
+      icon: Swords,
       title: 'Combat Design',
       description: 'Feature owner of Mage, Tank, and Ranger archetypes with deep combat mechanics',
     },
     {
-      icon: Palette,
+      icon: Cog,
       title: 'Systems Design',
       description: 'Itemization, tradeskills, economy balance, and character progression systems',
     },
     {
-      icon: Zap,
+      icon: Scale,
       title: 'PVP/PVX Balance',
       description: 'Expert in competitive balance and player versus player systems',
     },
     {
-      icon: Trophy,
+      icon: DraftingCompass,
       title: 'Multidisciplinary Leadership',
       description: 'Mentorship, oversight, and cross-functional team collaboration',
     },
