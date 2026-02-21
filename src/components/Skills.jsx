@@ -122,30 +122,38 @@ const Skills = () => {
       skills: [
         { name: 'Archetype Ownership', context: 'Mage, Tank, and Ranger from concept through Alpha 2', docs: [
           { name: 'Ranger Abilities', thumb: '/doc-thumbs/ranger-abilities.jpg' },
+          { name: 'Ranger Revamp', thumb: '/doc-thumbs/ranger-revamp.jpg' },
+          { name: 'Melee Ranger', thumb: '/doc-thumbs/melee-ranger.jpg' },
           { name: 'Mage Abilities', thumb: '/doc-thumbs/mage-abilities.jpg' },
-          { name: 'Tank Landing Page', thumb: '/doc-thumbs/tank-landing-page.jpg' },
-          { name: 'Combat Guiding Pillars', thumb: '/doc-thumbs/combat-guiding-pillars.jpg' },
+          { name: 'Tank Abilities', thumb: '/doc-thumbs/tank-abilities.jpg' },
+          { name: 'Tank Abilities DD', thumb: '/doc-thumbs/tank-abilities-dd.jpg' },
+          { name: 'Tank Revamp', thumb: '/doc-thumbs/tank-revamp.jpg' },
           { name: 'Ability Master Sheet', thumb: '/doc-thumbs/ability-master-sheet.jpg' },
         ]},
         { name: 'Ability & Skill Tree Design', context: '3 skill schools per class across all 8 archetypes', docs: [
           { name: 'Ability Master Sheet', thumb: '/doc-thumbs/ability-master-sheet.jpg' },
           { name: 'Ranger Abilities', thumb: '/doc-thumbs/ranger-abilities.jpg' },
           { name: 'Mage Abilities', thumb: '/doc-thumbs/mage-abilities.jpg' },
+          { name: 'Tank Abilities', thumb: '/doc-thumbs/tank-abilities.jpg' },
+          { name: 'Status Effects & Promotions', thumb: '/doc-thumbs/status-effects-promotions.jpg' },
         ]},
         { name: 'Weapon Combo Pipeline', context: '20+ weapon types with damage, speed, and finisher tuning', docs: [
-          { name: 'Weapon Development Pipeline', thumb: '/doc-thumbs/weapon-development.jpg' },
+          { name: 'Weapon Development', thumb: '/doc-thumbs/weapon-development.jpg' },
+          { name: 'Weapons DD', thumb: '/doc-thumbs/weapons-dd.jpg' },
           { name: '2H Spear GDD', thumb: '/doc-thumbs/2h-spear-gdd.jpg' },
+          { name: 'Dual Daggers GDD', thumb: '/doc-thumbs/dual-daggers-gdd.jpg' },
+          { name: '2H Book GDD', thumb: '/doc-thumbs/2h-book-gdd.jpg' },
           { name: 'Weapons Balance', thumb: '/doc-thumbs/weapons-balance.jpg' },
         ]},
         { name: 'Stat Systems & Formulas', context: '6 base attributes, CDS hybrid scaling, diminishing returns', docs: [
           { name: 'CDS Hybrid Scaling', thumb: '/doc-thumbs/cds-hybrid-scaling.jpg' },
-          { name: 'Stats WIP', thumb: '/doc-thumbs/stats-wip.jpg' },
+          { name: 'Mitigation Math', thumb: '/doc-thumbs/mit-math.jpg' },
         ]},
         { name: 'Attack Speed & Animation', context: 'Non-uniform scaling with Haste Modulus Curve tooling', docs: [
           { name: 'Attack Speed System', thumb: '/doc-thumbs/attack-speed.jpg' },
         ]},
         { name: 'Status Effects & Procs', context: 'Promotion chains, set bonuses, elemental scaling', docs: [
-          { name: 'Proc & Passive Ideas', thumb: '/doc-thumbs/proc-passive-ideas.jpg' },
+          { name: 'Status Effects & Promotions', thumb: '/doc-thumbs/status-effects-promotions.jpg' },
         ]},
       ],
     },
@@ -154,13 +162,18 @@ const Skills = () => {
       skills: [
         { name: 'Node Siege Design', context: 'Full GDD author — scroll acquisition through destruction states', docs: [
           { name: 'Node Siege GDD', thumb: '/doc-thumbs/node-siege-gdd.jpg' },
+          { name: 'Node Siege Layout', thumb: '/doc-thumbs/node-siege-layout.jpg' },
+          { name: 'Node Siege Phase 1', thumb: '/doc-thumbs/node-siege-phase1.jpg' },
           { name: 'Siege Respawns & Safehouses', thumb: '/doc-thumbs/siege-respawns-safehouses.jpg' },
         ]},
         { name: 'Siege Machines & Gadgets', context: '15+ machines: trebuchets, rams, ballistas, siege towers', docs: [
           { name: 'Siege Machines & Gadgets', thumb: '/doc-thumbs/siege-machines-gadgets.jpg' },
+          { name: 'Siege Vehicles 2.0', thumb: '/doc-thumbs/siege-vehicles-2.jpg' },
+          { name: 'Mobile Ballista', thumb: '/doc-thumbs/mobile-ballista.jpg' },
         ]},
         { name: 'Corruption & Flagging', context: '6 penalty tiers, auto-flagging, repentance quests', docs: [
           { name: 'Expanded Corruption', thumb: '/doc-thumbs/expanded-corruption.jpg' },
+          { name: 'Corruption & Blight', thumb: '/doc-thumbs/corruption-blight.jpg' },
         ]},
         { name: 'Conflict Objectives', context: 'Skirmish, prep, and assault phases with asymmetric goals', docs: [
           { name: 'Conflict Objectives', thumb: '/doc-thumbs/conflict-objectives.jpg' },
@@ -173,37 +186,34 @@ const Skills = () => {
     {
       title: 'Economy & Itemization',
       skills: [
-        { name: 'Itemization Philosophy', context: '"The Endless Runway" — power curves, rarity, stat restraint', docs: [
-          { name: 'Itemization Philosophy', thumb: '/doc-thumbs/itemization-philosophy.jpg' },
-        ]},
+        { name: 'Itemization Philosophy', context: '"The Endless Runway" — power curves, rarity, stat restraint' },
         { name: 'Reward Tables & Loot', context: 'Nested tables with global modifiers at world/region/node levels', docs: [
-          { name: 'Reward Tables', thumb: '/doc-thumbs/reward-tables.jpg' },
-          { name: 'Harbinger Quest', thumb: '/doc-thumbs/harbinger-quest.jpg' },
+          { name: 'Reward Table Map', thumb: '/doc-thumbs/reward-table-map.jpg' },
+          { name: 'Harbinger Loot Request', thumb: '/doc-thumbs/harbinger-loot-request.jpg' },
         ]},
-        { name: 'Artisanship Pipeline', context: 'Gathering, processing, and crafting with gameplay layers', docs: [
-          { name: 'Economy M3 MVP', thumb: '/doc-thumbs/economy-m3-mvp.jpg' },
-        ]},
-        { name: 'Battle Pass & Live Economy', context: 'Compendium rewards, drop weight tuning, spawn balancing', docs: [
-          { name: 'Compendium Rewards', thumb: '/doc-thumbs/apoc-compendium-rewards.jpg' },
-          { name: 'Loot Pass Economy', thumb: '/doc-thumbs/apoc-loot-pass.jpg' },
-        ]},
-        { name: 'Competitive Benchmarking', context: 'Recovery analysis vs. Fortnite, Apex, PUBG', docs: [
-          { name: 'Recovery Analysis', thumb: '/doc-thumbs/apoc-recovery-analysis.jpg' },
-        ]},
+        { name: 'Artisanship Pipeline', context: 'Gathering, processing, and crafting with gameplay layers' },
+        { name: 'Battle Pass & Live Economy', context: 'Compendium rewards, drop weight tuning, spawn balancing' },
+        { name: 'Competitive Benchmarking', context: 'Recovery analysis vs. Fortnite, Apex, PUBG' },
       ],
     },
     {
       title: 'Narrative & World Design',
       skills: [
         { name: 'Quest Design & NPC Authoring', context: 'Harbinger quest chains, coalition quests, NPC characters', docs: [
-          { name: 'Harbinger Quest', thumb: '/doc-thumbs/harbinger-quest.jpg' },
+          { name: 'Harbinger NCS Flow', thumb: '/doc-thumbs/harbinger-ncs-flow.jpg' },
+          { name: 'Harbinger: Turquoise Sea', thumb: '/doc-thumbs/harbinger-turquoise-sea.jpg' },
+          { name: 'Harbinger Loot Request', thumb: '/doc-thumbs/harbinger-loot-request.jpg' },
+          { name: 'Alaric Durant', thumb: '/doc-thumbs/alaric-durant.jpg' },
         ]},
         { name: 'World Lore & Storytelling', context: 'Verra narrative, Ancients, event-driven corrupted zones', docs: [
           { name: 'Verra Narrative', thumb: '/doc-thumbs/verra-narrative.jpg' },
+          { name: 'Camp of the First Flame', thumb: '/doc-thumbs/camp-first-flame.jpg' },
         ]},
         { name: 'Encounter & Boss Design', context: 'Scripted behaviors, one-off abilities, phase mechanics' },
         { name: 'Settlement & Node Systems', context: 'Champions, Disciples, Military Node elections', docs: [
           { name: 'Champions & Disciples', thumb: '/doc-thumbs/champions-disciples.jpg' },
+          { name: 'Military Node Election', thumb: '/doc-thumbs/military-node-election.jpg' },
+          { name: 'Backgrounds & Attunements', thumb: '/doc-thumbs/backgrounds-attunements.jpg' },
         ]},
       ],
     },
@@ -213,6 +223,8 @@ const Skills = () => {
         { name: 'Combat Targeting Systems', context: 'Targeting 3.0 — Defensive, Implied, Soft, Focus, Hover', docs: [
           { name: 'Targeting 3.0', thumb: '/doc-thumbs/targeting-3.jpg' },
           { name: 'Defensive Target 2.0', thumb: '/doc-thumbs/defensive-target-2.jpg' },
+          { name: 'Tab Target Improvements', thumb: '/doc-thumbs/tab-target-improvements.jpg' },
+          { name: 'Status Effect Window', thumb: '/doc-thumbs/status-effect-window.jpg' },
         ]},
         { name: 'VFX Visibility Strategy', context: 'Local vs. all-client FX splits for mass combat performance', docs: [
           { name: 'VFX Visibility Strategy', thumb: '/doc-thumbs/vfx-visibility-strategy.jpg' },
@@ -230,11 +242,11 @@ const Skills = () => {
         { name: 'Hiring & Mentorship', context: 'Onboarding pipeline, new hire routines, mentee framework', docs: [
           { name: 'Design Onboarding', thumb: '/doc-thumbs/design-onboarding.jpg' },
         ]},
-        { name: 'Feature Ownership', context: 'Pod structure, co-owners, generalist design pools', docs: [
-          { name: 'Feature Ownership', thumb: '/doc-thumbs/feature-ownership.jpg' },
-        ]},
+        { name: 'Feature Ownership', context: 'Pod structure, co-owners, generalist design pools' },
         { name: 'Cross-Discipline Collaboration', context: 'Engineering, art, and production alignment sessions' },
-        { name: 'Standards & Documentation', context: 'Check-in standards, folder structure, JIRA integration' },
+        { name: 'Standards & Documentation', context: 'Check-in standards, folder structure, JIRA integration', docs: [
+          { name: 'Check-in Standards', thumb: '/doc-thumbs/checkin-standards.jpg' },
+        ]},
       ],
     },
   ]
