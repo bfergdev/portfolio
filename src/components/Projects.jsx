@@ -217,22 +217,22 @@ const Projects = () => {
           detail: 'Maintained the master ability sheet spanning all 8 archetypes (3 skill schools each). Led class revamps targeting utility, mass combat viability, and ability interaction matrices. Authored the combat guiding pillars defining hybrid tab/action philosophy, class fantasy identity, build diversity standards, and multi-hour session pacing. Designed the core stat system (6 base attributes with growth curves, diminishing returns) and the Combined Damage Stat (CDS) hybrid scaling solution.',
           videos: [
             {
-              keyword: 'Ranger',
-              label: 'Ranger Ability Demonstrations',
-              urls: [
-                { id: 'QiZqCHqzgec', title: 'Ranger Demo 1' },
-                { id: '6ycnAgeJUUw', title: 'Ranger Demo 2' },
-                { id: 'HB7M92gc1KA', title: 'Ranger Demo 3' },
-                { id: 'WZerWEIkvuo', title: 'Ranger Demo 4' },
-              ],
-            },
-            {
               keyword: 'skill trees',
               label: 'Early Skill Tree Concepts',
               urls: [
-                { id: 'aGneKZOSYvE', title: 'Skill Tree Concept 1' },
+                { id: 'pCHUfrqw_7U', title: 'Skill Tree Concept 1' },
                 { id: 'zIOi9fv_aS8', title: 'Skill Tree Concept 2' },
-                { id: 'pCHUfrqw_7U', title: 'Skill Tree Concept 3' },
+                { id: 'aGneKZOSYvE', title: 'Skill Tree Concept 3' },
+              ],
+            },
+            {
+              keyword: 'Ranger',
+              label: 'Ranger Ability Demonstrations',
+              urls: [
+                { id: 'WZerWEIkvuo', title: 'Ranger Demo 1' },
+                { id: 'HB7M92gc1KA', title: 'Ranger Demo 2' },
+                { id: '6ycnAgeJUUw', title: 'Ranger Demo 3' },
+                { id: 'QiZqCHqzgec', title: 'Ranger Demo 4' },
               ],
             },
           ],
