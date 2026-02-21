@@ -456,14 +456,38 @@ const Projects = () => {
       company: 'Sony Online Entertainment',
       years: '2010 - 2013',
       flavorText: [
-        'Re-engineered the tradeskill system for Sentinel\'s Fate — introduced Far Seas Supply Division questlines and daily missions, making crafters a viable progression path that provided Master-level spells and specialized gear throughout leveling rather than only at cap.',
-        'Led the "Great Item Revamp" (GU61: The War of Zek) — reworked every item from Level 20 to 90 to eliminate stat bloat and cookie-cutter gear, normalizing power curves across all eras so launch-era items scaled consistently against newer items of the same level.',
-        'Designed level-agnostic Battlegrounds for Age of Discovery — scaled character stats to a unified baseline so players across a massive level range could compete in the same PVP matches, solving queue-time fragmentation and letting friends of different levels play together for the first time.',
-        'Built Champion\'s Respite (GU64: Qeynos Rises) — a dedicated PVP social hub where Qeynos and Freeport players could gather in a neutral lobby, access specialized PVP vendors, and socialize while waiting for match queues.',
-        'Architected the multi-channel progression model for Chains of Eternity — distributed gear across the Shades of Drinal signature questline, tradeskill prestige tasks, and group dungeons so players could achieve steady power growth without being forced exclusively into raiding.',
-        'Overhauled PVP stat mechanics (GU66: Scars of the Awakened) — refined Toughness and Lethality to reduce one-shot kills and rebalanced class-specific abilities like Brigand debuffs, ensuring every class had a meaningful role in competitive play.',
-        'Presented the multi-pronged itemization strategy at SOE Live 2013 — designed Purple Adornments and flexible item tiers (Cryptic, Arcane, Potent) to shrink the 500% solo-to-raider power gap while maintaining a clear progression ladder across all playstyles.',
-        'Introduced Best-in-Slot crafted chase items for Tears of Veeshan — required rare components from multiple high-end raid bosses, making top-tier crafters essential to the raiding community and extending the meaningful life of the expansion\'s hardest content.',
+        {
+          summary: 'Re-engineered the tradeskill system for Sentinel\'s Fate — made crafting a viable progression path with Master-level spells and specialized gear throughout leveling.',
+          detail: 'Introduced the Far Seas Supply Division questlines and daily missions, ensuring crafters provided consistent and meaningful benefits at every level bracket rather than only at cap. Designed reward tables so tradeskill output (Master spells, specialized gear) stayed competitive with adventuring loot across the full 1–90 range.',
+        },
+        {
+          summary: 'Led the "Great Item Revamp" (GU61) — reworked every item from Level 20 to 90 to eliminate stat bloat and normalize power curves across all eras.',
+          detail: 'Audited and rebalanced thousands of items spanning seven years of content to fix cookie-cutter stat distributions. Normalized base stats, proc values, and set bonuses so launch-era items weren\'t vastly inferior to newer items of the same level. Established a consistent power curve that made gear upgrades feel meaningful at every tier.',
+        },
+        {
+          summary: 'Designed level-agnostic Battlegrounds for Age of Discovery — unified stat scaling so players of any level could compete in the same PVP matches.',
+          detail: 'Built a stat normalization system that scaled character attributes to a unified baseline, solving queue-time fragmentation caused by narrow level brackets. Allowed friends of different levels to group and earn level-appropriate rewards for the first time. Dramatically reduced average queue times and increased concurrent PVP population.',
+        },
+        {
+          summary: 'Built Champion\'s Respite (GU64) — a dedicated PVP social hub with specialized vendors and cross-faction gathering.',
+          detail: 'Designed a neutral lobby space where Qeynos and Freeport players could gather, access specialized PVP vendors, manage gear, and socialize while waiting for match queues. Worked with environment art to create a thematically distinct arena-adjacent space that reinforced PVP identity.',
+        },
+        {
+          summary: 'Architected the multi-channel progression model for Chains of Eternity — distributed gear across questing, tradeskills, and dungeons.',
+          detail: 'Designed the Shades of Drinal signature questline, tradeskill prestige tasks, and group dungeon reward tables to provide steady power growth without forcing players exclusively into raiding. Each channel offered distinct item tiers that fed into a unified progression ladder, rewarding breadth of play.',
+        },
+        {
+          summary: 'Overhauled PVP stat mechanics (GU66) — refined Toughness and Lethality to reduce one-shot kills and rebalance class roles.',
+          detail: 'Reworked the fundamental PVP damage and mitigation formulas by tuning Toughness scaling curves and Lethality penetration values. Rebalanced class-specific abilities (Brigand debuffs, Assassin burst, Healer sustain) to ensure every class had a meaningful role. Targeted the elimination of one-shot mechanics that were driving players away from competitive play.',
+        },
+        {
+          summary: 'Presented the multi-pronged itemization strategy at SOE Live 2013 — designed Purple Adornments and flexible item tiers to close the 500% power gap.',
+          detail: 'Introduced Purple Adornments as a universal upgrade path and created flexible item tiers (Cryptic, Arcane, Potent) that rewarded players for engaging with all areas of the game. The strategy shrank the solo-to-raider power gap from ~500% to a manageable spread while maintaining a clear progression ladder that still rewarded high-end content.',
+        },
+        {
+          summary: 'Introduced Best-in-Slot crafted chase items for Tears of Veeshan — rare raid components made top-tier crafters essential to the endgame.',
+          detail: 'Designed BiS items requiring rare components dropped from multiple high-end raid bosses, creating a dependency between raiders and high-level crafters. Gave raiders long-term goals beyond initial boss kills and made the crafter community essential to endgame progression, effectively extending the meaningful life of the expansion\'s hardest content.',
+        },
       ],
     },
   ]
