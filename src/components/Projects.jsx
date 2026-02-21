@@ -320,7 +320,7 @@ const Projects = () => {
       link: 'https://ashesofcreation.com/',
       tags: ['Combat Design', 'Archetype Owner', 'PVP & Siege', 'Economy', 'Narrative', 'UI/UX', 'Tool Design', 'Leadership'],
       color: 'from-purple-500 to-pink-500',
-      role: 'Senior Game Designer',
+      role: 'Senior Game Designer I \u2192 Senior Game Designer III',
       company: 'Intrepid Studios',
       years: '2020 - 2025',
       docs: [
@@ -479,10 +479,6 @@ const Projects = () => {
         {
           summary: 'Overhauled PVP stat mechanics (GU66) — refined Toughness and Lethality to reduce one-shot kills and rebalance class roles.',
           detail: 'Reworked the fundamental PVP damage and mitigation formulas by tuning Toughness scaling curves and Lethality penetration values. Rebalanced class-specific abilities (Brigand debuffs, Assassin burst, Healer sustain) to ensure every class had a meaningful role. Targeted the elimination of one-shot mechanics that were driving players away from competitive play.',
-        },
-        {
-          summary: 'Presented the multi-pronged itemization strategy at SOE Live 2013 — designed Purple Adornments and flexible item tiers to close the 500% power gap.',
-          detail: 'Introduced Purple Adornments as a universal upgrade path and created flexible item tiers (Cryptic, Arcane, Potent) that rewarded players for engaging with all areas of the game. The strategy shrank the solo-to-raider power gap from ~500% to a manageable spread while maintaining a clear progression ladder that still rewarded high-end content.',
         },
         {
           summary: 'Introduced Best-in-Slot crafted chase items for Tears of Veeshan — rare raid components made top-tier crafters essential to the endgame.',
