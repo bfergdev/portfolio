@@ -1,12 +1,66 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { ExternalLink } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import ashesImg from '../../images/ashes.png'
 import apocalypseImg from '../../images/apocalypse.png'
 import veeshanImg from '../../images/veeshan.png'
 import chainsImg from '../../images/chains.png'
 import discoveryImg from '../../images/discovery.png'
 import veliousImg from '../../images/velious.png'
+
+const FlavorItem = ({ summary, detail }) => {
+  const [show, setShow] = useState(false)
+  const [position, setPosition] = useState('bottom')
+  const itemRef = useRef(null)
+  const timeoutRef = useRef(null)
+
+  const handleEnter = () => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current)
+    if (itemRef.current) {
+      const rect = itemRef.current.getBoundingClientRect()
+      setPosition(rect.bottom > window.innerHeight - 200 ? 'top' : 'bottom')
+    }
+    setShow(true)
+  }
+
+  const handleLeave = () => {
+    timeoutRef.current = setTimeout(() => setShow(false), 150)
+  }
+
+  if (!detail) return <li>{summary}</li>
+
+  return (
+    <li
+      ref={itemRef}
+      className="relative cursor-help"
+      onMouseEnter={handleEnter}
+      onMouseLeave={handleLeave}
+    >
+      <span className="border-b border-dotted border-gray-500 hover:border-primary-400 hover:text-gray-300 transition-colors">
+        {summary}
+      </span>
+      <AnimatePresence>
+        {show && (
+          <motion.div
+            initial={{ opacity: 0, y: position === 'bottom' ? -4 : 4 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.15 }}
+            onMouseEnter={handleEnter}
+            onMouseLeave={handleLeave}
+            className={`absolute left-0 right-0 z-50 ${
+              position === 'bottom' ? 'top-full mt-2' : 'bottom-full mb-2'
+            }`}
+          >
+            <div className="bg-slate-800/95 backdrop-blur-md border border-primary-500/30 rounded-lg p-3 shadow-xl shadow-black/40 text-xs text-gray-300 leading-relaxed">
+              {detail}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </li>
+  )
+}
 
 const Projects = () => {
   const [featuredIndex, setFeaturedIndex] = useState(0)
@@ -23,20 +77,34 @@ const Projects = () => {
       company: 'Intrepid Studios',
       years: '2020 - 2025',
       flavorText: [
-        'Owned Mage, Tank, and Ranger archetypes end-to-end — authored ability kits across 3 skill schools per class, skill trees, and class identity from concept through Alpha 2. Maintained the master ability sheet spanning all 8 archetypes and led class revamps targeting utility, mass combat viability, and ability interaction matrices.',
-        'Authored the combat guiding pillars document defining the game\'s hybrid tab/action targeting philosophy, class fantasy identity, build diversity standards, group interdependency, and multi-hour session pacing goals.',
-        'Architected the core stat system — 6 base attributes each driving derived combat stats with growth rate curves and diminishing returns. Designed the Combined Damage Stat (CDS) hybrid scaling solution enabling multi-stat builds with per-class and per-ability tuning.',
-        'Designed the full weapon combo pipeline across 20+ weapon types — defining damage types (physical/magical), speed categories, combo cadence, reach, hitbox shapes, deadly finisher procs, and skill tree progression. Authored individual weapon GDDs (2H Spear, Dual Daggers, Book) from concept through creative direction approval.',
-        'Engineered the attack speed system with non-uniform scaling — separating windups, swings, and followthroughs into independently scalable sections with DoNotScale notify states, preserving animation weight across a full range of haste values. Designed the Haste Modulus Curve tool spec for animator control.',
-        'Built the proc and passive set bonus system — tiered 3/5/8-piece bonuses for Healer, DPS, and Tank with status effect promotion chains (bleed→hemo, burn→conflag, chill→freeze), typed elemental scaling, and rarity-based proc chances from Common through Legendary.',
-        'Designed the Corruption & Blight system — 6 penalty tiers, expanded corruption proposal with auto-flagging, minimum durations, diminishing returns, corruption banners, repentance quests, and lowbie protection. Authored blueprint logic for corruption gain with level-delta scaling.',
-        'Architected the full Node Siege GDD — siege scroll acquisition, declaration phases, assault objectives, essence generators, fortification destruction states, wave respawns, and safehouse capture mechanics. Designed 15+ siege machines and gadgets (trebuchets, battering rams, ballistas, siege towers, rebirth carriages) plus anti-personnel, utility, and super weapon categories.',
-        'Designed conflict objectives spanning skirmish, siege prep, and siege assault phases — including VIP assassination, supply destruction, caravan obstruction, propaganda systems, deprivation objectives, and asymmetric attacker/defender goals.',
-        'Built the game economy across multiple milestones — artisanship (gathering, processing, crafting), nested reward tables with global loot modifiers, itemization philosophy ("The Endless Runway"), item power curves, rarity tiers, and Harbinger quest loot distribution across 3 event zones.',
-        'Authored narrative content including fully realized NPC characters (Aelindra Moir, Alaric Durant), Harbinger quest chains with multi-week progression arcs, world lore for Verra and the Ancients, and event-driven storytelling with corrupted zones and boss encounters.',
-        'Designed the Targeting 3.0 system — Defensive Target, Implied Target, Soft Target, Focus Target, Hover Target, and Target-of-Target with full PVP flagging rules. Authored the Defensive Target 2.0 proposal advocating MAYA design philosophy for advanced tab targeting. Led VFX visibility strategy for mass combat performance across all 8 classes.',
-        'Defined requirements for the Design Data Editor (DDE 2.0) — inheritance, full blueprint scripting support, expression editor, multi-edit, reference viewer, and human-readable file diffing. Advocated for designer self-sufficiency in prototyping combat, economy, encounters, and node systems.',
-        'Co-led the Design Quorum in lieu of a Lead Designer — shared leadership responsibilities with 4 senior designers reporting to the Creative Director. Established the feature ownership hierarchy, pod structure, onboarding pipeline, check-in standards, and mentorship framework. Ran design alignment sessions and cross-discipline reviews.',
+        {
+          summary: 'Owned Mage, Tank, and Ranger archetypes — authored ability kits, skill trees, stat systems, and the combat guiding pillars from concept through Alpha 2.',
+          detail: 'Maintained the master ability sheet spanning all 8 archetypes (3 skill schools each). Led class revamps targeting utility, mass combat viability, and ability interaction matrices. Authored the combat guiding pillars defining hybrid tab/action philosophy, class fantasy identity, build diversity standards, and multi-hour session pacing. Designed the core stat system (6 base attributes with growth curves, diminishing returns) and the Combined Damage Stat (CDS) hybrid scaling solution.',
+        },
+        {
+          summary: 'Designed the full weapon combo pipeline across 20+ weapon types and engineered the attack speed system with non-uniform animation scaling.',
+          detail: 'Defined damage types (physical/magical), speed categories, combo cadence, reach, hitbox shapes, deadly finisher procs, and skill tree progression for every weapon. Authored individual weapon GDDs (2H Spear, Dual Daggers, Book) from concept through creative direction approval. Built the attack speed system separating windups, swings, and followthroughs into independently scalable sections with DoNotScale notify states. Designed the Haste Modulus Curve tool spec for animator control of animation weight at varied playback speeds.',
+        },
+        {
+          summary: 'Built the proc/passive set bonus system and status effect promotion chains across all combat roles.',
+          detail: 'Tiered 3/5/8-piece bonuses for Healer, DPS, and Tank with status effect promotion chains (bleed→hemo, burn→conflag, chill→freeze). Typed elemental damage/resistance scaling and rarity-based proc chances from Common through Legendary. Basic, Intermediate, and Advanced tiers with role-specific bonuses (mitigation buffs, lifesteal, DoT explosions, thorns).',
+        },
+        {
+          summary: 'Architected Node Siege and open-world PVP systems — siege machines, corruption, conflict objectives, and large-scale event design.',
+          detail: 'Authored the full Node Siege GDD: siege scroll acquisition, declaration phases, assault objectives, essence generators, fortification destruction states, wave respawns, and safehouse capture mechanics. Designed 15+ siege machines and gadgets (trebuchets, battering rams, ballistas, siege towers, rebirth carriages) plus anti-personnel, utility, and super weapon categories. Designed the Corruption & Blight system with 6 penalty tiers, expanded corruption proposal (auto-flagging, minimum durations, diminishing returns, corruption banners, repentance quests, lowbie protection), and blueprint logic for corruption gain. Created conflict objectives spanning skirmish, siege prep, and assault phases — VIP assassination, supply destruction, caravan obstruction, propaganda, and asymmetric attacker/defender goals.',
+        },
+        {
+          summary: 'Built the game economy — artisanship, reward tables, itemization philosophy, and narrative quest loot across multiple milestones.',
+          detail: 'Designed the full artisanship pipeline (gathering, processing, crafting with gameplay layers). Architected nested reward tables with global loot modifiers at world, economic region, dungeon, node, and POI levels. Authored the itemization philosophy ("The Endless Runway") defining item power curves, rarity tiers, stat restraint, and spawn rate vs. drop rate balancing. Designed Harbinger quest loot distribution across 3 event zones with corrupted crafting materials, weapon upgrade gems, and equipment choices. Authored NPC characters (Aelindra Moir, Alaric Durant), Harbinger quest chains with multi-week progression arcs, and world lore for Verra and the Ancients.',
+        },
+        {
+          summary: 'Designed UX targeting systems (Targeting 3.0, Defensive Target) and led VFX visibility strategy for mass combat performance.',
+          detail: 'Designed the Targeting 3.0 system — Defensive Target, Implied Target, Soft Target, Focus Target, Hover Target, and Target-of-Target with full PVP flagging rules. Authored the Defensive Target 2.0 proposal advocating MAYA design philosophy for advanced tab targeting. Led the VFX local/all-client visibility strategy across all 8 classes and weapons, defining simplified FX for mass combat performance. Defined requirements for the Design Data Editor (DDE 2.0) — inheritance, blueprint scripting, expression editor, multi-edit, reference viewer, and human-readable file diffing.',
+        },
+        {
+          summary: 'Co-led the Design Quorum — established feature ownership, pod structure, onboarding, and mentorship across the design team.',
+          detail: 'Shared leadership responsibilities with 4 senior designers reporting to the Creative Director in lieu of a Lead Designer. Established the feature ownership hierarchy with co-feature owners, mentors, and generalist design pools. Created the pod structure for cross-feature collaboration, the onboarding pipeline for new hires, check-in standards (atomic changelists, JIRA integration, QA handoff), and the mentorship framework. Ran design alignment sessions and cross-discipline reviews with engineering, art, and production.',
+        },
       ],
     },
     {
@@ -188,7 +256,9 @@ const Projects = () => {
                   {projects[featuredIndex].flavorText && (
                     <ul className="text-gray-400 text-sm space-y-2 mb-4 list-disc list-outside pl-4">
                       {projects[featuredIndex].flavorText.map((item, i) => (
-                        <li key={i}>{item}</li>
+                        typeof item === 'string'
+                          ? <li key={i}>{item}</li>
+                          : <FlavorItem key={i} summary={item.summary} detail={item.detail} />
                       ))}
                     </ul>
                   )}
