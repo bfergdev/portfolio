@@ -505,12 +505,11 @@ const Projects = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-gradient mb-6">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-gradient mb-6 leading-tight">
             Featured Projects
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            A decade of shipped AAA MMORPG titles and expansions, from EverQuest II
-            to the upcoming Ashes of Creation.
+            A decade of shipped AAA MMORPG development
           </p>
         </motion.div>
 
