@@ -1,27 +1,27 @@
 import { motion } from 'framer-motion'
-import { Swords, Cog, Scale, DraftingCompass } from 'lucide-react'
+import { Swords, Cog, Handshake, DraftingCompass } from 'lucide-react'
 
 const About = () => {
   const features = [
     {
       icon: Swords,
       title: 'Combat Design',
-      description: 'Feature owner of Mage, Tank, and Ranger archetypes with deep combat mechanics',
+      description: 'Classes, Weapons, PVP Systems, Siege, PVX Balance, CCC (Camera, Controls, Character), Progression, Mounts/Vehicles, PVE Enemies, Destructible Environments',
     },
     {
       icon: Cog,
-      title: 'Systems Design',
-      description: 'Itemization, tradeskills, economy balance, and character progression systems',
-    },
-    {
-      icon: Scale,
-      title: 'PVP/PVX Balance',
-      description: 'Expert in competitive balance and player versus player systems',
+      title: 'Economy Design',
+      description: 'Itemization, Tradeskills, Harvesting, Economic Modeling, Economy Balance, non-combat Character Progression Systems',
     },
     {
       icon: DraftingCompass,
+      title: 'Technical Design',
+      description: 'Unreal Blueprinting, Scripting, Prototyping, Technical documentation and implementation for complex systems and tools',
+    },
+    {
+      icon: Handshake,
       title: 'Multidisciplinary Leadership',
-      description: 'Mentorship, oversight, and cross-functional team collaboration',
+      description: 'Design Process Architecting, Hiring, Onboarding, Training, and Mentoring',
     },
   ]
 
