@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion'
-import { Swords, Cog, DraftingCompass } from 'lucide-react'
-import { "hand-helping" } from 'lucide-react'
+import { Swords, Cog, DraftingCompass, handshake } from 'lucide-react'
 const About = () => {
   const features = [
     {
@@ -19,7 +18,7 @@ const About = () => {
       description: 'Unreal Blueprinting, Scripting, Prototyping, Technical documentation and implementation for complex systems and tools',
     },
     {
-      icon: hand-helping,
+      icon: handshake,
       title: 'Multidisciplinary Leadership',
       description: 'Design Process Architecting, Hiring, Onboarding, Training, and Mentoring',
     },
