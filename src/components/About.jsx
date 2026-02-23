@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
-import { Swords, Cog, DraftingCompass, hand-helping } from 'lucide-react'
-
+import { Swords, Cog, DraftingCompass } from 'lucide-react'
+import { "hand-helping" } from 'lucide-react'
 const About = () => {
   const features = [
     {
