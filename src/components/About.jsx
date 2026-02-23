@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { Swords, Cog, DraftingCompass, Users } from 'lucide-react'
+import { Swords, BarChart, DraftingCompass, Users } from 'lucide-react'
 const About = () => {
   const features = [
     {
@@ -8,7 +8,7 @@ const About = () => {
       description: 'Classes, Weapons, PVP Systems, Siege, PVX Balance, CCC (Camera, Controls, Character), Progression, Mounts/Vehicles, PVE Enemies, Destructible Environments',
     },
     {
-      icon: Cog,
+      icon: BarChart,
       title: 'Economy Design',
       description: 'Itemization, Tradeskills, Harvesting, Economic Modeling, Economy Balance, non-combat Character Progression Systems',
     },
