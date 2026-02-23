@@ -274,8 +274,7 @@ const Skills = () => {
             Skills & Expertise
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            15 years of MMORPG design — from combat math and class identity to siege warfare,
-            game economy, narrative systems, and design team leadership.
+            10 years of MMORPG development experience
           </p>
         </motion.div>
 
