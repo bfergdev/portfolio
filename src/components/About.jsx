@@ -5,7 +5,7 @@ const About = () => {
     {
       icon: Swords,
       title: 'Combat Design',
-      description: 'Classes, Weapons, PVP Systems, Siege, Asymmetrical PVX Balance, CCC (Camera, Controls, Character), Progression, Mounts/Vehicles, PVE Enemies, Destructible Environments',
+      description: 'Classes, Weapons, PVP Systems, Large-Scale Combat (Siege), Asymmetrical PVX Balance, CCC (Camera, Controls, Character), Progression, Mounts/Vehicles, PVE Enemies, Destructible Environments',
     },
     {
       icon: BarChart,
