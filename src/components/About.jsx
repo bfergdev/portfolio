@@ -20,7 +20,7 @@ const About = () => {
     {
       icon: Users,
       title: 'Leadership',
-      description: 'Creative Direction, Clarity, Alignment, Conflict Resolution, Asset Pipeline Management, Design Process Architecting, Hiring, Onboarding, Mentoring',
+      description: 'Creative Direction, Clarity, Alignment, Conflict Resolution, Asset Pipeline Management, Planning, Timelines, Tasking, Design Process Architecting, Hiring, Onboarding, Mentoring',
     },
   ]
 
