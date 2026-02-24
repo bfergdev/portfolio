@@ -10,17 +10,17 @@ const About = () => {
     {
       icon: BarChart,
       title: 'Economy Design',
-      description: 'Itemization, Tradeskills, Harvesting, Economic Modeling, Economy Balance, non-combat Character Progression Systems',
+      description: 'Itemization, Tradeskills, Harvesting, Economic Modeling, Economy Balance, Non-Combat Character Progression Systems',
     },
     {
       icon: DraftingCompass,
       title: 'Technical Design',
-      description: 'Unreal Blueprinting, Scripting, Prototyping, Technical documentation and implementation for complex systems and tools',
+      description: 'Unreal Blueprinting, Scripting, Prototyping, Technical Documentation, Complex System and Tool Implementation, Scalable Asset Integration',
     },
     {
       icon: Users,
       title: 'Multidisciplinary Leadership',
-      description: 'Design Process Architecting, Hiring, Onboarding, Training, and Mentoring',
+      description: 'Creative Direction, Clarity, Alignment, Conflict Resolution, Asset Pipeline Management, Design Process Architecting, Hiring, Onboarding, Training, Mentoring',
     },
   ]
 
