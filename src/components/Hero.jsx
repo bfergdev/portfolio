@@ -1015,7 +1015,7 @@ const Hero = ({ gamepads, setGamepads, nextId, setNextId, onReset, onAddToLeader
             transition={{ delay: 0.6 }}
             className="text-xl sm:text-2xl text-gray-300 max-w-3xl mx-auto"
           >
-            Combat & Economy Designer with 10 years of AAA MMORPG experience.
+            Combat & Economy Designer with 10 years of AAA experience.
             Former core designer for Ashes of Creation and EverQuest II.
             Available immediately for new opportunities.
           </motion.p>
