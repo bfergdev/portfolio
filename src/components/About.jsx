@@ -5,7 +5,7 @@ const About = () => {
     {
       icon: Swords,
       title: 'Combat Design',
-      description: 'Classes, Weapons, PVP Systems, Siege, PVX Balance, CCC (Camera, Controls, Character), Progression, Mounts/Vehicles, PVE Enemies, Destructible Environments',
+      description: 'Classes, Weapons, PVP Systems, Siege, Asymmetrical PVX Balance, CCC (Camera, Controls, Character), Progression, Mounts/Vehicles, PVE Enemies, Destructible Environments',
     },
     {
       icon: BarChart,
@@ -20,7 +20,7 @@ const About = () => {
     {
       icon: Users,
       title: 'Multidisciplinary Leadership',
-      description: 'Creative Direction, Clarity, Alignment, Conflict Resolution, Asset Pipeline Management, Design Process Architecting, Hiring, Onboarding, Training, Mentoring',
+      description: 'Creative Direction, Clarity, Alignment, Conflict Resolution, Asset Pipeline Management, Design Process Architecting, Hiring, Onboarding, Mentoring',
     },
   ]
 
