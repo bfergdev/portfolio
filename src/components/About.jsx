@@ -10,7 +10,7 @@ const About = () => {
     {
       icon: BarChart,
       title: 'Economy Design',
-      description: 'Itemization, Tradeskills, Harvesting, Economic Modeling, Economy Balance, Non-Combat Character Progression Systems',
+      description: 'Exciting Itemization, Tradeskills, Harvesting, Source/Sink Modeling, Player-Driven Economy Balance, Item Lifecycle Management, Non-Combat Character Progression Systems',
     },
     {
       icon: DraftingCompass,
