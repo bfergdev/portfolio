@@ -10,7 +10,7 @@ const About = () => {
     {
       icon: BarChart,
       title: 'Economy Design',
-      description: 'Aspirational Itemization Progression, Tradeskills, Harvesting, Source/Sink Modeling, Player-Driven Economy Balance, Item Lifecycle Management, Non-Combat Progression Systems',
+      description: 'Aspirational Item Progression, Tradeskills, Harvesting, Source/Sink Modeling, Player-Driven Economy Balance, Item Lifecycle Management, Non-Combat Progression Systems',
     },
     {
       icon: DraftingCompass,
@@ -19,7 +19,7 @@ const About = () => {
     },
     {
       icon: Users,
-      title: 'Multidisciplinary Leadership',
+      title: 'Leadership',
       description: 'Creative Direction, Clarity, Alignment, Conflict Resolution, Asset Pipeline Management, Design Process Architecting, Hiring, Onboarding, Mentoring',
     },
   ]
