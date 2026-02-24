@@ -10,12 +10,12 @@ const About = () => {
     {
       icon: BarChart,
       title: 'Economy Design',
-      description: 'Exciting Itemization, Tradeskills, Harvesting, Source/Sink Modeling, Player-Driven Economy Balance, Item Lifecycle Management, Non-Combat Character Progression Systems',
+      description: 'Aspirational Itemization Progression, Tradeskills, Harvesting, Source/Sink Modeling, Player-Driven Economy Balance, Item Lifecycle Management, Non-Combat Progression Systems',
     },
     {
       icon: DraftingCompass,
       title: 'Technical Design',
-      description: 'Unreal Blueprinting, Scripting, Prototyping, Technical Documentation, Complex System and Tool Implementation, Scalable Asset Integration',
+      description: 'Unreal Blueprinting, Scripting, Prototyping, Complex System and Tool Implementation, Technical Documentation, Scalable Asset Integration',
     },
     {
       icon: Users,
