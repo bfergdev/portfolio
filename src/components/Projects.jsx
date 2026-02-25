@@ -318,7 +318,7 @@ const Projects = () => {
       description: 'Principal combat and systems designer across a AAA MMORPG. Feature owner for multiple archetypes, weapon systems, PVP, siege warfare, economy, narrative events, and UX targeting systems.',
       image: ashesImg,
       link: 'https://ashesofcreation.com/',
-      tags: ['Combat Design', 'Archetype Owner', 'PVP & Siege', 'Economy', 'Narrative', 'UI/UX', 'Tool Design', 'Leadership'],
+      tags: ['Combat', 'Classes', 'Weapons', 'PVP & Siege', 'Economy', 'Events', 'UI/UX', 'Tools', 'Leadership'],
       color: 'from-purple-500 to-pink-500',
       role: 'Senior Game Designer I \u2192 Senior Game Designer III',
       company: 'Intrepid Studios',
@@ -419,7 +419,7 @@ const Projects = () => {
           ],
         },
         {
-          summary: 'Designed the weapon system and led a multidisciplinary team to implement it - over 20 unique weapon types with their own unique animation sets, branching combos and skill trees.',
+          summary: 'Designed the weapon system and led a multidisciplinary team to implement it - over 20 unique weapon types with their own unique animation sets, dynamic weapon FX, branching combos, and skill trees.',
           detail: 'Defined damage type, speed categories, combo cadence, reach, hitbox shapes, procs, and skill tree progression for every weapon. Authored individual weapon GDDs from concept through creative direction approval for over 20 weapons. Built the attack system separating windups, swings, and followthroughs into independently scalable sections, reducing iteration time. Designed the Haste Modulus Curve tool for animator control of animation weight at varied playback speeds.',
           videos: [
             {
@@ -427,6 +427,7 @@ const Projects = () => {
               label: 'Weapon Demonstrations',
               urls: [
                 { id: 'TPm01BII9S8', title: 'Weapon Combo Demo' },
+                { id: 'qINEBvbyqpM', title: 'Weapon Combo Demo 2' },
               ],
             },
           ],
