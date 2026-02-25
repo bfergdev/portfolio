@@ -484,14 +484,13 @@ const Projects = () => {
         { name: 'Storm Speed', category: 'Systems', thumb: '/doc-thumbs/storm-speed.jpg' },
       ],
       flavorText: [
-        'Architected the full economy - weapons, utility, health, and combo drop tables with weighted probability math across common, rare, and legendary tiers.',
-        'Combat development - Worked with Animators and FX artists to deliver satisfying weapon attacks and abilities. Modeled out target TTK data, tuned damage, health, armor, and recovery values to deliver the desired TTK.',
+        'Orchestrated the Economy - guided artists and engineers to develop weapons, armor, utility items, and custom skins.',
+        'Combat development - Worked with Animators and FX artists to deliver satisfying weapon attacks, abilities, and environemnt destruction. Leveraged blueprint skills to deliver complex player abilities and CCC development. Modeled out target TTK data, tuned damage, health, armor, and recovery values to deliver the desired TTK.',
         'Implemented loot spawners for the entire game, 5,000+ world spawners across multiple types (Chests, RareItem, WorldItem, WorldCommon, WorldMana) with per-map spawn rates and difficulty-scaled chest distribution (Easy 25% → Advanced 55%).',
-        'Designed and iterated on drop weight rebalancing, tuning distributions to hit target legendary/rare probabilities per chest.',
         'Built a tiered Compendium Rewards system (free & paid tracks) with 50+ levels of cosmetics, weapons, emotes, XP boosts, and currency rewards.',
         'Created a formula-driven destructible item HP balance system using base size values, material multipliers, quality tiers, and infrastructure importance.',
         'Conducted competitive analysis benchmarking APOC systems against Fortnite, Apex Legends, and PUBG. Developed presentations for the wider development team on this data.',
-        'Engineered the 9-phase storm ring system with dynamic radius shrinking, close duration, cooloff periods, and storm speed scaling tied to a players-in-match coefficient capped at 90% of sprint speed.',
+        'Engineered the 9-phase storm ring system with dynamic radius shrinking, close duration, cooloff periods, and storm speed scaling tied to a players-in-match sprint speed.',
       ],
     },
     {
