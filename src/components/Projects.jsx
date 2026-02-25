@@ -318,7 +318,7 @@ const Projects = () => {
       description: 'Principal combat and systems designer across a AAA MMORPG. Feature owner for multiple archetypes, weapon systems, PVP, siege warfare, economy, narrative events, and UX targeting systems.',
       image: ashesImg,
       link: 'https://ashesofcreation.com/',
-      tags: ['Combat', 'Classes', 'Weapons', 'PVP & Siege', 'Economy', 'Events', 'UI/UX', 'Tools', 'Leadership'],
+      tags: ['Combat', 'Classes', 'Weapons', 'PVP', 'Large-Scale Warfare','Economy', 'Events', 'UI/UX', 'Tools', 'Leadership'],
       color: 'from-purple-500 to-pink-500',
       role: 'Senior Game Designer I \u2192 Senior Game Designer III',
       company: 'Intrepid Studios',
