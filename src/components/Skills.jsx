@@ -236,7 +236,7 @@ const Skills = () => {
     {
       title: 'Leadership & Process',
       skills: [
-        { name: 'Design Quorum Co-Lead', context: 'Shared leadership with 4 senior designers under CD' },
+        { name: 'Design Quorum Lead', context: 'Led the design team for several years' },
         { name: 'Hiring & Mentorship', context: 'Onboarding pipeline, new hire routines, mentee framework', docs: [
           { name: 'Design Onboarding', thumb: '/doc-thumbs/design-onboarding.jpg' },
         ]},
