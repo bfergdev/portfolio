@@ -471,7 +471,7 @@ const Projects = () => {
       description: 'Combat, Economy, and Systems Designer for a fast-paced fantasy Battle Royale PVP experience. Owner of several Combat and Economy systems, including abilities, weapons, armor and itemization.',
       image: apocalypseImg,
       link: 'https://ashesofcreation.com/',
-      tags: ['Combat', 'CCC', 'Player Economy', 'Real Economy', 'PVP', 'Environment Destruction'],
+      tags: ['Combat', 'CCC', 'Weapons', 'Abilities', 'Player Economy', 'Real Economy', 'PVP', 'Environment Destruction'],
       color: 'from-blue-500 to-cyan-500',
       role: 'Game Designer',
       company: 'Intrepid Studios',
