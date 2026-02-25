@@ -452,16 +452,16 @@ const Projects = () => {
           ],
         },
         {
-          summary: 'Architected the Economy — Leveraged my experience to help the economy team with Artisanship, Harvesting, Reward Tables, Itemization philosophy, Itemization Tooling, Procedural/Automated Item Generation, and Loot pipelines multiple milestones.',
+          summary: 'Architected the Economy — Leveraged my experience to help the economy team with Artisanship, Harvesting, Reward Tables, Itemization philosophy, Itemization Tooling, Procedural/Automated Item Generation, and Loot pipelines.',
           detail: 'Guided the economy team to develop the full artisanship pipeline (gathering, processing, crafting with gameplay layers). Architected nested reward tables with global loot modifiers at world, economic region, dungeon, node, and POI levels. Authored the itemization philosophy ("The Endless Runway") defining item power curves, rarity tiers, stat restraint, and spawn rate vs. drop rate balancing. Guided the economy team to deliver accurate spigot/sink modeling. Designed the loot distribution for the headline Harbinger event, with corrupted crafting materials, weapon upgrade gems, and equipment choices. Supported the economy team with item effect and proc creation. Developed the Fishing system.',
         },
         {
-          summary: 'Designed UX targeting systems (Targeting 3.0, Defensive Target) and led VFX visibility strategy for mass combat performance.',
-          detail: 'Designed the Targeting 3.0 system — Defensive Target, Implied Target, Soft Target, Focus Target, Hover Target, and Target-of-Target with full PVP flagging rules. Authored the Defensive Target 2.0 proposal advocating MAYA design philosophy for advanced tab targeting. Led the VFX local/all-client visibility strategy across all 8 classes and weapons, defining simplified FX for mass combat performance. Defined requirements for the Design Data Editor (DDE 2.0) — inheritance, blueprint scripting, expression editor, multi-edit, reference viewer, and human-readable file diffing.',
+          summary: 'Championed CCC (Camera, Controls, Character), contributing heavily to how the player characters, mounts, and vehicles move and interact with the game world, other players, and NPCs.',
+          detail: 'Tuned player carryover momentum by adjusting air control, friction, braking, and velocity modifiers to deliver maximum fun while still being balanced.  Tuned player velocity and acceleration to deliver snappy, satisfying movement and collaborated with our animators to make quick shifts in velocity look great. Adjusted camera boom, distance, and rotational speed to be maximally familiar to our core audience. Adjusted camera post processing effects to give player feedback on damage taken.  Adjusted camera FX like shake, zoom, FOV and chromatic aberration on ability use to deliver more visceral combat. Planned and implemented the default keybind schema. Worked with engineering and UX to deliver the Targeting 3.0 system following MAYA design philosophy, with Defensive Target, Implied Target, Soft Target, Focus Target, Hover Target, and Target-of-Target combined with PVP flagging rules.  Led the VFX local/all-client visibility strategy across all 8 classes and weapons, defining simplified FX for mass combat readability and performance.',
         },
         {
-          summary: 'Led the Design Quorum — established feature ownership, structure, onboarding, process and pipelines, documentation standards, and mentorship across the team.',
-          detail: 'Handled leadership responsibilities, reporting directly to the Creative Director. Established the feature ownership hierarchy. Created the pod structure for cross-feature collaboration, the onboarding pipeline for new hires, check-in standards (atomic changelists, JIRA integration, QA handoff), and the mentorship framework. Ran design alignment sessions and cross-discipline reviews with engineering, art, and production.',
+          summary: 'Interim Design Lead - established feature ownership, structure, onboarding, process and pipelines, documentation standards, and mentorship across the team. Architected design tools for the team.',
+          detail: 'Handled leadership responsibilities, reporting directly to the Creative Director. Established the feature ownership hierarchy. Created the pod structure for cross-feature collaboration, the onboarding pipeline for new hires, check-in standards (atomic changelists, JIRA integration, QA handoff), and the mentorship framework. Ran design alignment sessions and cross-discipline reviews with engineering, art, and production. Defined requirements for the Design Data Editor (DDE 2.0) — inheritance, blueprint scripting, expression editor, multi-edit, reference viewer, and human-readable file diffing.',
         },
       ],
     },
@@ -485,7 +485,7 @@ const Projects = () => {
       ],
       flavorText: [
         'Core Combat Designer - Collaborated with Animators and FX artists to deliver satisfying weapon attacks, abilities, and environemnt destruction. Leveraged blueprint skills to deliver complex player abilities and CCC development. Modeled out target TTK data, tuned damage, health, armor, and recovery values to deliver the desired TTK.',
-        'Orchestrated the Economy - guided artists and engineers to develop weapons, armor, utility items, and custom skins.', 
+        'Orchestrated the Economy - Harmonized with artists and engineers to develop weapons, armor, utility items, and custom skins.', 
         'Implemented loot spawners for the entire game, 5,000+ spawners across multiple types (Chests, RareItem, WorldItem, WorldCommon, WorldMana) with per-map spawn rates and difficulty-scaled chest distribution (Easy 25% → Advanced 55%).',
         'Built a tiered Compendium Rewards system (free & paid tracks) with 50+ levels of cosmetics, weapons, emotes, XP boosts, and currency rewards.',
         'Created a formula-driven destructible item HP balance system using base size values, material multipliers, quality tiers, and infrastructure importance.',
