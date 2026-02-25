@@ -417,6 +417,17 @@ const Projects = () => {
         {
           summary: 'Architected Node Siege and open-world PVP systems — siege machines, corruption, conflict objectives, and large-scale event design.',
           detail: 'Authored the full Node Siege GDD: siege scroll acquisition, declaration phases, assault objectives, essence generators, fortification destruction states, wave respawns, and safehouse capture mechanics. Designed 15+ siege machines and gadgets (trebuchets, battering rams, ballistas, siege towers, rebirth carriages) plus anti-personnel, utility, and super weapon categories. Designed the Corruption & Blight system with 6 penalty tiers, expanded corruption proposal (auto-flagging, minimum durations, diminishing returns, corruption banners, repentance quests, lowbie protection), and blueprint logic for corruption gain. Created conflict objectives spanning skirmish, siege prep, and assault phases — VIP assassination, supply destruction, caravan obstruction, propaganda, and asymmetric attacker/defender goals.',
+          videos: [
+            {
+              keyword: 'Siege',
+              label: 'Siege Examples',
+              urls: [
+                { id: 'oTa6ytgOBag&t', title: 'Player Siege Video 1' },
+                { id: 'rAfajGNwjW8', title: 'Player Siege Video 2' },
+                { id: 'gI5yPLhDQYc&t', title: 'Early Siege Development Video ' },
+              ],
+            },
+          ],
         },
         {
           summary: 'Built the game economy — artisanship, reward tables, itemization philosophy, and narrative quest loot across multiple milestones.',
