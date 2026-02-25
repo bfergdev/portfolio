@@ -373,32 +373,53 @@ const Projects = () => {
       ],
       flavorText: [
         {
-          summary: 'Owned Mage, Tank, and Ranger archetypes — authored ability kits, skill trees, stat systems, and the combat guiding pillars from concept through Alpha 2.',
-          detail: 'Maintained the master ability sheet spanning all 8 archetypes (3 skill schools each). Led class revamps targeting utility, mass combat viability, and ability interaction matrices. Authored the combat guiding pillars defining hybrid tab/action philosophy, class fantasy identity, build diversity standards, and multi-hour session pacing. Designed the core stat system (6 base attributes with growth curves, diminishing returns) and the Combined Damage Stat (CDS) hybrid scaling solution.',
+          summary: 'Owned the Mage, Tank, and Ranger archetypes — led development efforts on ability kits, skill trees, stat systems, and passives. Created the Ability Augment system.',
+          detail: 'Maintained the master ability sheet spanning all 8 archetypes. Led class revamps targeting utility, mass combat viability, and ability interaction matrices. Authored the combat guiding pillars defining hybrid tab/action philosophy, class fantasy identity, build diversity standards, and multi-hour session pacing. Designed the core stat system and other stat solutions.',
           videos: [
             {
-              keyword: 'skill trees',
-              label: 'Early Skill Tree Concepts',
+              keyword: 'Ability Augment',
+              label: 'Ability Augment Paper design & Implemented examples',
               urls: [
-                { id: 'pCHUfrqw_7U', title: 'Skill Tree Concept 1' },
-                { id: 'zIOi9fv_aS8', title: 'Skill Tree Concept 2' },
-                { id: 'aGneKZOSYvE', title: 'Skill Tree Concept 3' },
+                { id: 'pCHUfrqw_7U', title: 'Augment Tree Paper Design 1' },
+                { id: 'zIOi9fv_aS8', title: 'Augment Tree Paper Design 2' },
+                { id: 'aGneKZOSYvE', title: 'Augment Tree Paper Design 3' },
+                { id: 'WZerWEIkvuo', title: 'Ranger Powershot Demo 1' },
+                { id: 'HB7M92gc1KA', title: 'Ranger Powershot Demo 2' },
+                { id: '6ycnAgeJUUw', title: 'Ranger Powershot Demo 3' },
+                { id: 'QiZqCHqzgec', title: 'Ranger Powershot Demo 4' },
+              ],
+            },
+            {
+              keyword: 'Mage',
+              label: 'Mage Player Videos',
+              urls: [
+                { id: 'U2EGpW3B5QM', title: 'Mage Demo 1' },
+                { id: '1_0bVYqiK_M', title: 'Mage Demo 2' },
+                { id: 'ZctG1T3RNrI', title: 'Mage Demo 3' },
               ],
             },
             {
               keyword: 'Ranger',
-              label: 'Ranger Ability Demonstrations',
+              label: 'Ranger Player Videos',
               urls: [
-                { id: 'WZerWEIkvuo', title: 'Ranger Demo 1' },
-                { id: 'HB7M92gc1KA', title: 'Ranger Demo 2' },
-                { id: '6ycnAgeJUUw', title: 'Ranger Demo 3' },
-                { id: 'QiZqCHqzgec', title: 'Ranger Demo 4' },
+                { id: 'V8xNKpdaVAk', title: 'Ranger Demo 1' },
+                { id: 'uBfpZSgUDtE', title: 'Ranger Demo 2' },
+                { id: 'al8TioPakpg', title: 'Ranger Demo 3' },
+              ],
+            },
+            {
+              keyword: 'Tank',
+              label: 'Tank Player Videos',
+              urls: [
+                { id: 'M5utpj6P2lY', title: 'Tank Demo 1' },
+                { id: 'IKKnSUNEys4', title: 'Tank Demo 2' },
+                { id: 'fPioIyCD0-k', title: 'Tank Demo 3' },
               ],
             },
           ],
         },
         {
-          summary: 'Designed the full weapon combo pipeline across 20+ weapon types and engineered the attack speed system with non-uniform animation scaling.',
+          summary: 'Designed the weapon system and led a multidisciplinary team to implement it - over 20 unique weapon types with their own unique animation sets, branching combos and skill trees.',
           detail: 'Defined damage type, speed categories, combo cadence, reach, hitbox shapes, procs, and skill tree progression for every weapon. Authored individual weapon GDDs from concept through creative direction approval for over 20 weapons. Built the attack system separating windups, swings, and followthroughs into independently scalable sections, reducing iteration time. Designed the Haste Modulus Curve tool for animator control of animation weight at varied playback speeds.',
           videos: [
             {
@@ -415,8 +436,8 @@ const Projects = () => {
           detail: 'Tiered 3/5/8-piece bonuses for Healer, DPS, and Tank with status effect promotion chains (bleed→hemo, burn→conflag, chill→freeze). Typed elemental damage/resistance scaling and rarity-based proc chances from Common through Legendary. Basic, Intermediate, and Advanced tiers with role-specific bonuses (mitigation buffs, lifesteal, DoT explosions, thorns).',
         },
         {
-          summary: 'Architected Node Siege and open-world PVP systems — siege machines, corruption, conflict objectives, and large-scale event design.',
-          detail: 'Authored the full Node Siege GDD: siege scroll acquisition, declaration phases, assault objectives, essence generators, fortification destruction states, wave respawns, and safehouse capture mechanics. Designed 15+ siege machines and gadgets (trebuchets, battering rams, ballistas, siege towers, rebirth carriages) plus anti-personnel, utility, and super weapon categories. Designed the Corruption & Blight system with 6 penalty tiers, expanded corruption proposal (auto-flagging, minimum durations, diminishing returns, corruption banners, repentance quests, lowbie protection), and blueprint logic for corruption gain. Created conflict objectives spanning skirmish, siege prep, and assault phases — VIP assassination, supply destruction, caravan obstruction, propaganda, and asymmetric attacker/defender goals.',
+          summary: 'Spearheaded development for Siege and open-world PVP systems — Node Siege, Castle Siege, Corruption, Wars, and Harbinger PVX events.',
+          detail: 'Led multidisciplinary development efforts for PVP systems - Authored GDDs, managed pipelines, implementation and playtest-informed iteration.  Led a 20 person team to create the Node Siege system.  Authored the full Node Siege GDD: siege scroll acquisition, declaration phases, assault objectives, essence generators, fortification destruction states, wave respawns, and safehouse capture mechanics. Designed 15+ siege machines and gadgets (trebuchets, battering rams, ballistas, siege towers, rebirth carriages). Designed the Corruption & Blight system with 6 penalty tiers and other mechanics (auto-flagging, minimum durations, diminishing returns, corruption banners, repentance quests, lowbie protection), created blueprint logic for corruption gain. Created conflict objectives spanning skirmish, siege prep, and assault phases — VIP assassination, supply destruction, caravan obstruction, propaganda, and asymmetric attacker/defender goals.',
           videos: [
             {
               keyword: 'Siege',
@@ -430,7 +451,7 @@ const Projects = () => {
           ],
         },
         {
-          summary: 'Built the game economy — artisanship, reward tables, itemization philosophy, and narrative quest loot across multiple milestones.',
+          summary: 'Architected the Economy — Artisanship, Reward Tables, Itemization philosophy, and Loot pipelines multiple milestones.',
           detail: 'Designed the full artisanship pipeline (gathering, processing, crafting with gameplay layers). Architected nested reward tables with global loot modifiers at world, economic region, dungeon, node, and POI levels. Authored the itemization philosophy ("The Endless Runway") defining item power curves, rarity tiers, stat restraint, and spawn rate vs. drop rate balancing. Designed Harbinger quest loot distribution across 3 event zones with corrupted crafting materials, weapon upgrade gems, and equipment choices. Authored NPC characters (Aelindra Moir, Alaric Durant), Harbinger quest chains with multi-week progression arcs, and world lore for Verra and the Ancients.',
         },
         {
@@ -438,8 +459,8 @@ const Projects = () => {
           detail: 'Designed the Targeting 3.0 system — Defensive Target, Implied Target, Soft Target, Focus Target, Hover Target, and Target-of-Target with full PVP flagging rules. Authored the Defensive Target 2.0 proposal advocating MAYA design philosophy for advanced tab targeting. Led the VFX local/all-client visibility strategy across all 8 classes and weapons, defining simplified FX for mass combat performance. Defined requirements for the Design Data Editor (DDE 2.0) — inheritance, blueprint scripting, expression editor, multi-edit, reference viewer, and human-readable file diffing.',
         },
         {
-          summary: 'Co-led the Design Quorum — established feature ownership, pod structure, onboarding, and mentorship across the design team.',
-          detail: 'Shared leadership responsibilities with 4 senior designers reporting to the Creative Director in lieu of a Lead Designer. Established the feature ownership hierarchy with co-feature owners, mentors, and generalist design pools. Created the pod structure for cross-feature collaboration, the onboarding pipeline for new hires, check-in standards (atomic changelists, JIRA integration, QA handoff), and the mentorship framework. Ran design alignment sessions and cross-discipline reviews with engineering, art, and production.',
+          summary: 'Led the Design Quorum — established feature ownership, structure, onboarding, process and pipelines, documentation standards, and mentorship across the team.',
+          detail: 'Handled leadership responsibilities, reporting directly to the Creative Director. Established the feature ownership hierarchy. Created the pod structure for cross-feature collaboration, the onboarding pipeline for new hires, check-in standards (atomic changelists, JIRA integration, QA handoff), and the mentorship framework. Ran design alignment sessions and cross-discipline reviews with engineering, art, and production.',
         },
       ],
     },
