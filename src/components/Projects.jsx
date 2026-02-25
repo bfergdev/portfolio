@@ -395,11 +395,27 @@ const Projects = () => {
                 { id: 'QiZqCHqzgec', title: 'Ranger Demo 4' },
               ],
             },
+            {
+              keyword: 'weapon combo',
+              label: 'Weapon Demonstrations',
+              urls: [
+                { id: 'TPm01BII9S8', title: 'Weapon Combo Demo' },
+              ],
+            },
+            {
+              keyword: 'Node Siege',
+              label: 'Siege Examples',
+              urls: [
+                { id: 'oTa6ytgOBag', title: 'Alpha 2 Siege - 1' },
+                { id: 'TPm01BII9S8', title: 'Alpha 2 Siege - 2' },
+                { id: 'gI5yPLhDQYc', title: 'Alpha 1 Siege' },
+              ],
+            },
           ],
         },
         {
           summary: 'Designed the full weapon combo pipeline across 20+ weapon types and engineered the attack speed system with non-uniform animation scaling.',
-          detail: 'Defined damage types (physical/magical), speed categories, combo cadence, reach, hitbox shapes, deadly finisher procs, and skill tree progression for every weapon. Authored individual weapon GDDs (2H Spear, Dual Daggers, Book) from concept through creative direction approval. Built the attack speed system separating windups, swings, and followthroughs into independently scalable sections with DoNotScale notify states. Designed the Haste Modulus Curve tool spec for animator control of animation weight at varied playback speeds.',
+          detail: 'Defined damage type, speed categories, combo cadence, reach, hitbox shapes, procs, and skill tree progression for every weapon. Authored individual weapon GDDs from concept through creative direction approval for over 20 weapons. Built the attack system separating windups, swings, and followthroughs into independently scalable sections, reducing iteration time. Designed the Haste Modulus Curve tool for animator control of animation weight at varied playback speeds.',
         },
         {
           summary: 'Built the proc/passive set bonus system and status effect promotion chains across all combat roles.',
