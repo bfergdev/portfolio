@@ -452,8 +452,8 @@ const Projects = () => {
           ],
         },
         {
-          summary: 'Architected the Economy — Artisanship, Reward Tables, Itemization philosophy, and Loot pipelines multiple milestones.',
-          detail: 'Designed the full artisanship pipeline (gathering, processing, crafting with gameplay layers). Architected nested reward tables with global loot modifiers at world, economic region, dungeon, node, and POI levels. Authored the itemization philosophy ("The Endless Runway") defining item power curves, rarity tiers, stat restraint, and spawn rate vs. drop rate balancing. Designed Harbinger quest loot distribution across 3 event zones with corrupted crafting materials, weapon upgrade gems, and equipment choices. Authored NPC characters (Aelindra Moir, Alaric Durant), Harbinger quest chains with multi-week progression arcs, and world lore for Verra and the Ancients.',
+          summary: 'Architected the Economy — Leveraged my experience developing economies to help the economy team with Artisanship, Harvesting, Reward Tables, Itemization philosophy, Itemization Tooling, Procedural/Automated Item Generation, and Loot pipelines multiple milestones.',
+          detail: 'Guided the economy team to develop the full artisanship pipeline (gathering, processing, crafting with gameplay layers). Architected nested reward tables with global loot modifiers at world, economic region, dungeon, node, and POI levels. Authored the itemization philosophy ("The Endless Runway") defining item power curves, rarity tiers, stat restraint, and spawn rate vs. drop rate balancing. Guided the economy team to deliver accurate spigot/sink modeling. Designed the loot distribution for the headline Harbinger event, with corrupted crafting materials, weapon upgrade gems, and equipment choices. Supported the economy team with item effect and proc creation. Developed the Fishing system.',
         },
         {
           summary: 'Designed UX targeting systems (Targeting 3.0, Defensive Target) and led VFX visibility strategy for mass combat performance.',
