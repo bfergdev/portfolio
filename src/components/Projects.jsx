@@ -423,7 +423,7 @@ const Projects = () => {
           detail: 'Defined damage type, speed categories, combo cadence, reach, hitbox shapes, procs, and skill tree progression for every weapon. Authored individual weapon GDDs from concept through creative direction approval for over 20 weapons. Built the attack system separating windups, swings, and followthroughs into independently scalable sections, reducing iteration time. Designed the Haste Modulus Curve tool for animator control of animation weight at varied playback speeds.',
           videos: [
             {
-              keyword: 'weapon combo',
+              keyword: 'weapon',
               label: 'Weapon Demonstrations',
               urls: [
                 { id: 'TPm01BII9S8', title: 'Weapon Combo Demo' },
